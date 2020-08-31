@@ -1,0 +1,54 @@
+[
+    {
+        "id": "0",
+        "displayName": "Push-Ups",
+        "type": "count",
+        "bodyParts": ["arms", "back", "core"],
+        "workoutValue": [
+            { "light": 5 },
+            { "medium": 10 },
+            { "hard": 15 },
+            { "grueling": 20 },
+            { "killing": 30 }
+        ]
+    },
+    {
+        "id": "1",
+        "displayName": "Crunches",
+        "type": "count",
+        "bodyParts": ["core"],
+        "workoutValue": [
+            { "light": 15 },
+            { "medium": 30 },
+            { "hard": 40 },
+            { "grueling": 50 },
+            { "killing": 60 }
+        ]
+    },
+    {
+        "id": "2",
+        "displayName": "Lunges",
+        "type": "count",
+        "bodyParts": ["legs"],
+        "workoutValue": [
+            { "light": 5 },
+            { "medium": 10 },
+            { "hard": 15 },
+            { "grueling": 25 },
+            { "killing": 35 }
+        ]
+    },
+    {
+        "id": "3",
+        "displayName": "Sprints",
+        "type": "time",
+        "bodyParts": ["legs", "cardio"],
+        "workoutValue": [
+            { "light": 15 },
+            { "medium": 30 },
+            { "hard": 45 },
+            { "grueling": 60 },
+            { "killing": 90 }
+        ]
+    }
+]
