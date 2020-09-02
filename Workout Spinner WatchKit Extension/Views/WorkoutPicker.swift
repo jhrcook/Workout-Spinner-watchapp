@@ -14,7 +14,7 @@ struct WorkoutSlice: View {
     let workout: Workout
     let idx: Int
     let numberOfWorkouts: Int
-    let geo: GeometryProxy
+    let size: CGFloat
     
     let offset: CGFloat = 8.0
     var halfOffset: CGFloat {
@@ -25,10 +25,22 @@ struct WorkoutSlice: View {
         Text(workout.displayName)
             .font(.system(.footnote))
             .lineLimit(1)
-            .frame(width: geo.size.width / 2 - offset, height: nil, alignment: .trailing)
+            .frame(width: size / 2 - offset, height: nil, alignment: .trailing)
             .padding(2)
-            .offset(x: geo.size.width / 4 + halfOffset, y: 0)
+            .offset(x: size / 4 + halfOffset, y: 0)
             .rotationEffect(.degrees(Double(idx) * 360.0 / Double(numberOfWorkouts)))
+    }
+}
+
+struct ColorSlice: View {
+    let idx: Int
+    let numberOfSlices: Int
+    let size: CGFloat
+    
+    var body: some View {
+        IsoscelesTriangle(angle: .degrees(360.0 / Double(numberOfSlices)))
+            .foregroundColor(Color.randomPastelColor())
+            .rotationEffect(.degrees(Double(idx) * 360.0 / Double(numberOfSlices)))
     }
 }
 
@@ -38,15 +50,18 @@ struct WorkoutPicker: View {
     let workouts = Workouts()
     @State private var rotationAmount = 0.0
     
+    var numWorkouts: Int {
+        return workouts.workouts.count
+    }
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                RadialGradient(gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .purple]), center: .center, startRadius: 0, endRadius: 100)
-                    .frame(width: geo.size.width, height: geo.size.width)
-                    .clipShape(Circle())
-                    .opacity(0.5)
-                ForEach(0..<self.workouts.workouts.count) { i in
-                    WorkoutSlice(workout: self.workouts.workouts[i], idx: i, numberOfWorkouts: self.workouts.workouts.count, geo: geo)
+                ForEach(0..<self.numWorkouts) { i in
+                    ColorSlice(idx: i, numberOfSlices: self.numWorkouts, size: geo.minSize)
+                }
+                ForEach(0..<self.numWorkouts) { i in
+                    WorkoutSlice(workout: self.workouts.workouts[i], idx: i, numberOfWorkouts: self.numWorkouts, size: geo.minSize)
                 }
             }
             .focusable()
