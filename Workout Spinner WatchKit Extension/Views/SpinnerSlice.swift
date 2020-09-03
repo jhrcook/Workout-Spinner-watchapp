@@ -1,0 +1,64 @@
+//
+//  SpinnerSlice.swift
+//  Workout Spinner WatchKit Extension
+//
+//  Created by Joshua on 9/3/20.
+//  Copyright © 2020 Joshua Cook. All rights reserved.
+//
+
+import SwiftUI
+
+struct SpinnerSliceShape: Shape {
+    
+    let radius: CGFloat
+    let angle: Angle
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.midX, y: rect.midY))
+        path.addArc(center: CGPoint(x: rect.midX, y:rect.midY),
+                    radius: radius,
+                    startAngle: angle * 0.5,
+                    endAngle: angle * (-0.5),
+                    clockwise: true)
+        return path
+    }
+}
+
+
+struct SpinnerSlice: View {
+    
+    let idx: Int
+    let numberOfSlices: Int
+    let width: CGFloat
+    
+    var sliceAngle: Angle {
+        Angle.degrees(360.0 / Double(numberOfSlices))
+    }
+    
+    var rotationAngle: Angle {
+        Angle.degrees(Double(idx - 1) * 360.0 / Double(numberOfSlices))
+    }
+    
+    var body: some View {
+        ZStack {
+            SpinnerSliceShape(radius: width / 2.0, angle: sliceAngle)
+                .frame(width: width, height: width)
+                .foregroundColor(Color.randomPastelColor())
+//                .rotationEffect(.degrees(-90))
+                .rotationEffect(rotationAngle)
+        }
+    }
+}
+
+
+struct SpinnerSlice_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            ForEach(3..<8) { i in
+                SpinnerSlice(idx: 1, numberOfSlices: i, width: 100)
+                    .padding()
+            }
+        }.previewLayout(.sizeThatFits)
+    }
+}
