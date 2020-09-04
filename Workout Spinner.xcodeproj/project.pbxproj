@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84394C412502501600BBA4F3 /* SpinnerPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84394C402502501600BBA4F3 /* SpinnerPointer.swift */; };
 		843F33EC24FFB2BD00919AD5 /* GeometryProxy-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */; };
 		843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33ED24FFB2E500919AD5 /* Color-extension.swift */; };
 		848642F52500FA3E00E3ED9B /* SpinnerSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		84394C402502501600BBA4F3 /* SpinnerPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerPointer.swift; sourceTree = "<group>"; };
 		843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeometryProxy-extension.swift"; sourceTree = "<group>"; };
 		843F33ED24FFB2E500919AD5 /* Color-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-extension.swift"; sourceTree = "<group>"; };
 		848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerSlice.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				84DEC01724FE5ABD002FF9BC /* WorkoutPicker.swift */,
 				84A53E87250105D000A8D638 /* WorkoutSlice.swift */,
 				848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */,
+				84394C402502501600BBA4F3 /* SpinnerPointer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84394C412502501600BBA4F3 /* SpinnerPointer.swift in Sources */,
 				84E3729624FD0A5D00AFB355 /* HostingController.swift in Sources */,
 				843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */,
 				848642F52500FA3E00E3ED9B /* SpinnerSlice.swift in Sources */,
