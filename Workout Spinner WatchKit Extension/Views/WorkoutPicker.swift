@@ -12,20 +12,21 @@ import Combine
 struct WorkoutPicker: View {
     
     let workouts = Workouts()
-    @State private var rotationAmount = 0.0
-    
+    @State private var crownRotation = 0.0
+        
     var numWorkouts: Int {
         return workouts.workouts.count
     }
     
-    var crownVelocity = CrownVelocityCalculator()
+    var crownVelocity = CrownVelocityCalculator(velocityThreshold: 200, memory: 20)
+    
+    @State private var workoutSelected = false
     
     var body: some View {
         VStack {
             Spacer(minLength: 0)
             GeometryReader { geo in
                 ZStack {
-                    
                     Color.white
                         .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
                         .animation(.easeInOut)
@@ -46,7 +47,9 @@ struct WorkoutPicker: View {
                                          size: geo.minSize)
                         }
                     }
-                    .rotationEffect(.degrees(self.rotationAmount))
+                    .modifier(SpinnerRotationModifier(rotation: .degrees(-1.0 * self.crownRotation),
+                                                      onFinishedRotationAnimation: self.rotationEffectDidFinish))
+                    .animation(.default)
                     
                     
                     HStack {
@@ -58,70 +61,24 @@ struct WorkoutPicker: View {
             .edgesIgnoringSafeArea(.bottom)
             .padding(0)
             .focusable()
-            .digitalCrownRotation(self.$rotationAmount)
-            .onReceive(Just(rotationAmount), perform: calculateCrownRotationVelocity)
+            .digitalCrownRotation(self.$crownRotation)
+            .onReceive(Just(crownRotation), perform: crownRotationDidChange)
         }
+        .sheet(isPresented: self.$workoutSelected, content: { Text("Hello") })
     }
-}
-
-
-class CrownVelocityCalculator {
-    private var history = [Double]()
-    var currentVelocity: Double = 0.0
-    
-    var velocityThreshold: Double = 500.0
-    private(set) var didPassThreshold: Bool = false
-    
-    var memory: Int = 10
-    
-    init() {}
-    
-    init(memory: Int) {
-        self.memory = memory
-    }
-    
-    init(velocityThreshold: Double) {
-        self.velocityThreshold = velocityThreshold
-    }
-    
-    init(velocityThreshold: Double, memory: Int) {
-        self.velocityThreshold = velocityThreshold
-        self.memory = memory
-    }
-    
-    func update(newValue x: Double) {
-        self.history.append(x)
-        if history.count < memory { return }
-        
-        if history.count > memory {
-            history = history.suffix(memory)
-        }
-        
-        var diffs: Double = 0.0
-        for i in 0..<(history.count - 1) {
-            diffs += history[i+1] - history[i]
-        }
-        
-        currentVelocity = diffs / Double(history.count - 1)
-        checkThreshold()
-    }
-    
-    func checkThreshold() {
-        if !didPassThreshold {
-            didPassThreshold = abs(currentVelocity) > velocityThreshold
-        }
-    }
-    
-    func resetThreshold() {
-        didPassThreshold = false
-    }
-    
 }
 
 
 extension WorkoutPicker {
-    func calculateCrownRotationVelocity(crownValue: Double) {
+    func crownRotationDidChange(crownValue: Double) {
         crownVelocity.update(newValue: crownValue)
+    }
+    
+    func rotationEffectDidFinish() {
+        if crownVelocity.didPassThreshold {
+            workoutSelected.toggle()
+            crownVelocity.resetThreshold()
+        }
     }
 }
 
