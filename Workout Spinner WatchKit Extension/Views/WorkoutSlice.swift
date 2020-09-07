@@ -21,11 +21,12 @@ struct WorkoutSlice: View {
     }
     
     var rotationAngle: Angle {
-        .degrees(Double(idx - 1) * 360.0 / Double(numberOfWorkouts))
+        .degrees(Double(idx) * 360.0 / Double(numberOfWorkouts))
     }
     
     var body: some View {
-        Text(workout.displayName)
+//        Text(workout.displayName)
+        Text("\(idx)")
             .font(.system(.footnote))
             .foregroundColor(.black)
             .lineLimit(1)

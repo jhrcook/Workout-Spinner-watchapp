@@ -21,6 +21,7 @@ struct WorkoutPicker: View {
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 200, memory: 20)
     
     @State private var workoutSelected = false
+    @State private var selectedWorkoutIndex: Int = 0
     
     var body: some View {
         VStack {
@@ -64,7 +65,9 @@ struct WorkoutPicker: View {
             .digitalCrownRotation(self.$crownRotation)
             .onReceive(Just(crownRotation), perform: crownRotationDidChange)
         }
-        .sheet(isPresented: self.$workoutSelected, content: { Text("Hello") })
+        .sheet(isPresented: self.$workoutSelected) {
+            WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex])
+        }
     }
 }
 
@@ -72,6 +75,7 @@ struct WorkoutPicker: View {
 extension WorkoutPicker {
     func crownRotationDidChange(crownValue: Double) {
         crownVelocity.update(newValue: crownValue)
+        readSelectedWorkout()
     }
     
     func rotationEffectDidFinish() {
@@ -79,6 +83,19 @@ extension WorkoutPicker {
             workoutSelected.toggle()
             crownVelocity.resetThreshold()
         }
+    }
+    
+    func readSelectedWorkout() {
+        let pointerAngle = 180.0
+        let sliceAngle = 360.0 / Double(numWorkouts)
+        let pointingAtAngle = (0.5 * sliceAngle) + pointerAngle + crownRotation.truncatingRemainder(dividingBy: 360.0)
+        var pointingSlice = (pointingAtAngle / sliceAngle).rounded(.down)
+        
+        if pointingSlice < 0 {
+            pointingSlice = Double(numWorkouts) + pointingSlice
+        }
+        
+        self.selectedWorkoutIndex = Int(pointingSlice)
     }
 }
 
