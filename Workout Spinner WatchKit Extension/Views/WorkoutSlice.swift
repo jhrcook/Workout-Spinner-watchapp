@@ -25,8 +25,7 @@ struct WorkoutSlice: View {
     }
     
     var body: some View {
-//        Text(workout.displayName)
-        Text("\(idx)")
+        Text(workout.displayName)
             .font(.system(.footnote))
             .foregroundColor(.black)
             .lineLimit(1)

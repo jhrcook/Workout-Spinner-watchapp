@@ -12,22 +12,27 @@ import Combine
 struct WorkoutPicker: View {
     
     let workouts = Workouts()
-    @State private var crownRotation = 0.0
+    @State internal var crownRotation = 0.0
         
     var numWorkouts: Int {
         return workouts.workouts.count
     }
     
-    var crownVelocity = CrownVelocityCalculator(velocityThreshold: 200, memory: 20)
+    var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
     
-    @State private var workoutSelected = false
-    @State private var selectedWorkoutIndex: Int = 0
+    @State internal var workoutSelected = false
+    @State internal var selectedWorkoutIndex: Int = 0
+    
+    @State private var showSettings = false
     
     var body: some View {
         VStack {
             Spacer(minLength: 0)
             GeometryReader { geo in
                 ZStack {
+                    NavigationLink(destination: WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex]),
+                                   isActive: self.$workoutSelected,
+                        label: { EmptyView() }).hidden()
                     Color.white
                         .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
                         .animation(.easeInOut)
@@ -65,37 +70,19 @@ struct WorkoutPicker: View {
             .digitalCrownRotation(self.$crownRotation)
             .onReceive(Just(crownRotation), perform: crownRotationDidChange)
         }
-        .sheet(isPresented: self.$workoutSelected) {
-            WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex])
+        .sheet(isPresented: self.$showSettings) {
+            Settings()
         }
-    }
-}
-
-
-extension WorkoutPicker {
-    func crownRotationDidChange(crownValue: Double) {
-        crownVelocity.update(newValue: crownValue)
-        readSelectedWorkout()
-    }
-    
-    func rotationEffectDidFinish() {
-        if crownVelocity.didPassThreshold {
-            workoutSelected.toggle()
-            crownVelocity.resetThreshold()
-        }
-    }
-    
-    func readSelectedWorkout() {
-        let pointerAngle = 180.0
-        let sliceAngle = 360.0 / Double(numWorkouts)
-        let pointingAtAngle = (0.5 * sliceAngle) + pointerAngle + crownRotation.truncatingRemainder(dividingBy: 360.0)
-        var pointingSlice = (pointingAtAngle / sliceAngle).rounded(.down)
-        
-        if pointingSlice < 0 {
-            pointingSlice = Double(numWorkouts) + pointingSlice
-        }
-        
-        self.selectedWorkoutIndex = Int(pointingSlice)
+        .contextMenu(menuItems: {
+            Button(action: {
+                self.showSettings.toggle()
+            }, label: {
+                VStack {
+                    Image(systemName: "gear").font(.title)
+                    Text("Settings")
+                }
+            })
+        })
     }
 }
 

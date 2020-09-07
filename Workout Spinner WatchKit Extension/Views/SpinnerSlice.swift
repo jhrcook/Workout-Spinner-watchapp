@@ -37,7 +37,7 @@ struct SpinnerSlice: View {
     }
     
     var rotationAngle: Angle {
-        Angle.degrees(Double(idx - 1) * 360.0 / Double(numberOfSlices))
+        Angle.degrees(Double(idx) * 360.0 / Double(numberOfSlices))
     }
     
     var body: some View {
@@ -45,7 +45,6 @@ struct SpinnerSlice: View {
             SpinnerSliceShape(radius: width / 2.0, angle: sliceAngle)
                 .frame(width: width, height: width)
                 .foregroundColor(Color.randomPastelColor())
-//                .rotationEffect(.degrees(-90))
                 .rotationEffect(rotationAngle)
         }
     }
