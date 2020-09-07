@@ -10,7 +10,8 @@
 		841D04D1250648AB00786074 /* WorkoutStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D0250648AB00786074 /* WorkoutStartView.swift */; };
 		841D04D325064A8800786074 /* WorkoutPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D225064A8800786074 /* WorkoutPickerViewModel.swift */; };
 		841D04D525064DE600786074 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D425064DE600786074 /* Settings.swift */; };
-		841D04D72506542900786074 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D62506542900786074 /* EmptyView.swift */; };
+		841D04D925066CF400786074 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D825066CF400786074 /* UserDefaultsKeys.swift */; };
+		841D04DB250673DB00786074 /* BodyPartSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04DA250673DB00786074 /* BodyPartSelectionListView.swift */; };
 		84394C412502501600BBA4F3 /* SpinnerPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84394C402502501600BBA4F3 /* SpinnerPointer.swift */; };
 		843F33EC24FFB2BD00919AD5 /* GeometryProxy-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */; };
 		843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33ED24FFB2E500919AD5 /* Color-extension.swift */; };
@@ -83,7 +84,8 @@
 		841D04D0250648AB00786074 /* WorkoutStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStartView.swift; sourceTree = "<group>"; };
 		841D04D225064A8800786074 /* WorkoutPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPickerViewModel.swift; sourceTree = "<group>"; };
 		841D04D425064DE600786074 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		841D04D62506542900786074 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		841D04D825066CF400786074 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		841D04DA250673DB00786074 /* BodyPartSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyPartSelectionListView.swift; sourceTree = "<group>"; };
 		84394C402502501600BBA4F3 /* SpinnerPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerPointer.swift; sourceTree = "<group>"; };
 		843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeometryProxy-extension.swift"; sourceTree = "<group>"; };
 		843F33ED24FFB2E500919AD5 /* Color-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-extension.swift"; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				84E372B824FD0F5600AFB355 /* Exercise enums.swift */,
 				84E1503824FD136B007F577D /* Workouts.swift */,
 				849458ED2503AFCA00C361F7 /* CrownVelocityCalculator.swift */,
+				841D04D825066CF400786074 /* UserDefaultsKeys.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -238,7 +241,7 @@
 				84394C402502501600BBA4F3 /* SpinnerPointer.swift */,
 				841D04D0250648AB00786074 /* WorkoutStartView.swift */,
 				841D04D425064DE600786074 /* Settings.swift */,
-				841D04D62506542900786074 /* EmptyView.swift */,
+				841D04DA250673DB00786074 /* BodyPartSelectionListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84394C412502501600BBA4F3 /* SpinnerPointer.swift in Sources */,
+				841D04D925066CF400786074 /* UserDefaultsKeys.swift in Sources */,
 				841D04D1250648AB00786074 /* WorkoutStartView.swift in Sources */,
 				84E3729624FD0A5D00AFB355 /* HostingController.swift in Sources */,
 				849458F12503B86200C361F7 /* SpinnerRotationModifier.swift in Sources */,
@@ -387,11 +391,11 @@
 				849458EE2503AFCA00C361F7 /* CrownVelocityCalculator.swift in Sources */,
 				841D04D325064A8800786074 /* WorkoutPickerViewModel.swift in Sources */,
 				841D04D525064DE600786074 /* Settings.swift in Sources */,
+				841D04DB250673DB00786074 /* BodyPartSelectionListView.swift in Sources */,
 				843F33EC24FFB2BD00919AD5 /* GeometryProxy-extension.swift in Sources */,
 				84E3729824FD0A5D00AFB355 /* ExtensionDelegate.swift in Sources */,
 				84E3729C24FD0A5D00AFB355 /* NotificationView.swift in Sources */,
 				84DEC01824FE5ABD002FF9BC /* WorkoutPicker.swift in Sources */,
-				841D04D72506542900786074 /* EmptyView.swift in Sources */,
 				84E3729E24FD0A5D00AFB355 /* ComplicationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
