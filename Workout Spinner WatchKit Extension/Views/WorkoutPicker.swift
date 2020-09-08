@@ -25,6 +25,10 @@ struct WorkoutPicker: View {
     
     @State private var showSettings = false
     
+    var spinDirection: Double {
+        return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
+    }
+    
     var body: some View {
         VStack {
             Spacer(minLength: 0)
@@ -53,7 +57,7 @@ struct WorkoutPicker: View {
                                          size: geo.minSize)
                         }
                     }
-                    .modifier(SpinnerRotationModifier(rotation: .degrees(-1.0 * self.crownRotation),
+                    .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
                                                       onFinishedRotationAnimation: self.rotationEffectDidFinish))
                     .animation(.default)
                     

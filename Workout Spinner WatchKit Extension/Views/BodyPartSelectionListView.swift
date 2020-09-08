@@ -9,25 +9,64 @@
 import SwiftUI
 
 
+struct BodyPartSelection: Identifiable {
+    let bodypart: ExerciseBodyPart
+    var enabled: Bool
+    var id: String {
+        bodypart.rawValue
+    }
+}
+
+class BodyPartSelections: ObservableObject {
+    
+    @Published var bodyparts = [BodyPartSelection]()
+    let userDefaultsData = BodyPartSelections.readUserDefaults()
+    
+    
+    init() {
+        var a = [BodyPartSelection]()
+        for bp in ExerciseBodyPart.allCases.sorted(by: { $0.rawValue < $1.rawValue }) {
+            a.append(BodyPartSelection(bodypart: bp, enabled: userDefaultsData[bp.rawValue] ?? true))
+        }
+        self.bodyparts = a
+    }
+    
+    
+    static func readUserDefaults() -> [String: Bool] {
+        if let data = UserDefaults.standard.dictionary(forKey: UserDefaultsKeys.activeBodyParts.rawValue) as? [String: Bool] {
+            return data
+        } else {
+            return [String: Bool]()
+        }
+    }
+    
+    
+    func saveDataToUserDefaults() {
+        var data = [String: Bool]()
+        for bp in bodyparts {
+            data[bp.bodypart.rawValue] = bp.enabled
+        }
+        UserDefaults.standard.set(data, forKey: UserDefaultsKeys.activeBodyParts.rawValue)
+    }
+}
+
+
 struct BodyPartSelectionListView: View {
     
-    var bodyParts: [String] {
-        var a = [String]()
-        for bp in ExerciseBodyPart.allCases {
-            a.append(bp.rawValue)
-        }
-        return a
-    }
+    @ObservedObject var bodyparts = BodyPartSelections()
     
     var body: some View {
         List {
-            ForEach(bodyParts, id: \.self) { bp in
+            ForEach(0..<bodyparts.bodyparts.count) { i in
                 HStack {
-                    Text(bp.capitalized)
-                    Spacer()
-                    Text("I/O")
+                    Toggle(isOn: self.$bodyparts.bodyparts[i].enabled) {
+                        Text(self.bodyparts.bodyparts[i].bodypart.rawValue.capitalized)
+                    }
                 }
             }
+        }
+        .onDisappear {
+            self.bodyparts.saveDataToUserDefaults()
         }
     }
 }
@@ -37,7 +76,3 @@ struct BodyPartSelectionListView_Previews: PreviewProvider {
         BodyPartSelectionListView()
     }
 }
-
-
-
-// TODO: need a Publisher and such for array of values for toggle switches

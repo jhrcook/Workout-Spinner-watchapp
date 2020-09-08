@@ -24,7 +24,6 @@ struct Settings: View {
     
     @State private var selectedExerciseIntensity = UserDefaults.standard.integer(forKey: UserDefaultsKeys.exerciseIntensityInt.rawValue)
     
-    
     private var exerciseIntensities: [String] {
         var a = [String]()
         for ei in ExerciseIntensity.allCases {
@@ -32,6 +31,8 @@ struct Settings: View {
         }
         return a
     }
+    
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         Form {
@@ -44,13 +45,24 @@ struct Settings: View {
                 .pickerStyle(DefaultPickerStyle())
                 .labelsHidden()
                 
-                NavigationLink(destination: Text("Whitelist")) {
+                NavigationLink(destination: BodyPartSelectionListView()) {
                     HStack {
                         Text("Muscle groups")
                         Spacer()
                         Image(systemName: "chevron.right").opacity(0.5)
                     }
                 }
+                
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Done").font(.system(.body, design: .rounded)).bold()
+                        Spacer()
+                    }
+                }
+                .foregroundColor(.blue)
             }
             
             Section(header: SectionHeader(imageName: "info.circle", text: "About")) {
@@ -64,6 +76,10 @@ struct Settings: View {
         .onDisappear() {
             self.saveUserDefualts()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .NSExtensionHostWillResignActive)) { _ in
+            self.saveUserDefualts()
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -72,7 +88,7 @@ struct Settings: View {
 extension Settings {
     func saveUserDefualts() {
         UserDefaults.standard.set(self.selectedExerciseIntensity,
-        forKey: UserDefaultsKeys.exerciseIntensityInt.rawValue)
+                                  forKey: UserDefaultsKeys.exerciseIntensityInt.rawValue)
     }
 }
 

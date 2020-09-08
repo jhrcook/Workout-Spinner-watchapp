@@ -10,6 +10,5 @@ import Foundation
 
 enum UserDefaultsKeys: String {
     case exerciseIntensityInt
-    case filterInBodyPartsArray
-    case filterOutBodyPartsArray
+    case activeBodyParts
 }
