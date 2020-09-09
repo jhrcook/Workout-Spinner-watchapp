@@ -11,7 +11,8 @@ import Combine
 
 struct WorkoutPicker: View {
     
-    let workouts = Workouts()
+    @State var workouts: Workouts = WorkoutPicker.loadWorkouts()
+    
     @State internal var crownRotation = 0.0
         
     var numWorkouts: Int {
@@ -74,7 +75,9 @@ struct WorkoutPicker: View {
             .digitalCrownRotation(self.$crownRotation)
             .onReceive(Just(crownRotation), perform: crownRotationDidChange)
         }
-        .sheet(isPresented: self.$showSettings) {
+        .sheet(isPresented: self.$showSettings, onDismiss: {
+            self.workouts = WorkoutPicker.loadWorkouts()
+        }) {
             Settings()
         }
         .contextMenu(menuItems: {
