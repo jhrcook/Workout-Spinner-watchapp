@@ -41,7 +41,7 @@ extension Workouts {
     /// - Throws: Will throw an error if the file in unreachable or cannot be converted to a `Data` object.
     /// - Returns: The data in the JSON file.
     fileprivate func readLocalJsonFile(named name: String) throws -> Data {
-        if let bundlePath = Bundle.main.path(forResource: "Workout Spinner workouts", ofType: "json") {
+        if let bundlePath = Bundle.main.path(forResource: name, ofType: "json") {
             do {
                 if let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
                     return jsonData
@@ -56,6 +56,7 @@ extension Workouts {
         }
     }
 
+    
     enum DataReadingError: Error, LocalizedError {
         case fileDoesNotExist(String)
         case cannotConvertToData

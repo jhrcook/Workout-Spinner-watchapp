@@ -12,6 +12,10 @@ enum ExerciseIntensity: String, Codable, CaseIterable {
     case light, medium, hard, grueling, killing
 }
 
+func == (lhs: ExerciseIntensity, rhs: ExerciseIntensity) -> Bool {
+    return lhs.rawValue == rhs.rawValue
+}
+
 
 enum ExerciseType: String, Codable, CaseIterable {
     case time, count

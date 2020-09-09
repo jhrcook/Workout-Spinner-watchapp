@@ -4,142 +4,142 @@
         "displayName": "Push-Ups",
         "type": "count",
         "bodyParts": ["arms", "back", "core"],
-        "workoutValue": [
-            { "light": 5 },
-            { "medium": 10 },
-            { "hard": 15 },
-            { "grueling": 20 },
-            { "killing": 30 }
-        ]
+        "workoutValue": {
+            "light": 5,
+            "medium": 10,
+            "hard": 15,
+            "grueling": 20,
+            "killing": 30
+        }
     },
     {
         "id": "1",
         "displayName": "Crunches",
         "type": "count",
         "bodyParts": ["core"],
-        "workoutValue": [
-            { "light": 15 },
-            { "medium": 30 },
-            { "hard": 40 },
-            { "grueling": 50 },
-            { "killing": 60 }
-        ]
+        "workoutValue": {
+            "light": 15,
+            "medium": 30,
+            "hard": 40,
+            "grueling": 50,
+            "killing": 60
+        }
     },
     {
         "id": "2",
         "displayName": "Lunges",
         "type": "count",
         "bodyParts": ["legs"],
-        "workoutValue": [
-            { "light": 5 },
-            { "medium": 10 },
-            { "hard": 15 },
-            { "grueling": 25 },
-            { "killing": 35 }
-        ]
+        "workoutValue": {
+            "light": 5,
+            "medium": 10,
+            "hard": 15,
+            "grueling": 25,
+            "killing": 35
+        }
     },
     {
         "id": "3",
         "displayName": "Sprints",
         "type": "time",
         "bodyParts": ["legs", "cardio"],
-        "workoutValue": [
-            { "light": 15 },
-            { "medium": 30 },
-            { "hard": 45 },
-            { "grueling": 60 },
-            { "killing": 90 }
-        ]
+        "workoutValue": {
+            "light": 15,
+            "medium": 30,
+            "hard": 45,
+            "grueling": 60,
+            "killing": 90
+        }
     },
     {
         "id": "4",
         "displayName": "Squats",
         "type": "time",
         "bodyParts": ["legs"],
-        "workoutValue": [
-            { "light": 20 },
-            { "medium": 40 },
-            { "hard": 60 },
-            { "grueling": 80 },
-            { "killing": 100 }
-        ]
+        "workoutValue": {
+            "light": 20,
+            "medium": 40,
+            "hard": 60,
+            "grueling": 80,
+            "killing": 100
+        }
     },
     {
         "id": "5",
         "displayName": "Leg-Lifts",
         "type": "count",
         "bodyParts": ["core"],
-        "workoutValue": [
-            { "light": 7 },
-            { "medium": 10 },
-            { "hard": 15 },
-            { "grueling": 20 },
-            { "killing": 30 }
-        ]
+        "workoutValue": {
+            "light": 7,
+            "medium": 10,
+            "hard": 15,
+            "grueling": 20,
+            "killing": 30
+        }
     },
     {
         "id": "6",
         "displayName": "Plank",
         "type": "time",
         "bodyParts": ["arms", "core", "back"],
-        "workoutValue": [
-            { "light": 30 },
-            { "medium": 45 },
-            { "hard": 60 },
-            { "grueling": 75 },
-            { "killing": 90 }
-        ]
+        "workoutValue": {
+            "light": 30,
+            "medium": 45,
+            "hard": 60,
+            "grueling": 75,
+            "killing": 90
+        }
     },
     {
         "id": "7",
         "displayName": "Burpees",
         "type": "count",
         "bodyParts": ["arms", "core", "back", "cardio", "legs"],
-        "workoutValue": [
-            { "light": 5 },
-            { "medium": 8 },
-            { "hard": 10 },
-            { "grueling": 15 },
-            { "killing": 20 }
-        ]
+        "workoutValue": {
+            "light": 5,
+            "medium": 8,
+            "hard": 10,
+            "grueling": 15,
+            "killing": 20
+        }
     },
     {
         "id": "8",
         "displayName": "High-Knees",
         "type": "time",
         "bodyParts": ["cardio", "legs"],
-        "workoutValue": [
-            { "light": 15 },
-            { "medium": 30 },
-            { "hard": 45 },
-            { "grueling": 60 },
-            { "killing": 75 }
-        ]
+        "workoutValue": {
+            "light": 15,
+            "medium": 30,
+            "hard": 45,
+            "grueling": 60,
+            "killing": 75
+        }
     },
     {
         "id": "9",
         "displayName": "Bicycles",
         "type": "count",
         "bodyParts": ["core"],
-        "workoutValue": [
-            { "light": 10 },
-            { "medium": 20 },
-            { "hard": 30 },
-            { "grueling": 45 },
-            { "killing": 60 }
-        ]
+        "workoutValue": {
+            "light": 10,
+            "medium": 20,
+            "hard": 30,
+            "grueling": 45,
+            "killing": 60
+        }
     },
     {
         "id": "10",
         "displayName": "A really long named exercise",
         "type": "count",
         "bodyParts": ["core"],
-        "workoutValue": [
-            { "light": 10 },
-            { "medium": 20 },
-            { "hard": 30 },
-            { "grueling": 45 },
-            { "killing": 60 }
-        ]
+        "workoutValue": {
+            "light": 10,
+            "medium": 20,
+            "hard": 30,
+            "grueling": 45,
+            "killing": 60
+        }
     }
 ]

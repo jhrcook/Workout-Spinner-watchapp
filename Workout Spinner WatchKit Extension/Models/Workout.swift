@@ -13,11 +13,5 @@ struct Workout: Identifiable, Codable {
     let displayName: String
     let type: ExerciseType
     let bodyParts: [ExerciseBodyPart]
-    let workoutValue: [ExerciseIntensity: Float] = [:]
-    
-//    var shortName: String {
-//        if displayName.count > 7 {
-//            return displayName.substring(to: 7)
-//        }
-//    }
+    let workoutValue: [String: Float]
 }
