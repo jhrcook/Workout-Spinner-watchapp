@@ -9,6 +9,7 @@
 import Foundation
 
 enum UserDefaultsKeys: String {
-    case exerciseIntensityInt
+//    case exerciseIntensityInt
+    case exerciseIntensity
     case activeBodyParts
 }

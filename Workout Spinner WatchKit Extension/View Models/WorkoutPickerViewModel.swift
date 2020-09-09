@@ -14,12 +14,14 @@ extension WorkoutPicker {
         readSelectedWorkout()
     }
     
+    
     func rotationEffectDidFinish() {
         if crownVelocity.didPassThreshold {
             workoutSelected.toggle()
             crownVelocity.resetThreshold()
         }
     }
+    
     
     func readSelectedWorkout() {
         let pointerAngle = 180.0
@@ -32,5 +34,27 @@ extension WorkoutPicker {
         }
         
         self.selectedWorkoutIndex = min(Int(pointingSlice), numWorkouts - 1)
+    }
+    
+    
+    static func loadWorkouts() -> Workouts {
+        var workouts = Workouts()
+        
+        // An array of the body parts to keep inactive.
+        var inactiveBodyparts: [ExerciseBodyPart] {
+            BodyPartSelections()
+                .bodyparts
+                .filter { !$0.enabled }
+                .map { $0.bodypart }
+        }
+        
+        // Remove workouts that contain blacklisted exercises.
+        for (idx, workout) in workouts.workouts.enumerated() {
+            if let _ = workout.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
+                workouts.workouts.remove(at: idx)
+            }
+        }
+        
+        return workouts
     }
 }
