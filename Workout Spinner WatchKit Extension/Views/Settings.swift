@@ -22,7 +22,7 @@ struct SectionHeader: View {
 
 struct Settings: View {
     
-    @State private var selectedExerciseIntensity = UserDefaults.standard.integer(forKey: UserDefaultsKeys.exerciseIntensityInt.rawValue)
+    @State private var selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
     
     private var exerciseIntensities: [String] {
         var a = [String]()
@@ -87,8 +87,20 @@ struct Settings: View {
 
 extension Settings {
     func saveUserDefualts() {
-        UserDefaults.standard.set(self.selectedExerciseIntensity,
-                                  forKey: UserDefaultsKeys.exerciseIntensityInt.rawValue)
+        let intensity = ExerciseIntensity.allCases[selectedExerciseIntensity]
+        UserDefaults.standard.set(intensity.rawValue,
+                                  forKey: UserDefaultsKeys.exerciseIntensity.rawValue)
+    }
+    
+    
+    static func getSavedExerciseIntensity() -> Int {
+        let exerciseIntensity = UserDefaults.standard.string(forKey: UserDefaultsKeys.exerciseIntensity.rawValue)
+        for (idx, intensity) in ExerciseIntensity.allCases.enumerated() {
+            if intensity.rawValue == exerciseIntensity {
+                return idx
+            }
+        }
+        return 0
     }
 }
 
