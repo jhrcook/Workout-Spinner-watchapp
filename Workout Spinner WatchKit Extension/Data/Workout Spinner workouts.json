@@ -128,18 +128,5 @@
             "grueling": 45,
             "killing": 60
         }
-    },
-    {
-        "id": "10",
-        "displayName": "A really long named exercise",
-        "type": "count",
-        "bodyParts": ["core"],
-        "workoutValue": {
-            "light": 10,
-            "medium": 20,
-            "hard": 30,
-            "grueling": 45,
-            "killing": 60
-        }
     }
 ]
