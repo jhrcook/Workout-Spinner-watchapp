@@ -14,7 +14,7 @@ struct WorkoutPicker: View {
     @State var workouts: Workouts = WorkoutPicker.loadWorkouts()
     
     @State internal var crownRotation = 0.0
-        
+    
     var numWorkouts: Int {
         return workouts.workouts.count
     }
@@ -35,15 +35,14 @@ struct WorkoutPicker: View {
             Spacer(minLength: 0)
             GeometryReader { geo in
                 ZStack {
-                    NavigationLink(destination: WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex]),
-                                   isActive: self.$workoutSelected,
-                        label: { EmptyView() }).hidden()
+                    
                     Color.white
                         .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
                         .animation(.easeInOut)
                         .clipShape(Circle())
                         .frame(width: geo.minSize + 10, height: geo.minSize + 10)
                         .blur(radius: 10)
+                    
                     
                     ZStack {
                         ForEach(0..<self.numWorkouts) { i in
@@ -61,12 +60,24 @@ struct WorkoutPicker: View {
                     .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
                                                       onFinishedRotationAnimation: self.rotationEffectDidFinish))
                     .animation(.default)
+                    .background(
+                        NavigationLink(destination: WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex]),
+                                       isActive: self.$workoutSelected) {
+                            EmptyView()
+                        }.hidden()
+                    )
                     
                     
                     HStack {
                         SpinnerPointer().frame(width: 20, height: 15)
                         Spacer()
                     }
+                    
+                }
+                .sheet(isPresented: self.$showSettings, onDismiss: {
+                    self.workouts = WorkoutPicker.loadWorkouts()
+                }) {
+                    Settings()
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
@@ -74,11 +85,6 @@ struct WorkoutPicker: View {
             .focusable()
             .digitalCrownRotation(self.$crownRotation)
             .onReceive(Just(crownRotation), perform: crownRotationDidChange)
-        }
-        .sheet(isPresented: self.$showSettings, onDismiss: {
-            self.workouts = WorkoutPicker.loadWorkouts()
-        }) {
-            Settings()
         }
         .contextMenu(menuItems: {
             Button(action: {

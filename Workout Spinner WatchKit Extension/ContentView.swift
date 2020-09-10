@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-//        WorkoutPicker()
-        WorkoutStartView(workout: Workouts().workouts[0])
+        WorkoutPicker()
+//        WorkoutStartView(workout: Workouts().workouts[0])
     }
 }
 

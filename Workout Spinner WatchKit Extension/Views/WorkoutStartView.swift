@@ -27,42 +27,70 @@ struct WorkoutStartView: View {
         return intensity.rawValue
     }
     
+    @State private var timeRemaining = 3
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var startWorkout = false
+    
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
-        VStack {
-            Text(workout.displayName)
-                .lineLimit(1)
-                .font(.system(size: 25, weight: .regular, design: .rounded))
-            
-            Spacer()
-            
-            Text(displayDuration)
-                .font(.system(size: 40, weight: .semibold , design: .rounded))
-                .foregroundColor(.yellow)
-            
-            Spacer()
-            
-            HStack {
-                Button(action: {
-                    print("tap: 'X'")
-                }) {
-                    Image(systemName: "plus")
-                        .rotationEffect(.degrees(45))
-                        .font(.system(size: 30, weight: .semibold, design: .default))
-                        .foregroundColor(.red)
-                }
+        ZStack {
+            VStack {
+                Text(workout.displayName)
+                    .lineLimit(1)
+                    .font(.system(size: 25, weight: .regular, design: .rounded))
                 
-                Button(action: {
-                    print("tap: 'Go'")
-                }) {
-                    Image(systemName: "play")
-                        .font(.system(size: 25, weight: .bold, design: .default))
+                Spacer()
+                
+                Text(displayDuration)
+                    .font(.system(size: 40, weight: .semibold , design: .rounded))
+                    .foregroundColor(.yellow)
+                
+                Spacer()
+                
+                
+                HStack {
+                    Text("Starting in")
+                    Text("\(timeRemaining)")
+                        .font(.system(size: 25, weight: .bold, design: .rounded))
                         .foregroundColor(.green)
                 }
+                .frame(minWidth: 120, idealWidth: nil, maxWidth: nil,
+                       minHeight: 30, idealHeight: nil, maxHeight: nil,
+                       alignment: .center)
+                .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
+                    .background(Color.gray.opacity(0.3))
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                
+                Spacer()
+                
+                Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
             }
+            .background(
+                NavigationLink(destination: WorkoutView(workout: workout),
+                               isActive: $startWorkout) {
+                    EmptyView()
+                }.hidden()
+            )
+            .onReceive(timer) { time in
+                if self.timeRemaining > 0 {
+                    self.timeRemaining -= 1
+                } else if self.timeRemaining <= 0 {
+                    self.startWorkout = true
+                }
+                
+            }
+            .navigationBarBackButtonHidden(true)
+            .edgesIgnoringSafeArea(.bottom)
+            .onTapGesture(count: 2) {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
+        .onAppear {
+            self.timeRemaining = 3
         }
     }
 }
-
 
 
 extension WorkoutStartView {
