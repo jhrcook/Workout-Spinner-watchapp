@@ -17,8 +17,9 @@ extension WorkoutPicker {
     
     func rotationEffectDidFinish() {
         if crownVelocity.didPassThreshold {
-            workoutSelected.toggle()
+            workoutSelected = true
             crownVelocity.resetThreshold()
+            print("Rotation did finish, `workoutSelected`: \(workoutSelected), `selectedWorkoutIndex`: \(selectedWorkoutIndex)")
         }
     }
     
@@ -49,10 +50,11 @@ extension WorkoutPicker {
         }
         
         // Remove workouts that contain blacklisted exercises.
-        for (idx, workout) in workouts.workouts.enumerated() {
+        workouts.workouts = workouts.workouts.filter { workout in
             if let _ = workout.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
-                workouts.workouts.remove(at: idx)
+                return false
             }
+            return true
         }
         
         return workouts
