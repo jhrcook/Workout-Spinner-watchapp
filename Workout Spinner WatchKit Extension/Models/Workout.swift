@@ -8,10 +8,15 @@
 
 import Foundation
 
-struct Workout: Identifiable, Codable {
+struct Workout: Identifiable, Codable, Equatable {
     let id: String
     let displayName: String
     let type: ExerciseType
     let bodyParts: [ExerciseBodyPart]
     let workoutValue: [String: Float]
+    
+    
+    static func == (lhs: Workout, rhs: Workout) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
