@@ -11,7 +11,6 @@ import SwiftUI
 struct WorkoutStartView: View {
     
     let workout: Workout
-    
     let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
     
     var displayDuration: String {

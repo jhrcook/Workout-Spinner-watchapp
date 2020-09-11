@@ -10,12 +10,18 @@ import SwiftUI
 
 struct WorkoutView: View {
     
-    var workout: Workout
+    let workout: Workout
     
     var body: some View {
         Text(workout.displayName)
     }
 }
+
+
+
+
+
+
 
 struct WorkoutView_Previews: PreviewProvider {
     static var workouts: Workouts {
