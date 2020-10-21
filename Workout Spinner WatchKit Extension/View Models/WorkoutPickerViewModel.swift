@@ -38,8 +38,8 @@ extension WorkoutPicker {
     }
     
     
-    static func loadWorkouts() -> Workouts {
-        var workouts = Workouts()
+    static func loadWorkouts() -> WorkoutOptions {
+        var workouts = WorkoutOptions()
         
         // An array of the body parts to keep inactive.
         var inactiveBodyparts: [ExerciseBodyPart] {

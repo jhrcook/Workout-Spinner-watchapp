@@ -11,12 +11,13 @@ import Combine
 
 struct WorkoutPicker: View {
     
-    @State var workouts: Workouts = WorkoutPicker.loadWorkouts()
+    @ObservedObject var workoutManager: WorkoutManager
+    @State var workoutOptions: WorkoutOptions = WorkoutPicker.loadWorkouts()
     
     @State internal var crownRotation = 0.0
     
     var numWorkouts: Int {
-        return workouts.workouts.count
+        return workoutOptions.workouts.count
     }
     
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
@@ -51,7 +52,7 @@ struct WorkoutPicker: View {
                                          width: geo.minSize)
                         }
                         ForEach(0..<self.numWorkouts) { i in
-                            WorkoutSlice(workout: self.workouts.workouts[i],
+                            WorkoutSlice(workoutInfo: self.workoutOptions.workouts[i],
                                          idx: i,
                                          numberOfWorkouts: self.numWorkouts,
                                          size: geo.minSize)
@@ -61,7 +62,7 @@ struct WorkoutPicker: View {
                                                       onFinishedRotationAnimation: self.rotationEffectDidFinish))
                     .animation(.default)
                     .background(
-                        NavigationLink(destination: WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex]),
+                        NavigationLink(destination: WorkoutStartView(workoutInfo: self.workoutOptions.workouts[self.selectedWorkoutIndex]),
                                        isActive: self.$workoutSelected) {
                             EmptyView()
                         }.hidden()
@@ -75,7 +76,7 @@ struct WorkoutPicker: View {
                     
                 }
                 .sheet(isPresented: self.$showSettings, onDismiss: {
-                    self.workouts = WorkoutPicker.loadWorkouts()
+                    self.workoutOptions = WorkoutPicker.loadWorkouts()
                 }) {
                     Settings()
                 }
@@ -103,6 +104,6 @@ struct WorkoutPicker: View {
 
 struct WorkoutPicker_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPicker()
+        WorkoutPicker(workoutManager: WorkoutManager())
     }
 }

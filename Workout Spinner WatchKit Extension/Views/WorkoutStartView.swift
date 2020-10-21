@@ -10,19 +10,19 @@ import SwiftUI
 
 struct WorkoutStartView: View {
     
-    let workout: Workout
+    let workoutInfo: WorkoutInfo
     let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
     
     var displayDuration: String {
-        if let workoutValue = workout.workoutValue[intensity.rawValue] {
-            if workout.type == .count {
+        if let workoutValue = workoutInfo.workoutValue[intensity.rawValue] {
+            if workoutInfo.type == .count {
                 return "\(Int(workoutValue))"
             } else {
                 return "\(Int(workoutValue)) s"
             }
         }
-        print(workout.workoutValue)
-        print(workout.type)
+        print(workoutInfo.workoutValue)
+        print(workoutInfo.type)
         return intensity.rawValue
     }
     
@@ -35,7 +35,7 @@ struct WorkoutStartView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text(workout.displayName)
+                Text(workoutInfo.displayName)
                     .lineLimit(1)
                     .font(.system(size: 25, weight: .regular, design: .rounded))
                 
@@ -66,7 +66,7 @@ struct WorkoutStartView: View {
                 Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
             }
             .background(
-                NavigationLink(destination: WorkoutView(workout: workout),
+                NavigationLink(destination: WorkoutView(workout: workoutInfo),
                                isActive: $startWorkout) {
                     EmptyView()
                 }.hidden()
@@ -108,8 +108,8 @@ extension WorkoutStartView {
 
 struct WorkoutStartView_Previews: PreviewProvider {
     
-    static var workouts: Workouts {
-        var ws = Workouts()
+    static var workouts: WorkoutOptions {
+        var ws = WorkoutOptions()
         let i = ws.workouts.first { $0.type == .count }!
         let j = ws.workouts.first { $0.type == .time }!
         ws.workouts = [i, j]
@@ -119,7 +119,7 @@ struct WorkoutStartView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workouts.workouts) { workout in
-                WorkoutStartView(workout: workout)
+                WorkoutStartView(workoutInfo: workout)
                     .previewDisplayName(workout.displayName)
             }
         }
