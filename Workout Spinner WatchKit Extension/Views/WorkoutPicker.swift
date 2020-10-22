@@ -62,7 +62,7 @@ struct WorkoutPicker: View {
                                                       onFinishedRotationAnimation: self.rotationEffectDidFinish))
                     .animation(.default)
                     .background(
-                        NavigationLink(destination: WorkoutStartView(workoutInfo: self.workoutOptions.workouts[self.selectedWorkoutIndex]),
+                        NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
                                        isActive: self.$workoutSelected) {
                             EmptyView()
                         }.hidden()

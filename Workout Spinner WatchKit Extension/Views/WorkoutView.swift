@@ -10,10 +10,16 @@ import SwiftUI
 
 struct WorkoutView: View {
     
-    let workoutInfo: WorkoutInfo
+    @ObservedObject var workoutManager: WorkoutManager
+    var workoutInfo: WorkoutInfo
+    
+    init(workoutManager: WorkoutManager) {
+        self.workoutManager = workoutManager
+        self.workoutInfo = workoutManager.workoutInfo!
+    }
     
     var body: some View {
-        Text(workoutInfo.displayName)
+        Text(workoutManager.workoutInfo?.displayName ?? "(no workout)")
     }
 }
 
@@ -24,6 +30,7 @@ struct WorkoutView: View {
 
 
 struct WorkoutView_Previews: PreviewProvider {
+    
     static var workoutOptions: WorkoutOptions {
         var ws = WorkoutOptions()
         let i = ws.workouts.first { $0.type == .count }!
@@ -34,9 +41,9 @@ struct WorkoutView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ForEach(workoutOptions.workouts) { workout in
-                WorkoutView(workoutInfo: workout)
-                    .previewDisplayName(workout.displayName)
+            ForEach(workoutOptions.workouts) { info in
+                WorkoutView(workoutManager: WorkoutManager(workoutInfo: info))
+                    .previewDisplayName(info.displayName)
             }
         }
     }

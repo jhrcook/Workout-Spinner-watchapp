@@ -10,19 +10,25 @@ import SwiftUI
 
 struct WorkoutStartView: View {
     
-    let workoutInfo: WorkoutInfo
+    @ObservedObject var workoutManager: WorkoutManager
     let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
     
+    let workoutInfo: WorkoutInfo
+    
+    init(workoutManager: WorkoutManager) {
+        self.workoutManager = workoutManager
+        self.workoutInfo = workoutManager.workoutInfo!
+    }
+    
     var displayDuration: String {
-        if let workoutValue = workoutInfo.workoutValue[intensity.rawValue] {
-            if workoutInfo.type == .count {
+        guard let info = workoutManager.workoutInfo else { return "" }
+        if let workoutValue = info.workoutValue[intensity.rawValue] {
+            if info.type == .count {
                 return "\(Int(workoutValue))"
             } else {
                 return "\(Int(workoutValue)) s"
             }
         }
-        print(workoutInfo.workoutValue)
-        print(workoutInfo.type)
         return intensity.rawValue
     }
     
@@ -66,7 +72,7 @@ struct WorkoutStartView: View {
                 Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
             }
             .background(
-                NavigationLink(destination: WorkoutView(workout: workoutInfo),
+                NavigationLink(destination: WorkoutView(workoutManager: workoutManager),
                                isActive: $startWorkout) {
                     EmptyView()
                 }.hidden()
@@ -118,9 +124,9 @@ struct WorkoutStartView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            ForEach(workouts.workouts) { workout in
-                WorkoutStartView(workoutInfo: workout)
-                    .previewDisplayName(workout.displayName)
+            ForEach(workouts.workouts) { info in
+                WorkoutStartView(workoutManager: WorkoutManager(workoutInfo: info))
+                    .previewDisplayName(info.displayName)
             }
         }
     }
