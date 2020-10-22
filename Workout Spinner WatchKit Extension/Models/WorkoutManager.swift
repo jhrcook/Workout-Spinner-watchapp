@@ -14,7 +14,7 @@ import Combine
 class WorkoutManager: NSObject, ObservableObject {
     
     /// - Tag: Declare workout data information
-    var info: WorkoutInfo?
+    var workoutInfo: WorkoutInfo?
     
     /// - Tag: Declare HealthStore, WorkoutSession, and WorkoutBuilder
     let healthStore = HKHealthStore()
@@ -23,15 +23,45 @@ class WorkoutManager: NSObject, ObservableObject {
     
     // The app's workout state.
     /// - Tag: Object state
-    var running: Bool = false
+    var active: Bool = false
     
     /// - Tag: Publishers
     @Published var heartrate: Double = 0.0
     @Published var activeCalories: Double = 0.0
+    @Published var elapsedSeconds: Int = 0
+    
+    /// - Tag: TimerSetup
+    // The cancellable holds the timer publisher.
+    var start: Date = Date()
+    var cancellable: Cancellable?
+    var accumulatedTime: Int = 0
     
     
-    init(info: WorkoutInfo?) {
-        self.info = info
+    override init() {
+        self.workoutInfo = nil
+    }
+    
+    init(workoutInfo: WorkoutInfo) {
+        self.workoutInfo = workoutInfo
+    }
+    
+    
+    // Set up and start the timer.
+    func setUpTimer() {
+        start = Date()
+        cancellable = Timer.publish(every: 0.1, on: .main, in: .default)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.elapsedSeconds = self.incrementElapsedTime()
+            }
+    }
+    
+    
+    // Calculate the elapsed time.
+    func incrementElapsedTime() -> Int {
+        let runningTime: Int = Int(-1 * (self.start.timeIntervalSinceNow))
+        return self.accumulatedTime + runningTime
     }
     
     
@@ -70,11 +100,9 @@ class WorkoutManager: NSObject, ObservableObject {
     
     /// Start the workout.
     func startWorkout() {
-        //TODO: Start a timer.
-        //
-        //
-        
-        running = true
+        // Start the timer.
+        setUpTimer()
+        active = true
         
         // Create the session and obtain the workout builder.
         do {
@@ -99,6 +127,28 @@ class WorkoutManager: NSObject, ObservableObject {
     }
     
     
+    /// Pause a workout.
+    func pauseWorkout() {
+        // Pause the workout.
+        session.pause()
+        // Stop the timer.
+        cancellable?.cancel()
+        // Save the elapsed time.
+        accumulatedTime = elapsedSeconds
+        active = false
+    }
+    
+    
+    /// Resume a previously started workout.
+    func resumeWorkout() {
+        // Resume the workout.
+        session.resume()
+        // Start the timer.
+        setUpTimer()
+        active = true
+    }
+    
+    
     func endWorkout() {
         print("Ending workout session.")
         
@@ -113,7 +163,7 @@ class WorkoutManager: NSObject, ObservableObject {
         }
         
         session.end()
-        running = false
+        active = false
     }
     
     
