@@ -10,7 +10,7 @@ import SwiftUI
 
 struct WorkoutSlice: View {
     
-    let workout: Workout
+    let workoutInfo: WorkoutInfo
     let idx: Int
     let numberOfWorkouts: Int
     let size: CGFloat
@@ -25,7 +25,7 @@ struct WorkoutSlice: View {
     }
     
     var body: some View {
-        Text(workout.displayName)
+        Text(workoutInfo.displayName)
             .font(.system(.footnote))
             .foregroundColor(.black)
             .lineLimit(1)
@@ -44,7 +44,7 @@ struct WorkoutSlice_Previews: PreviewProvider {
             
             VStack {
                 ForEach(3..<8) { i in
-                    WorkoutSlice(workout: Workouts().workouts[0], idx: 1, numberOfWorkouts: i, size: 200)
+                    WorkoutSlice(workoutInfo: WorkoutOptions().workouts[0], idx: 1, numberOfWorkouts: i, size: 200)
                         .padding()
                 }
             }

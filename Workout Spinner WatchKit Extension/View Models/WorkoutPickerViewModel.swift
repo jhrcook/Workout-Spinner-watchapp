@@ -34,12 +34,14 @@ extension WorkoutPicker {
             pointingSlice = Double(numWorkouts) + pointingSlice
         }
         
+        workoutManager.workoutInfo = workoutOptions.workouts[selectedWorkoutIndex]
+        
         self.selectedWorkoutIndex = min(Int(pointingSlice), numWorkouts - 1)
     }
     
     
-    static func loadWorkouts() -> Workouts {
-        var workouts = Workouts()
+    static func loadWorkouts() -> WorkoutOptions {
+        var workouts = WorkoutOptions()
         
         // An array of the body parts to keep inactive.
         var inactiveBodyparts: [ExerciseBodyPart] {

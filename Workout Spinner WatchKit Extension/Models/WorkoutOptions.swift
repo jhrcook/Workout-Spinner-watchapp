@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Workouts: Codable {
-    var workouts = [Workout]()
+struct WorkoutOptions: Codable {
+    var workouts = [WorkoutInfo]()
     
     init() {
         do {
@@ -22,13 +22,13 @@ struct Workouts: Codable {
 }
 
 
-extension Workouts {
+extension WorkoutOptions {
     /// Parse the JSON data to an array of workouts.
     /// - Parameter jsonData: JSON data as a `Data` object.
     /// - Returns: The JSON data decoded into an arraw of `Workout`.
-    private func parse(jsonData: Data) throws -> [Workout] {
+    private func parse(jsonData: Data) throws -> [WorkoutInfo] {
         do {
-            let workouts: [Workout] = try JSONDecoder().decode([Workout].self, from: jsonData)
+            let workouts: [WorkoutInfo] = try JSONDecoder().decode([WorkoutInfo].self, from: jsonData)
             return workouts
         } catch {
             throw error

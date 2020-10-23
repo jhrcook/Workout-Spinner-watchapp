@@ -11,12 +11,13 @@ import Combine
 
 struct WorkoutPicker: View {
     
-    @State var workouts: Workouts = WorkoutPicker.loadWorkouts()
+    @ObservedObject var workoutManager: WorkoutManager
+    @State var workoutOptions: WorkoutOptions = WorkoutPicker.loadWorkouts()
     
     @State internal var crownRotation = 0.0
     
     var numWorkouts: Int {
-        return workouts.workouts.count
+        return workoutOptions.workouts.count
     }
     
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
@@ -31,17 +32,23 @@ struct WorkoutPicker: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer(minLength: 0)
             GeometryReader { geo in
                 ZStack {
                     
-                    Color.white
-                        .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
-                        .animation(.easeInOut)
-                        .clipShape(Circle())
-                        .frame(width: geo.minSize + 10, height: geo.minSize + 10)
-                        .blur(radius: 10)
+                    NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
+                                   isActive: self.$workoutSelected) {
+                        EmptyView()
+                    }.hidden()
+                    
+                    
+//                    Color.white
+//                        .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
+//                        .animation(.easeInOut)
+//                        .clipShape(Circle())
+//                        .frame(width: geo.minSize + 10, height: geo.minSize + 10)
+//                        .blur(radius: 10)
                     
                     
                     ZStack {
@@ -51,7 +58,7 @@ struct WorkoutPicker: View {
                                          width: geo.minSize)
                         }
                         ForEach(0..<self.numWorkouts) { i in
-                            WorkoutSlice(workout: self.workouts.workouts[i],
+                            WorkoutSlice(workoutInfo: self.workoutOptions.workouts[i],
                                          idx: i,
                                          numberOfWorkouts: self.numWorkouts,
                                          size: geo.minSize)
@@ -60,12 +67,6 @@ struct WorkoutPicker: View {
                     .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
                                                       onFinishedRotationAnimation: self.rotationEffectDidFinish))
                     .animation(.default)
-                    .background(
-                        NavigationLink(destination: WorkoutStartView(workout: self.workouts.workouts[self.selectedWorkoutIndex]),
-                                       isActive: self.$workoutSelected) {
-                            EmptyView()
-                        }.hidden()
-                    )
                     
                     
                     HStack {
@@ -75,7 +76,7 @@ struct WorkoutPicker: View {
                     
                 }
                 .sheet(isPresented: self.$showSettings, onDismiss: {
-                    self.workouts = WorkoutPicker.loadWorkouts()
+                    self.workoutOptions = WorkoutPicker.loadWorkouts()
                 }) {
                     Settings()
                 }
@@ -103,6 +104,6 @@ struct WorkoutPicker: View {
 
 struct WorkoutPicker_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPicker()
+        WorkoutPicker(workoutManager: WorkoutManager())
     }
 }
