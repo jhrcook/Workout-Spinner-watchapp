@@ -54,7 +54,7 @@
     {
         "id": "4",
         "displayName": "Squats",
-        "type": "time",
+        "type": "count",
         "bodyParts": ["legs"],
         "workoutValue": {
             "light": 20,
