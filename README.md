@@ -7,3 +7,9 @@
 [![jhc github](https://img.shields.io/badge/GitHub-jhrcook-181717.svg?style=flat&logo=github)](https://github.com/jhrcook)
 [![jhc twitter](https://img.shields.io/badge/Twitter-@JoshDoesA-00aced.svg?style=flat&logo=twitter)](https://twitter.com/JoshDoesa)
 [![jhc website](https://img.shields.io/badge/Website-Joshua_Cook-5087B2.svg?style=flat&logo=telegram)](https://joshuacook.netlify.com)
+
+<img src="demos/01-spinner.png" width="25%">
+<img src="demos/02-start.png" width="25%">
+<img src="demos/03-workout.png" width="25%">
+
+<img src="demos/demo.gif" width="35%">
