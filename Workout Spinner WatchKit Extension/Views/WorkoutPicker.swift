@@ -37,6 +37,12 @@ struct WorkoutPicker: View {
             GeometryReader { geo in
                 ZStack {
                     
+                    NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
+                                   isActive: self.$workoutSelected) {
+                        EmptyView()
+                    }.hidden()
+                    
+                    
                     Color.white
                         .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
                         .animation(.easeInOut)
@@ -61,12 +67,6 @@ struct WorkoutPicker: View {
                     .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
                                                       onFinishedRotationAnimation: self.rotationEffectDidFinish))
                     .animation(.default)
-                    .background(
-                        NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
-                                       isActive: self.$workoutSelected) {
-                            EmptyView()
-                        }.hidden()
-                    )
                     
                     
                     HStack {

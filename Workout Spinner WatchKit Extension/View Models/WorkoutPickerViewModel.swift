@@ -17,7 +17,6 @@ extension WorkoutPicker {
     
     func rotationEffectDidFinish() {
         if crownVelocity.didPassThreshold {
-            workoutManager.workoutInfo = workoutOptions.workouts[selectedWorkoutIndex]
             workoutSelected = true
             crownVelocity.resetThreshold()
             print("Rotation did finish, `workoutSelected`: \(workoutSelected), `selectedWorkoutIndex`: \(selectedWorkoutIndex)")
@@ -34,6 +33,8 @@ extension WorkoutPicker {
         if pointingSlice < 0 {
             pointingSlice = Double(numWorkouts) + pointingSlice
         }
+        
+        workoutManager.workoutInfo = workoutOptions.workouts[selectedWorkoutIndex]
         
         self.selectedWorkoutIndex = min(Int(pointingSlice), numWorkouts - 1)
     }

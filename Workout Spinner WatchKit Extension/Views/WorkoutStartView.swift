@@ -13,11 +13,11 @@ struct WorkoutStartView: View {
     @ObservedObject var workoutManager: WorkoutManager
     let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
     
-    let workoutInfo: WorkoutInfo
+    var workoutInfo: WorkoutInfo?
     
     init(workoutManager: WorkoutManager) {
         self.workoutManager = workoutManager
-        self.workoutInfo = workoutManager.workoutInfo!
+        workoutInfo = workoutManager.workoutInfo
     }
     
     var displayDuration: String {
@@ -41,7 +41,8 @@ struct WorkoutStartView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text(workoutInfo.displayName)
+                
+                Text(workoutInfo?.displayName ?? "(no workout selected)")
                     .lineLimit(1)
                     .font(.system(size: 25, weight: .regular, design: .rounded))
                 
