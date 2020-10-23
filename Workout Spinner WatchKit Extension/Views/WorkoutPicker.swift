@@ -32,7 +32,7 @@ struct WorkoutPicker: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Spacer(minLength: 0)
             GeometryReader { geo in
                 ZStack {
@@ -43,12 +43,12 @@ struct WorkoutPicker: View {
                     }.hidden()
                     
                     
-                    Color.white
-                        .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
-                        .animation(.easeInOut)
-                        .clipShape(Circle())
-                        .frame(width: geo.minSize + 10, height: geo.minSize + 10)
-                        .blur(radius: 10)
+//                    Color.white
+//                        .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
+//                        .animation(.easeInOut)
+//                        .clipShape(Circle())
+//                        .frame(width: geo.minSize + 10, height: geo.minSize + 10)
+//                        .blur(radius: 10)
                     
                     
                     ZStack {
