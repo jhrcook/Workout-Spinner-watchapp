@@ -34,28 +34,40 @@ struct WorkoutView: View {
         self.workoutInfo = workoutManager.workoutInfo!
     }
     
+    let infoFontSize: CGFloat = 18
+    
     var body: some View {
         VStack {
             Text(workoutManager.workoutInfo?.displayName ?? "(no workout)")
-                .font(.system(size: 20, weight: .semibold, design: .rounded))
+                .font(.system(size: 25, weight: .semibold, design: .rounded))
+                .padding(.bottom, 2)
+            Text(displayDuration).font(.system(size: 20, weight: .regular, design: .rounded))
                 .padding(.bottom, 5)
-            Text(displayDuration).font(.system(size: 14, weight: .regular, design: .rounded))
-                .padding(.bottom, 5)
             
             HStack {
-                Image(systemName: "heart").foregroundColor(.red).font(.system(size: 14))
-                Text("\(Int(workoutManager.heartrate))").font(.system(size: 14))
+                Spacer()
+                HStack {
+                    Image(systemName: "heart").foregroundColor(.red).font(.system(size: infoFontSize))
+                    Text("\(Int(workoutManager.heartrate))").font(.system(size: infoFontSize))
+                }
+                
+                Spacer()
+                
+                HStack {
+                    Image(systemName: "flame").foregroundColor(.yellow).font(.system(size: infoFontSize))
+                    Text("\(Int(workoutManager.activeCalories))").font(.system(size: infoFontSize))
+                }
+                
+                Spacer()
             }
+            .padding(.bottom, 5)
             
             HStack {
-                Image(systemName: "stopwatch").foregroundColor(.blue).font(.system(size: 14))
-                Text("\(convertNumberSecondsToTimeFormat(Double(workoutManager.elapsedSeconds)))").font(.system(size: 14))
+                Image(systemName: "stopwatch").foregroundColor(.blue).font(.system(size: infoFontSize))
+                Text("\(convertNumberSecondsToTimeFormat(Double(workoutManager.elapsedSeconds)))").font(.system(size: infoFontSize))
             }
             
-            HStack {
-                Image(systemName: "flame").foregroundColor(.yellow).font(.system(size: 14))
-                Text("\(Int(workoutManager.activeCalories))").font(.system(size: 14))
-            }
+            
             
             Spacer()
             
@@ -81,7 +93,7 @@ struct WorkoutView: View {
         
         return "\(doubleToPaddedString(minutes)):\(doubleToPaddedString(remainderSeconds))"
     }
-
+    
 }
 
 
