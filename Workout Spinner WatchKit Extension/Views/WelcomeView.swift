@@ -12,6 +12,8 @@ struct WelcomeView: View {
     
     var workoutManager: WorkoutManager
     
+    @State private var presentSettingsView = false
+    
     var body: some View {
         VStack {
             
@@ -22,7 +24,7 @@ struct WelcomeView: View {
             }) {
                 Text("Start Workout")
                     .font(.title)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.orange)
                     .bold()
                     .multilineTextAlignment(.center)
             }
@@ -30,7 +32,7 @@ struct WelcomeView: View {
             Spacer()
             
             Button(action: {
-                
+                presentSettingsView = true
             }) {
                 HStack {
                     Image(systemName: "gearshape")
@@ -39,6 +41,9 @@ struct WelcomeView: View {
             }
             .buttonStyle(PlainButtonStyle())
             .padding()
+        }
+        .sheet(isPresented: self.$presentSettingsView) {
+            Settings()
         }
     }
 }
