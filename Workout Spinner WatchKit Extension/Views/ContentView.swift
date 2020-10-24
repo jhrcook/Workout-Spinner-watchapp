@@ -13,7 +13,7 @@ struct ContentView: View {
     let workoutManager = WorkoutManager()
     
     var body: some View {
-        WorkoutPicker(workoutManager: workoutManager)
+        WelcomeView(workoutManager: workoutManager)
     }
 }
 
