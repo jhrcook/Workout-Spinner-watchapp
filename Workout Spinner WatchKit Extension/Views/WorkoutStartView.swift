@@ -33,7 +33,7 @@ struct WorkoutStartView: View {
     }
     
     @State private var timeRemaining = 3
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 1, on: .main, in: .common)//.autoconnect()
     @State private var startWorkout = false
     
     @Environment(\.presentationMode) var presentationMode
@@ -72,12 +72,12 @@ struct WorkoutStartView: View {
                 
                 Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
             }
-            .background(
-                NavigationLink(destination: WorkoutView(workoutManager: workoutManager),
-                               isActive: $startWorkout) {
-                    EmptyView()
-                }.hidden()
-            )
+//            .background(
+//                NavigationLink(destination: WorkoutView(workoutManager: workoutManager),
+//                               isActive: $startWorkout) {
+//                    EmptyView()
+//                }.hidden()
+//            )
             .onReceive(timer) { time in
                 if self.timeRemaining > 0 {
                     self.timeRemaining -= 1
@@ -89,7 +89,7 @@ struct WorkoutStartView: View {
             .navigationBarBackButtonHidden(true)
             .edgesIgnoringSafeArea(.bottom)
             .onTapGesture(count: 2) {
-                self.presentationMode.wrappedValue.dismiss()
+//                self.presentationMode.wrappedValue.dismiss()
             }
         }
         .onAppear {

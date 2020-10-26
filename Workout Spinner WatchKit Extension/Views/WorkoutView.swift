@@ -11,7 +11,7 @@ import SwiftUI
 struct WorkoutView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
-    var workoutInfo: WorkoutInfo
+    var workoutInfo: WorkoutInfo?
     
     let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
     
@@ -31,14 +31,14 @@ struct WorkoutView: View {
     
     init(workoutManager: WorkoutManager) {
         self.workoutManager = workoutManager
-        self.workoutInfo = workoutManager.workoutInfo!
+        self.workoutInfo = workoutManager.workoutInfo
     }
     
     let infoFontSize: CGFloat = 18
     
     var body: some View {
         VStack {
-            Text(workoutManager.workoutInfo?.displayName ?? "(no workout)")
+            Text(workoutInfo?.displayName ?? "(no workout)")
                 .font(.system(size: 25, weight: .semibold, design: .rounded))
                 .padding(.bottom, 2)
             Text(displayDuration).font(.system(size: 20, weight: .regular, design: .rounded))

@@ -37,19 +37,10 @@ struct WorkoutPicker: View {
             GeometryReader { geo in
                 ZStack {
                     
-                    NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
-                                   isActive: self.$workoutSelected) {
-                        EmptyView()
-                    }.hidden()
-                    
-                    
-//                    Color.white
-//                        .opacity(self.crownVelocity.didPassThreshold ? 1.0 : min(1.0, abs(self.crownVelocity.currentVelocity / self.crownVelocity.velocityThreshold)))
-//                        .animation(.easeInOut)
-//                        .clipShape(Circle())
-//                        .frame(width: geo.minSize + 10, height: geo.minSize + 10)
-//                        .blur(radius: 10)
-                    
+//                    NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
+//                                   isActive: self.$workoutSelected) {
+//                        EmptyView()
+//                    }.hidden()
                     
                     ZStack {
                         ForEach(0..<self.numWorkouts) { i in
@@ -87,16 +78,6 @@ struct WorkoutPicker: View {
             .digitalCrownRotation(self.$crownRotation)
             .onReceive(Just(crownRotation), perform: crownRotationDidChange)
         }
-        .contextMenu(menuItems: {
-            Button(action: {
-                self.showSettings.toggle()
-            }, label: {
-                VStack {
-                    Image(systemName: "gear").font(.title)
-                    Text("Settings")
-                }
-            })
-        })
     }
 }
 
