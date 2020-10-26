@@ -12,24 +12,25 @@ struct WelcomeView: View {
     
     var workoutManager: WorkoutManager
     
+    @State private var startWorkout = false
     @State private var presentSettingsView = false
     
     var body: some View {
         VStack {
             
-            Spacer()
-            
-            Button(action: {
-                
-            }) {
+            NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager)) {
                 Text("Start Workout")
                     .font(.title)
                     .foregroundColor(.orange)
                     .bold()
                     .multilineTextAlignment(.center)
             }
+            Text("Press and hold the spinner to finish the workout.")
+                .font(.system(size: 14))
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.leading)
             
-            Spacer()
+            Spacer(minLength: 0)
             
             Button(action: {
                 presentSettingsView = true
@@ -40,7 +41,6 @@ struct WelcomeView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
-            .padding()
         }
         .sheet(isPresented: self.$presentSettingsView) {
             Settings()
