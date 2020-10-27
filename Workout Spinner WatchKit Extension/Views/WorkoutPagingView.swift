@@ -13,19 +13,25 @@ struct WorkoutPagingView: View {
     @ObservedObject var workoutManager: WorkoutManager
     @State private var currentPageIndex: Int = 0
     
+    @State private var workoutSelectedByPicker = false
+    @State private var workoutCanceled = false
+    
     var body: some View {
-        VStack {
-            PagerManager(pageCount: 3, currentIndex: $currentPageIndex) {
-                WorkoutPicker(workoutManager: workoutManager)
-                WorkoutStartView(workoutManager: workoutManager)
+        ZStack {
+            if currentPageIndex == 0 {
+                WorkoutPicker(workoutManager: workoutManager, workoutSelected: $workoutSelectedByPicker)
+                    .sheet(isPresented: $workoutSelectedByPicker, onDismiss: {
+                        if !workoutCanceled {
+                            withAnimation(.none) { currentPageIndex = 1 }
+                        }
+                    }) {
+                        WorkoutStartView(workoutManager: workoutManager, workoutCanceled: $workoutCanceled)
+                    }
+            } else {
                 WorkoutView(workoutManager: workoutManager)
             }
-            .onTapGesture() {
-                withAnimation(.default) {
-                    currentPageIndex = currentPageIndex == 2 ? 0 : currentPageIndex + 1
-                }
-            }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

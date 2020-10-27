@@ -11,14 +11,15 @@ import SwiftUI
 struct WorkoutStartView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
-    let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
+    @Binding private var workoutCanceled: Bool
     
+    // Workout information
+    let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
     var workoutInfo: WorkoutInfo?
     
-    init(workoutManager: WorkoutManager) {
-        self.workoutManager = workoutManager
-        workoutInfo = workoutManager.workoutInfo
-    }
+    // Timer
+    @State private var timeRemaining = 3
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var displayDuration: String {
         guard let info = workoutManager.workoutInfo else { return "" }
@@ -32,11 +33,13 @@ struct WorkoutStartView: View {
         return intensity.rawValue
     }
     
-    @State private var timeRemaining = 3
-    let timer = Timer.publish(every: 1, on: .main, in: .common)//.autoconnect()
-    @State private var startWorkout = false
-    
     @Environment(\.presentationMode) var presentationMode
+    
+    init(workoutManager: WorkoutManager, workoutCanceled: Binding<Bool>) {
+        self.workoutManager = workoutManager
+        self._workoutCanceled = workoutCanceled
+        workoutInfo = workoutManager.workoutInfo
+    }
     
     var body: some View {
         ZStack {
@@ -72,24 +75,20 @@ struct WorkoutStartView: View {
                 
                 Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
             }
-//            .background(
-//                NavigationLink(destination: WorkoutView(workoutManager: workoutManager),
-//                               isActive: $startWorkout) {
-//                    EmptyView()
-//                }.hidden()
-//            )
             .onReceive(timer) { time in
                 if self.timeRemaining > 0 {
                     self.timeRemaining -= 1
                 } else if self.timeRemaining <= 0 {
-                    self.startWorkout = true
+                    workoutCanceled = false
+                    self.presentationMode.wrappedValue.dismiss()
                 }
                 
             }
             .navigationBarBackButtonHidden(true)
             .edgesIgnoringSafeArea(.bottom)
             .onTapGesture(count: 2) {
-//                self.presentationMode.wrappedValue.dismiss()
+                workoutCanceled = true
+                self.presentationMode.wrappedValue.dismiss()
             }
         }
         .onAppear {
@@ -126,7 +125,7 @@ struct WorkoutStartView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workouts.workouts) { info in
-                WorkoutStartView(workoutManager: WorkoutManager(workoutInfo: info))
+                WorkoutStartView(workoutManager: WorkoutManager(workoutInfo: info), workoutCanceled: .constant(false))
                     .previewDisplayName(info.displayName)
             }
         }

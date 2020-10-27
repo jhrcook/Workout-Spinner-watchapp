@@ -19,7 +19,6 @@ extension WorkoutPicker {
         if crownVelocity.didPassThreshold {
             workoutSelected = true
             crownVelocity.resetThreshold()
-            print("Rotation did finish, `workoutSelected`: \(workoutSelected), `selectedWorkoutIndex`: \(selectedWorkoutIndex)")
         }
     }
     
@@ -35,7 +34,6 @@ extension WorkoutPicker {
         }
         
         workoutManager.workoutInfo = workoutOptions.workouts[selectedWorkoutIndex]
-        
         self.selectedWorkoutIndex = min(Int(pointingSlice), numWorkouts - 1)
     }
     
@@ -58,7 +56,6 @@ extension WorkoutPicker {
             }
             return true
         }
-        
         return workouts
     }
 }

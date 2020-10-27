@@ -13,7 +13,6 @@ struct WorkoutPicker: View {
     
     @ObservedObject var workoutManager: WorkoutManager
     @State var workoutOptions: WorkoutOptions = WorkoutPicker.loadWorkouts()
-    
     @State internal var crownRotation = 0.0
     
     var numWorkouts: Int {
@@ -22,13 +21,16 @@ struct WorkoutPicker: View {
     
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
     
-    @State internal var workoutSelected = false
+    @Binding internal var workoutSelected: Bool
     @State internal var selectedWorkoutIndex: Int = 0
-    
-    @State private var showSettings = false
     
     var spinDirection: Double {
         return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
+    }
+    
+    init(workoutManager: WorkoutManager, workoutSelected: Binding<Bool>) {
+        self.workoutManager = workoutManager
+        self._workoutSelected = workoutSelected
     }
     
     var body: some View {
@@ -36,12 +38,6 @@ struct WorkoutPicker: View {
             Spacer(minLength: 0)
             GeometryReader { geo in
                 ZStack {
-                    
-//                    NavigationLink(destination: WorkoutStartView(workoutManager: self.workoutManager),
-//                                   isActive: self.$workoutSelected) {
-//                        EmptyView()
-//                    }.hidden()
-                    
                     ZStack {
                         ForEach(0..<self.numWorkouts) { i in
                             SpinnerSlice(idx: i,
@@ -66,11 +62,6 @@ struct WorkoutPicker: View {
                     }
                     
                 }
-                .sheet(isPresented: self.$showSettings, onDismiss: {
-                    self.workoutOptions = WorkoutPicker.loadWorkouts()
-                }) {
-                    Settings()
-                }
             }
             .edgesIgnoringSafeArea(.bottom)
             .padding(0)
@@ -85,6 +76,6 @@ struct WorkoutPicker: View {
 
 struct WorkoutPicker_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPicker(workoutManager: WorkoutManager())
+        WorkoutPicker(workoutManager: WorkoutManager(), workoutSelected: .constant(false))
     }
 }
