@@ -42,58 +42,57 @@ struct WorkoutStartView: View {
     }
     
     var body: some View {
-        ZStack {
-            VStack {
-                
-                Text(workoutInfo?.displayName ?? "(no workout selected)")
-                    .lineLimit(1)
-                    .font(.system(size: 25, weight: .regular, design: .rounded))
-                
-                Spacer()
-                
-                Text(displayDuration)
-                    .font(.system(size: 40, weight: .semibold , design: .rounded))
-                    .foregroundColor(.yellow)
-                
-                Spacer()
-                
-                
-                HStack {
-                    Text("Starting in")
-                    Text("\(timeRemaining)")
-                        .font(.system(size: 25, weight: .bold, design: .rounded))
-                        .foregroundColor(.green)
-                }
-                .frame(minWidth: 120, idealWidth: nil, maxWidth: nil,
-                       minHeight: 30, idealHeight: nil, maxHeight: nil,
-                       alignment: .center)
-                .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
-                    .background(Color.gray.opacity(0.3))
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                
-                Spacer()
-                
-                Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
+        VStack {
+            
+            Text(workoutInfo?.displayName ?? "(no workout selected)")
+                .lineLimit(1)
+                .font(.system(size: 25, weight: .regular, design: .rounded))
+            
+            Spacer()
+            
+            Text(displayDuration)
+                .font(.system(size: 40, weight: .semibold , design: .rounded))
+                .foregroundColor(.yellow)
+            
+            Spacer()
+            
+            
+            HStack {
+                Text("Starting in")
+                Text("\(timeRemaining)")
+                    .font(.system(size: 25, weight: .bold, design: .rounded))
+                    .foregroundColor(.green)
             }
-            .onReceive(timer) { time in
-                if self.timeRemaining > 0 {
-                    self.timeRemaining -= 1
-                } else if self.timeRemaining <= 0 {
-                    workoutCanceled = false
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-                
-            }
-            .navigationBarBackButtonHidden(true)
-            .edgesIgnoringSafeArea(.bottom)
-            .onTapGesture(count: 2) {
-                workoutCanceled = true
+            .frame(minWidth: 120, idealWidth: nil, maxWidth: nil,
+                   minHeight: 30, idealHeight: nil, maxHeight: nil,
+                   alignment: .center)
+            .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
+            .background(Color.gray.opacity(0.3))
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            
+            Spacer()
+            
+            Text("Double tap to cancel").foregroundColor(.gray).font(.footnote)
+            
+        }
+        .onReceive(timer) { time in
+            if self.timeRemaining > 0 {
+                self.timeRemaining -= 1
+            } else if self.timeRemaining <= 0 {
+                workoutCanceled = false
                 self.presentationMode.wrappedValue.dismiss()
             }
+            
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .onTapGesture(count: 2) {
+            workoutCanceled = true
+            self.presentationMode.wrappedValue.dismiss()
         }
         .onAppear {
             self.timeRemaining = 3
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -15,6 +15,7 @@ struct WorkoutPagingView: View {
     
     @State private var workoutSelectedByPicker = false
     @State private var workoutCanceled = false
+    @State private var exerciseComplete = false
     
     var body: some View {
         ZStack {
@@ -25,10 +26,15 @@ struct WorkoutPagingView: View {
                             withAnimation(.none) { currentPageIndex = 1 }
                         }
                     }) {
-                        WorkoutStartView(workoutManager: workoutManager, workoutCanceled: $workoutCanceled)
+                        WorkoutStartView(workoutManager: workoutManager, workoutCanceled: $workoutCanceled).navigationTitle(Text(""))
                     }
             } else {
-                WorkoutView(workoutManager: workoutManager)
+                WorkoutView(workoutManager: workoutManager, exerciseComplete: $exerciseComplete)
+                    .sheet(isPresented: $exerciseComplete, onDismiss: {
+                        currentPageIndex = 0
+                    }) {
+                        Text("Finished workout!")
+                    }
             }
         }
         .navigationBarBackButtonHidden(true)

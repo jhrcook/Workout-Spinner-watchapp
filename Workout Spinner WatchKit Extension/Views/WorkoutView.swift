@@ -11,11 +11,10 @@ import SwiftUI
 struct WorkoutView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
+    @Binding private var exerciseComplete: Bool
     var workoutInfo: WorkoutInfo?
     
     let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
-    
-    @State private var exerciseComplete = false
     
     var displayDuration: String {
         guard let info = workoutManager.workoutInfo else { return "" }
@@ -29,9 +28,10 @@ struct WorkoutView: View {
         return intensity.rawValue
     }
     
-    init(workoutManager: WorkoutManager) {
+    init(workoutManager: WorkoutManager, exerciseComplete: Binding<Bool>) {
         self.workoutManager = workoutManager
-        self.workoutInfo = workoutManager.workoutInfo
+        self._exerciseComplete = exerciseComplete
+        workoutInfo = workoutManager.workoutInfo
     }
     
     let infoFontSize: CGFloat = 18
@@ -71,9 +71,7 @@ struct WorkoutView: View {
             
             Spacer()
             
-            Button(action: {
-                exerciseComplete = true
-            }, label: {
+            Button(action: finishExercise, label: {
                 Text("Done").foregroundColor(.green).bold()
             })
         }
@@ -93,7 +91,13 @@ struct WorkoutView: View {
         
         return "\(doubleToPaddedString(minutes)):\(doubleToPaddedString(remainderSeconds))"
     }
-    
+}
+
+
+extension WorkoutView {
+    func finishExercise() {
+        exerciseComplete = true
+    }
 }
 
 
@@ -115,7 +119,7 @@ struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workoutOptions.workouts) { info in
-                WorkoutView(workoutManager: WorkoutManager(workoutInfo: info))
+                WorkoutView(workoutManager: WorkoutManager(workoutInfo: info), exerciseComplete: .constant(false))
                     .previewDisplayName(info.displayName)
             }
         }
