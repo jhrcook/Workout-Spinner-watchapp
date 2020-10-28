@@ -10,15 +10,15 @@ import SwiftUI
 
 struct WelcomeView: View {
     
-    var workoutManager: WorkoutManager
+    @ObservedObject var workoutManager: WorkoutManager
+    @ObservedObject var workoutTracker: WorkoutTracker
     
     @State private var startWorkout = false
     @State private var presentSettingsView = false
     
     var body: some View {
         VStack {
-            
-            NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager)) {
+            NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker)) {
                 Text("Start Workout")
                     .font(.title)
                     .foregroundColor(.orange)
@@ -50,6 +50,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(workoutManager: WorkoutManager())
+        WelcomeView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker())
     }
 }

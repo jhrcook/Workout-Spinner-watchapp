@@ -11,6 +11,7 @@ import SwiftUI
 struct ExerciseView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
+    @ObservedObject var workoutTracker: WorkoutTracker
     @Binding private var exerciseComplete: Bool
     var workoutInfo: ExerciseInfo?
     
@@ -28,8 +29,9 @@ struct ExerciseView: View {
         return intensity.rawValue
     }
     
-    init(workoutManager: WorkoutManager, exerciseComplete: Binding<Bool>) {
+    init(workoutManager: WorkoutManager, workoutTracker: WorkoutTracker, exerciseComplete: Binding<Bool>) {
         self.workoutManager = workoutManager
+        self.workoutTracker = workoutTracker
         self._exerciseComplete = exerciseComplete
         workoutInfo = workoutManager.exerciseInfo
     }
@@ -119,7 +121,7 @@ struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workoutOptions.workouts) { info in
-                ExerciseView(workoutManager: WorkoutManager(exerciseInfo: info), exerciseComplete: .constant(false))
+                ExerciseView(workoutManager: WorkoutManager(exerciseInfo: info), workoutTracker: WorkoutTracker(), exerciseComplete: .constant(false))
                     .previewDisplayName(info.displayName)
             }
         }

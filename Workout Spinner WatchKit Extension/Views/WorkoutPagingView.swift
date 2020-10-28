@@ -11,6 +11,7 @@ import SwiftUI
 struct WorkoutPagingView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
+    @ObservedObject var workoutTracker: WorkoutTracker
     @State private var currentPageIndex: Int = 0
     
     @State private var exerciseSelectedByPicker = false
@@ -29,7 +30,7 @@ struct WorkoutPagingView: View {
                         ExerciseStartView(workoutManager: workoutManager, exerciseCanceled: $exerciseCanceled).navigationTitle(Text(""))
                     }
             } else {
-                ExerciseView(workoutManager: workoutManager, exerciseComplete: $exerciseComplete)
+                ExerciseView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseComplete: $exerciseComplete)
                     .sheet(isPresented: $exerciseComplete, onDismiss: {
                         currentPageIndex = 0
                     }) {
@@ -43,6 +44,6 @@ struct WorkoutPagingView: View {
 
 struct WorkoutPagingView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPagingView(workoutManager: WorkoutManager())
+        WorkoutPagingView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker())
     }
 }
