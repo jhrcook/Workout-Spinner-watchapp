@@ -14,7 +14,7 @@ import Combine
 class WorkoutManager: NSObject, ObservableObject {
     
     /// - Tag: Declare workout data information
-    var workoutInfo: WorkoutInfo?
+    var exerciseInfo: ExerciseInfo?
     
     /// - Tag: Declare HealthStore, WorkoutSession, and WorkoutBuilder
     let healthStore = HKHealthStore()
@@ -38,11 +38,11 @@ class WorkoutManager: NSObject, ObservableObject {
     
     
     override init() {
-        self.workoutInfo = nil
+        self.exerciseInfo = nil
     }
     
-    init(workoutInfo: WorkoutInfo) {
-        self.workoutInfo = workoutInfo
+    init(exerciseInfo: ExerciseInfo) {
+        self.exerciseInfo = exerciseInfo
     }
     
     

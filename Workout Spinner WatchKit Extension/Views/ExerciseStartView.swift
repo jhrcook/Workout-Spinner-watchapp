@@ -8,21 +8,21 @@
 
 import SwiftUI
 
-struct WorkoutStartView: View {
+struct ExerciseStartView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
-    @Binding private var workoutCanceled: Bool
+    @Binding private var exerciseCanceled: Bool
     
     // Workout information
-    let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
-    var workoutInfo: WorkoutInfo?
+    let intensity: ExerciseIntensity = ExerciseStartView.loadExerciseIntensity()
+    var exerciseInfo: ExerciseInfo?
     
     // Timer
     @State private var timeRemaining = 3
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var displayDuration: String {
-        guard let info = workoutManager.workoutInfo else { return "" }
+        guard let info = workoutManager.exerciseInfo else { return "" }
         if let workoutValue = info.workoutValue[intensity.rawValue] {
             if info.type == .count {
                 return "\(Int(workoutValue))"
@@ -35,16 +35,16 @@ struct WorkoutStartView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    init(workoutManager: WorkoutManager, workoutCanceled: Binding<Bool>) {
+    init(workoutManager: WorkoutManager, exerciseCanceled: Binding<Bool>) {
         self.workoutManager = workoutManager
-        self._workoutCanceled = workoutCanceled
-        workoutInfo = workoutManager.workoutInfo
+        self._exerciseCanceled = exerciseCanceled
+        exerciseInfo = workoutManager.exerciseInfo
     }
     
     var body: some View {
         VStack {
             
-            Text(workoutInfo?.displayName ?? "(no workout selected)")
+            Text(exerciseInfo?.displayName ?? "(no workout selected)")
                 .lineLimit(1)
                 .font(.system(size: 25, weight: .regular, design: .rounded))
             
@@ -79,14 +79,14 @@ struct WorkoutStartView: View {
             if self.timeRemaining > 0 {
                 self.timeRemaining -= 1
             } else if self.timeRemaining <= 0 {
-                workoutCanceled = false
+                exerciseCanceled = false
                 self.presentationMode.wrappedValue.dismiss()
             }
             
         }
         .edgesIgnoringSafeArea(.bottom)
         .onTapGesture(count: 2) {
-            workoutCanceled = true
+            exerciseCanceled = true
             self.presentationMode.wrappedValue.dismiss()
         }
         .onAppear {
@@ -97,7 +97,7 @@ struct WorkoutStartView: View {
 }
 
 
-extension WorkoutStartView {
+extension ExerciseStartView {
     static func loadExerciseIntensity() -> ExerciseIntensity {
         if let intensityString = UserDefaults.standard.string(forKey: UserDefaultsKeys.exerciseIntensity.rawValue) {
             if let intensity = ExerciseIntensity(rawValue: intensityString) {
@@ -113,8 +113,8 @@ extension WorkoutStartView {
 
 struct WorkoutStartView_Previews: PreviewProvider {
     
-    static var workouts: WorkoutOptions {
-        var ws = WorkoutOptions()
+    static var workouts: ExerciseOptions {
+        var ws = ExerciseOptions()
         let i = ws.workouts.first { $0.type == .count }!
         let j = ws.workouts.first { $0.type == .time }!
         ws.workouts = [i, j]
@@ -124,7 +124,7 @@ struct WorkoutStartView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workouts.workouts) { info in
-                WorkoutStartView(workoutManager: WorkoutManager(workoutInfo: info), workoutCanceled: .constant(false))
+                ExerciseStartView(workoutManager: WorkoutManager(exerciseInfo: info), exerciseCanceled: .constant(false))
                     .previewDisplayName(info.displayName)
             }
         }

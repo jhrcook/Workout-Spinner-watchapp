@@ -8,16 +8,16 @@
 
 import SwiftUI
 
-struct WorkoutView: View {
+struct ExerciseView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
     @Binding private var exerciseComplete: Bool
-    var workoutInfo: WorkoutInfo?
+    var workoutInfo: ExerciseInfo?
     
-    let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
+    let intensity: ExerciseIntensity = ExerciseStartView.loadExerciseIntensity()
     
     var displayDuration: String {
-        guard let info = workoutManager.workoutInfo else { return "" }
+        guard let info = workoutManager.exerciseInfo else { return "" }
         if let workoutValue = info.workoutValue[intensity.rawValue] {
             if info.type == .count {
                 return "\(Int(workoutValue))"
@@ -31,7 +31,7 @@ struct WorkoutView: View {
     init(workoutManager: WorkoutManager, exerciseComplete: Binding<Bool>) {
         self.workoutManager = workoutManager
         self._exerciseComplete = exerciseComplete
-        workoutInfo = workoutManager.workoutInfo
+        workoutInfo = workoutManager.exerciseInfo
     }
     
     let infoFontSize: CGFloat = 18
@@ -94,7 +94,7 @@ struct WorkoutView: View {
 }
 
 
-extension WorkoutView {
+extension ExerciseView {
     func finishExercise() {
         exerciseComplete = true
     }
@@ -108,8 +108,8 @@ extension WorkoutView {
 
 struct WorkoutView_Previews: PreviewProvider {
     
-    static var workoutOptions: WorkoutOptions {
-        var ws = WorkoutOptions()
+    static var workoutOptions: ExerciseOptions {
+        var ws = ExerciseOptions()
         let i = ws.workouts.first { $0.type == .count }!
         let j = ws.workouts.first { $0.type == .time }!
         ws.workouts = [i, j]
@@ -119,7 +119,7 @@ struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workoutOptions.workouts) { info in
-                WorkoutView(workoutManager: WorkoutManager(workoutInfo: info), exerciseComplete: .constant(false))
+                ExerciseView(workoutManager: WorkoutManager(exerciseInfo: info), exerciseComplete: .constant(false))
                     .previewDisplayName(info.displayName)
             }
         }

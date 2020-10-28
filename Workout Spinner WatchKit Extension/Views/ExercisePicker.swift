@@ -9,28 +9,28 @@
 import SwiftUI
 import Combine
 
-struct WorkoutPicker: View {
+struct ExercisePicker: View {
     
     @ObservedObject var workoutManager: WorkoutManager
-    @State var workoutOptions: WorkoutOptions = WorkoutPicker.loadWorkouts()
+    @State var exerciseOptions: ExerciseOptions = ExercisePicker.loadWorkouts()
     @State internal var crownRotation = 0.0
     
-    var numWorkouts: Int {
-        return workoutOptions.workouts.count
+    var numExercises: Int {
+        return exerciseOptions.workouts.count
     }
     
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
     
-    @Binding internal var workoutSelected: Bool
-    @State internal var selectedWorkoutIndex: Int = 0
+    @Binding internal var exerciseSelected: Bool
+    @State internal var selectedExerciseIndex: Int = 0
     
     var spinDirection: Double {
         return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
     }
     
-    init(workoutManager: WorkoutManager, workoutSelected: Binding<Bool>) {
+    init(workoutManager: WorkoutManager, exerciseSelected: Binding<Bool>) {
         self.workoutManager = workoutManager
-        self._workoutSelected = workoutSelected
+        self._exerciseSelected = exerciseSelected
     }
     
     var body: some View {
@@ -39,15 +39,15 @@ struct WorkoutPicker: View {
             GeometryReader { geo in
                 ZStack {
                     ZStack {
-                        ForEach(0..<self.numWorkouts) { i in
+                        ForEach(0..<self.numExercises) { i in
                             SpinnerSlice(idx: i,
-                                         numberOfSlices: self.numWorkouts,
+                                         numberOfSlices: self.numExercises,
                                          width: geo.minSize)
                         }
-                        ForEach(0..<self.numWorkouts) { i in
-                            WorkoutSlice(workoutInfo: self.workoutOptions.workouts[i],
+                        ForEach(0..<self.numExercises) { i in
+                            WorkoutSlice(workoutInfo: self.exerciseOptions.workouts[i],
                                          idx: i,
-                                         numberOfWorkouts: self.numWorkouts,
+                                         numberOfWorkouts: self.numExercises,
                                          size: geo.minSize)
                         }
                     }
@@ -76,6 +76,6 @@ struct WorkoutPicker: View {
 
 struct WorkoutPicker_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPicker(workoutManager: WorkoutManager(), workoutSelected: .constant(false))
+        ExercisePicker(workoutManager: WorkoutManager(), exerciseSelected: .constant(false))
     }
 }

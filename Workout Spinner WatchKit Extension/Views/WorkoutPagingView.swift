@@ -13,23 +13,23 @@ struct WorkoutPagingView: View {
     @ObservedObject var workoutManager: WorkoutManager
     @State private var currentPageIndex: Int = 0
     
-    @State private var workoutSelectedByPicker = false
-    @State private var workoutCanceled = false
+    @State private var exerciseSelectedByPicker = false
+    @State private var exerciseCanceled = false
     @State private var exerciseComplete = false
     
     var body: some View {
         ZStack {
             if currentPageIndex == 0 {
-                WorkoutPicker(workoutManager: workoutManager, workoutSelected: $workoutSelectedByPicker)
-                    .sheet(isPresented: $workoutSelectedByPicker, onDismiss: {
-                        if !workoutCanceled {
+                ExercisePicker(workoutManager: workoutManager, exerciseSelected: $exerciseSelectedByPicker)
+                    .sheet(isPresented: $exerciseSelectedByPicker, onDismiss: {
+                        if !exerciseCanceled {
                             withAnimation(.none) { currentPageIndex = 1 }
                         }
                     }) {
-                        WorkoutStartView(workoutManager: workoutManager, workoutCanceled: $workoutCanceled).navigationTitle(Text(""))
+                        ExerciseStartView(workoutManager: workoutManager, exerciseCanceled: $exerciseCanceled).navigationTitle(Text(""))
                     }
             } else {
-                WorkoutView(workoutManager: workoutManager, exerciseComplete: $exerciseComplete)
+                ExerciseView(workoutManager: workoutManager, exerciseComplete: $exerciseComplete)
                     .sheet(isPresented: $exerciseComplete, onDismiss: {
                         currentPageIndex = 0
                     }) {

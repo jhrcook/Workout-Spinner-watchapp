@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-extension WorkoutPicker {
+extension ExercisePicker {
     func crownRotationDidChange(crownValue: Double) {
         crownVelocity.update(newValue: crownValue)
         readSelectedWorkout()
@@ -17,7 +17,7 @@ extension WorkoutPicker {
     
     func rotationEffectDidFinish() {
         if crownVelocity.didPassThreshold {
-            workoutSelected = true
+            exerciseSelected = true
             crownVelocity.resetThreshold()
         }
     }
@@ -25,21 +25,21 @@ extension WorkoutPicker {
     
     func readSelectedWorkout() {
         let pointerAngle = 180.0
-        let sliceAngle = 360.0 / Double(numWorkouts)
+        let sliceAngle = 360.0 / Double(numExercises)
         let pointingAtAngle = (0.5 * sliceAngle) + (pointerAngle + crownRotation).truncatingRemainder(dividingBy: 360.0)
         var pointingSlice = (pointingAtAngle / sliceAngle).rounded(.down)
         
         if pointingSlice < 0 {
-            pointingSlice = Double(numWorkouts) + pointingSlice
+            pointingSlice = Double(numExercises) + pointingSlice
         }
         
-        workoutManager.workoutInfo = workoutOptions.workouts[selectedWorkoutIndex]
-        self.selectedWorkoutIndex = min(Int(pointingSlice), numWorkouts - 1)
+        workoutManager.exerciseInfo = exerciseOptions.workouts[selectedExerciseIndex]
+        self.selectedExerciseIndex = min(Int(pointingSlice), numExercises - 1)
     }
     
     
-    static func loadWorkouts() -> WorkoutOptions {
-        var workouts = WorkoutOptions()
+    static func loadWorkouts() -> ExerciseOptions {
+        var workouts = ExerciseOptions()
         
         // An array of the body parts to keep inactive.
         var inactiveBodyparts: [ExerciseBodyPart] {
