@@ -10,6 +10,9 @@ import Foundation
 import HealthKit
 import Combine
 
+enum WorkoutState {
+    case running, paused, ended
+}
 
 class WorkoutManager: NSObject, ObservableObject {
     
@@ -47,7 +50,7 @@ class WorkoutManager: NSObject, ObservableObject {
     
     
     // Set up and start the timer.
-    func setUpTimer() {
+    internal func setUpTimer() {
         start = Date()
         cancellable = Timer.publish(every: 0.1, on: .main, in: .default)
             .autoconnect()
@@ -99,11 +102,7 @@ class WorkoutManager: NSObject, ObservableObject {
     
     
     /// Start the workout.
-    func startWorkout() {
-        // Start the timer.
-        setUpTimer()
-        active = true
-        
+    internal func setupWorkout() {
         // Create the session and obtain the workout builder.
         do {
             session = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration())
@@ -121,7 +120,13 @@ class WorkoutManager: NSObject, ObservableObject {
         // Set the workout builder's data source.
         builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
                                                      workoutConfiguration: workoutConfiguration())
-        
+    }
+    
+    /// Start a workout
+    func startWorkout() {
+        // Start the timer.
+        setUpTimer()
+        active = true
         // Start the workout session and begin data collection.
         session.startActivity(with: Date())
     }
@@ -169,7 +174,7 @@ class WorkoutManager: NSObject, ObservableObject {
     
     // MARK: - Update the UI
     // Update the published values.
-    func updateForStatistics(_ statistics: HKStatistics?) {
+    internal func updateForStatistics(_ statistics: HKStatistics?) {
         guard let statistics = statistics else { return }
         
         DispatchQueue.main.async {

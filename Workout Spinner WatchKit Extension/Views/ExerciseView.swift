@@ -97,7 +97,8 @@ struct ExerciseView: View {
 
 
 extension ExerciseView {
-    func finishExercise() {
+    /// Called when the exercise is complete and the 'Done" button is tapped.
+    internal func finishExercise() {
         exerciseComplete = true
     }
 }

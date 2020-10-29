@@ -45,6 +45,10 @@ struct WelcomeView: View {
         .sheet(isPresented: self.$presentSettingsView) {
             Settings()
         }
+        .onAppear {
+            workoutManager.requestAuthorization()
+            workoutManager.setupWorkout()
+        }
     }
 }
 
