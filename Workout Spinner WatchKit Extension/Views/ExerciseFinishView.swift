@@ -8,12 +8,61 @@
 
 import SwiftUI
 
+struct SmallImageAndTextView: View {
+    let imageName: String
+    let text: String
+    let imageColor: Color
+    
+    let font: Font = .system(size: 14)
+    
+    var body: some View {
+        HStack {
+            Image(systemName: imageName).font(font).foregroundColor(imageColor)
+            Text(text).font(font)
+        }
+    }
+}
+
+struct ExerciseDataRowView: View {
+    
+    let data: WorkoutTrackerDatum
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("\(data.exerciseInfo.displayName)").bold()
+                Spacer()
+            }.padding(.bottom, 2)
+            HStack {
+                Spacer()
+                SmallImageAndTextView(imageName: "heart", text: data.heartRate.count == 0 ? "NA" :  "\(Int(average(data.heartRate).rounded()))", imageColor: .red)
+                Spacer()
+                SmallImageAndTextView(imageName: "flame", text: "\(Int(data.activeCalories.rounded()))", imageColor: .yellow)
+                Spacer()
+                SmallImageAndTextView(imageName: "stopwatch", text: "\(Int(data.duration.rounded()))", imageColor: .blue)
+                Spacer()
+            }
+        }
+    }
+    
+    internal func average(_ x: [Double]) -> Double {
+        if x.count == 0 {
+            return 0
+        }
+        return x.reduce(0, +) / Double(x.count)
+    }
+}
+
 struct ExerciseFinishView: View {
     
     @ObservedObject var workoutTracker: WorkoutTracker
     
     var body: some View {
-        Text("Completed \(workoutTracker.numberOfExercises) exercises!")
+        List {
+            ForEach(workoutTracker.data) { data in
+                ExerciseDataRowView(data: data)
+            }
+        }
     }
 }
 

@@ -22,7 +22,8 @@ class WorkoutTracker: NSObject, ObservableObject {
 }
 
 
-struct WorkoutTrackerDatum {
+struct WorkoutTrackerDatum: Identifiable {
+    let id = UUID()
     let exerciseInfo: ExerciseInfo
     let duration: Double
     let activeCalories: Double
