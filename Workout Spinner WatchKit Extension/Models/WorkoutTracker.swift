@@ -14,6 +14,11 @@ class WorkoutTracker: NSObject, ObservableObject {
     var numberOfExercises: Int {
         data.count
     }
+    
+    func addData(info: ExerciseInfo, duration: Double, activeCalories: Double, heartRate: [Double]) {
+        let newData = WorkoutTrackerDatum(exerciseInfo: info, duration: duration, activeCalories: activeCalories, heartRate: heartRate)
+        data.append(newData)
+    }
 }
 
 

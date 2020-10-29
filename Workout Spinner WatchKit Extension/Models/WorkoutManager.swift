@@ -33,6 +33,8 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var activeCalories: Double = 0.0
     @Published var elapsedSeconds: Int = 0
     
+    var allHeartRateReadings = [Double]()
+    
     /// - Tag: TimerSetup
     // The cancellable holds the timer publisher.
     var start: Date = Date()
@@ -126,6 +128,8 @@ class WorkoutManager: NSObject, ObservableObject {
     func startWorkout() {
         // Start the timer.
         setUpTimer()
+        accumulatedTime = 0
+        // Set state to active.
         active = true
         // Start the workout session and begin data collection.
         session.startActivity(with: Date())
@@ -146,11 +150,12 @@ class WorkoutManager: NSObject, ObservableObject {
     
     /// Resume a previously started workout.
     func resumeWorkout() {
-        // Resume the workout.
-        session.resume()
         // Start the timer.
         setUpTimer()
+        accumulatedTime = 0
         active = true
+        // Resume the workout.
+        session.resume()
     }
     
     
@@ -183,7 +188,9 @@ class WorkoutManager: NSObject, ObservableObject {
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 let value = statistics.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let roundedValue = Double( round( 1 * value! ) / 1 )
+                self.allHeartRateReadings.append(roundedValue)
                 self.heartrate = roundedValue
+                return
             case HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned):
                 let energyUnit = HKUnit.kilocalorie()
                 let value = statistics.sumQuantity()?.doubleValue(for: energyUnit)

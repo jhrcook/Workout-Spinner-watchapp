@@ -41,9 +41,10 @@ struct WorkoutPagingView: View {
                     .sheet(isPresented: $exerciseComplete, onDismiss: {
                         currentPageIndex = 0
                     }) {
-                        Text("Finished exercise!").onAppear() {
-                            finishExercise()
-                        }
+                        ExerciseFinishView(workoutTracker: workoutTracker)
+                            .onAppear {
+                                finishExercise()
+                            }
                     }
             }
         }

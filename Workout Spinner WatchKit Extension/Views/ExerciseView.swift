@@ -100,6 +100,7 @@ extension ExerciseView {
     /// Called when the exercise is complete and the 'Done" button is tapped.
     internal func finishExercise() {
         exerciseComplete = true
+        workoutTracker.addData(info: workoutManager.exerciseInfo!, duration: Double(workoutManager.elapsedSeconds), activeCalories: workoutManager.activeCalories, heartRate: workoutManager.allHeartRateReadings)
     }
 }
 
