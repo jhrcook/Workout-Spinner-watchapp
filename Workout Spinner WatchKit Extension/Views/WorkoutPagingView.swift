@@ -17,6 +17,7 @@ struct WorkoutPagingView: View {
     @State private var exerciseSelectedByPicker = false
     @State private var exerciseCanceled = false
     @State private var exerciseComplete = false
+    @State private var confirmFinishWorkout = false
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -33,10 +34,9 @@ struct WorkoutPagingView: View {
                         ExerciseStartView(workoutManager: workoutManager, exerciseCanceled: $exerciseCanceled).navigationTitle(Text(""))
                     }
                     .onLongPressGesture {
-                        workoutManager.endWorkout()
-                        presentationMode.wrappedValue.dismiss()
+                        confirmFinishWorkout = true
                     }
-            } else {
+            } else if currentPageIndex == 1 {
                 ExerciseView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseComplete: $exerciseComplete)
                     .sheet(isPresented: $exerciseComplete, onDismiss: {
                         currentPageIndex = 0
@@ -46,14 +46,25 @@ struct WorkoutPagingView: View {
                                 finishExercise()
                             }
                     }
+            } else {
+                WorkoutFinishView(workoutManager: workoutManager, workoutTracker: workoutTracker)
             }
         }
         .navigationBarBackButtonHidden(true)
+        .alert(isPresented: $confirmFinishWorkout) {
+            Alert(
+                title: Text("Finish workout?"),
+                message: Text("Are you sure you want to finish your workout?"),
+                primaryButton: .destructive(Text("Finish"), action: finishWorkout),
+                secondaryButton: .cancel()
+            )
+        }
     }
 }
 
 
 extension WorkoutPagingView {
+    /// Complete a single exercise.
     func finishExercise() {
         switch workoutManager.session.state {
         case .running:
@@ -63,6 +74,7 @@ extension WorkoutPagingView {
         }
     }
     
+    /// Start an exercise.
     func startExercise() {
         switch workoutManager.session.state {
         case .notStarted, .prepared:
@@ -72,6 +84,12 @@ extension WorkoutPagingView {
         default:
             break
         }
+    }
+    
+    /// Complete the entire workout session.
+    func finishWorkout() {
+        workoutManager.endWorkout()
+        currentPageIndex = 2
     }
 }
 
