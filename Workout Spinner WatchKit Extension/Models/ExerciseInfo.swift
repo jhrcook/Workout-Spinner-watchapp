@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct WorkoutInfo: Identifiable, Codable, Equatable {
+struct ExerciseInfo: Identifiable, Codable, Equatable {
     let id: String
     let displayName: String
     let type: ExerciseType
@@ -16,7 +16,7 @@ struct WorkoutInfo: Identifiable, Codable, Equatable {
     let workoutValue: [String: Float]
     
     
-    static func == (lhs: WorkoutInfo, rhs: WorkoutInfo) -> Bool {
+    static func == (lhs: ExerciseInfo, rhs: ExerciseInfo) -> Bool {
         return lhs.id == rhs.id
     }
 }

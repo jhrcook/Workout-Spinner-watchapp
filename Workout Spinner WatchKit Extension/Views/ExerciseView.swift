@@ -8,17 +8,17 @@
 
 import SwiftUI
 
-struct WorkoutView: View {
+struct ExerciseView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
-    var workoutInfo: WorkoutInfo
+    @ObservedObject var workoutTracker: WorkoutTracker
+    @Binding private var exerciseComplete: Bool
+    var workoutInfo: ExerciseInfo?
     
-    let intensity: ExerciseIntensity = WorkoutStartView.loadExerciseIntensity()
-    
-    @State private var exerciseComplete = false
+    let intensity: ExerciseIntensity = ExerciseStartView.loadExerciseIntensity()
     
     var displayDuration: String {
-        guard let info = workoutManager.workoutInfo else { return "" }
+        guard let info = workoutManager.exerciseInfo else { return "" }
         if let workoutValue = info.workoutValue[intensity.rawValue] {
             if info.type == .count {
                 return "\(Int(workoutValue))"
@@ -29,16 +29,18 @@ struct WorkoutView: View {
         return intensity.rawValue
     }
     
-    init(workoutManager: WorkoutManager) {
+    init(workoutManager: WorkoutManager, workoutTracker: WorkoutTracker, exerciseComplete: Binding<Bool>) {
         self.workoutManager = workoutManager
-        self.workoutInfo = workoutManager.workoutInfo!
+        self.workoutTracker = workoutTracker
+        self._exerciseComplete = exerciseComplete
+        workoutInfo = workoutManager.exerciseInfo
     }
     
     let infoFontSize: CGFloat = 18
     
     var body: some View {
         VStack {
-            Text(workoutManager.workoutInfo?.displayName ?? "(no workout)")
+            Text(workoutInfo?.displayName ?? "(no workout)")
                 .font(.system(size: 25, weight: .semibold, design: .rounded))
                 .padding(.bottom, 2)
             Text(displayDuration).font(.system(size: 20, weight: .regular, design: .rounded))
@@ -71,9 +73,7 @@ struct WorkoutView: View {
             
             Spacer()
             
-            Button(action: {
-                exerciseComplete = true
-            }, label: {
+            Button(action: finishExercise, label: {
                 Text("Done").foregroundColor(.green).bold()
             })
         }
@@ -93,7 +93,15 @@ struct WorkoutView: View {
         
         return "\(doubleToPaddedString(minutes)):\(doubleToPaddedString(remainderSeconds))"
     }
-    
+}
+
+
+extension ExerciseView {
+    /// Called when the exercise is complete and the 'Done" button is tapped.
+    internal func finishExercise() {
+        exerciseComplete = true
+        workoutTracker.addData(info: workoutManager.exerciseInfo!, duration: Double(workoutManager.elapsedSeconds), activeCalories: workoutManager.activeCalories, heartRate: workoutManager.allHeartRateReadings)
+    }
 }
 
 
@@ -104,8 +112,8 @@ struct WorkoutView: View {
 
 struct WorkoutView_Previews: PreviewProvider {
     
-    static var workoutOptions: WorkoutOptions {
-        var ws = WorkoutOptions()
+    static var workoutOptions: ExerciseOptions {
+        var ws = ExerciseOptions()
         let i = ws.workouts.first { $0.type == .count }!
         let j = ws.workouts.first { $0.type == .time }!
         ws.workouts = [i, j]
@@ -115,7 +123,7 @@ struct WorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ForEach(workoutOptions.workouts) { info in
-                WorkoutView(workoutManager: WorkoutManager(workoutInfo: info))
+                ExerciseView(workoutManager: WorkoutManager(exerciseInfo: info), workoutTracker: WorkoutTracker(), exerciseComplete: .constant(false))
                     .previewDisplayName(info.displayName)
             }
         }

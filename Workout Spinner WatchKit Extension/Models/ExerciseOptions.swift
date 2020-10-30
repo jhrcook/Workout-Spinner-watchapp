@@ -8,13 +8,12 @@
 
 import Foundation
 
-struct WorkoutOptions: Codable {
-    var workouts = [WorkoutInfo]()
+struct ExerciseOptions: Codable {
+    var workouts = [ExerciseInfo]()
     
     init() {
         do {
-            workouts = try parse(jsonData: readLocalJsonFile(named: "Workout Spinner workouts"))
-            print("Read in \(workouts.count) workout(s).")
+            workouts = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
         } catch {
             print("error in loading workouts: \(error.localizedDescription)")
         }
@@ -22,13 +21,13 @@ struct WorkoutOptions: Codable {
 }
 
 
-extension WorkoutOptions {
+extension ExerciseOptions {
     /// Parse the JSON data to an array of workouts.
     /// - Parameter jsonData: JSON data as a `Data` object.
     /// - Returns: The JSON data decoded into an arraw of `Workout`.
-    private func parse(jsonData: Data) throws -> [WorkoutInfo] {
+    private func parse(jsonData: Data) throws -> [ExerciseInfo] {
         do {
-            let workouts: [WorkoutInfo] = try JSONDecoder().decode([WorkoutInfo].self, from: jsonData)
+            let workouts: [ExerciseInfo] = try JSONDecoder().decode([ExerciseInfo].self, from: jsonData)
             return workouts
         } catch {
             throw error

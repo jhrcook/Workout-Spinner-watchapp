@@ -10,11 +10,14 @@ import Foundation
 import HealthKit
 import Combine
 
+enum WorkoutState {
+    case running, paused, ended
+}
 
 class WorkoutManager: NSObject, ObservableObject {
     
     /// - Tag: Declare workout data information
-    var workoutInfo: WorkoutInfo?
+    var exerciseInfo: ExerciseInfo?
     
     /// - Tag: Declare HealthStore, WorkoutSession, and WorkoutBuilder
     let healthStore = HKHealthStore()
@@ -30,6 +33,8 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var activeCalories: Double = 0.0
     @Published var elapsedSeconds: Int = 0
     
+    var allHeartRateReadings = [Double]()
+    
     /// - Tag: TimerSetup
     // The cancellable holds the timer publisher.
     var start: Date = Date()
@@ -38,16 +43,16 @@ class WorkoutManager: NSObject, ObservableObject {
     
     
     override init() {
-        self.workoutInfo = nil
+        self.exerciseInfo = nil
     }
     
-    init(workoutInfo: WorkoutInfo) {
-        self.workoutInfo = workoutInfo
+    init(exerciseInfo: ExerciseInfo) {
+        self.exerciseInfo = exerciseInfo
     }
     
     
     // Set up and start the timer.
-    func setUpTimer() {
+    internal func setUpTimer() {
         start = Date()
         cancellable = Timer.publish(every: 0.1, on: .main, in: .default)
             .autoconnect()
@@ -99,11 +104,7 @@ class WorkoutManager: NSObject, ObservableObject {
     
     
     /// Start the workout.
-    func startWorkout() {
-        // Start the timer.
-        setUpTimer()
-        active = true
-        
+    internal func setupWorkout() {
         // Create the session and obtain the workout builder.
         do {
             session = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration())
@@ -121,7 +122,15 @@ class WorkoutManager: NSObject, ObservableObject {
         // Set the workout builder's data source.
         builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
                                                      workoutConfiguration: workoutConfiguration())
-        
+    }
+    
+    /// Start a workout
+    func startWorkout() {
+        // Start the timer.
+        setUpTimer()
+        accumulatedTime = 0
+        // Set state to active.
+        active = true
         // Start the workout session and begin data collection.
         session.startActivity(with: Date())
     }
@@ -141,11 +150,12 @@ class WorkoutManager: NSObject, ObservableObject {
     
     /// Resume a previously started workout.
     func resumeWorkout() {
-        // Resume the workout.
-        session.resume()
         // Start the timer.
         setUpTimer()
+        accumulatedTime = 0
         active = true
+        // Resume the workout.
+        session.resume()
     }
     
     
@@ -169,7 +179,7 @@ class WorkoutManager: NSObject, ObservableObject {
     
     // MARK: - Update the UI
     // Update the published values.
-    func updateForStatistics(_ statistics: HKStatistics?) {
+    internal func updateForStatistics(_ statistics: HKStatistics?) {
         guard let statistics = statistics else { return }
         
         DispatchQueue.main.async {
@@ -178,7 +188,9 @@ class WorkoutManager: NSObject, ObservableObject {
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 let value = statistics.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let roundedValue = Double( round( 1 * value! ) / 1 )
+                self.allHeartRateReadings.append(roundedValue)
                 self.heartrate = roundedValue
+                return
             case HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned):
                 let energyUnit = HKUnit.kilocalorie()
                 let value = statistics.sumQuantity()?.doubleValue(for: energyUnit)
