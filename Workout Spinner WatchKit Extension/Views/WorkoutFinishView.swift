@@ -28,12 +28,35 @@ struct InfoRowView: View {
     }
 }
 
+struct LinkedInfoRowView: View {
+    let title: String
+    let titleColor: Color
+    let value: String
+    
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            ZStack {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image(systemName: "ellipsis").opacity(0.75).padding(5)
+                    }
+                }
+                InfoRowView(title: title, titleColor: titleColor, value: value)
+            }
+        }
+    }
+}
+
 struct DoneButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(5)
             .background(
-                RoundedRectangle(cornerRadius: 25, style: .continuous).fill(Color(red: 194, green: 255, blue: 60))
+                RoundedRectangle(cornerRadius: 20, style: .continuous).fill(Color(red: 194, green: 255, blue: 60))
             )
     }
 }
@@ -56,12 +79,43 @@ struct WorkoutFinishView: View {
         return valueAsIntStringOrNA(workoutTracker.maxHeartRate)
     }
     
+    @State private var showAllExercises: Bool = false
+    @State private var showHeartRateChartView: Bool = false
+    
     var body: some View {
         VStack {
             List {
-                InfoRowView(title: "Number of exercises", titleColor: .green, value: "\(workoutTracker.numberOfExercises)")
+                
+                LinkedInfoRowView(title: "Number of exercises", titleColor: .green, value: "\(workoutTracker.numberOfExercises)") {
+                    showAllExercises = true
+                }
+                .sheet(isPresented: $showAllExercises) {
+                    ExerciseFinishView(workoutTracker: workoutTracker)
+                        .toolbar(content: {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") {
+                                    self.showAllExercises = false
+                                }
+                            }
+                        })
+                }
+                
                 InfoRowView(title: "Active Calories", titleColor: .yellow, value: "\(Int(workoutTracker.totalActiveCalories))")
-                InfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR)
+                
+                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR) {
+                    showHeartRateChartView = true
+                }
+                .sheet(isPresented: $showHeartRateChartView) {
+                    Text("HR Chart!")
+                        .toolbar(content: {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") {
+                                    self.showHeartRateChartView = false
+                                }
+                            }
+                        })
+                }
+                
                 InfoRowView(title: "Min/Max heart rate", titleColor: .red, value: "\(minHR) / \(maxHR)")
                 
                 Button(action: {
@@ -76,6 +130,7 @@ struct WorkoutFinishView: View {
                 .buttonStyle(DoneButtonStyle())
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     func valueAsIntStringOrNA(_ x: Double?) -> String {

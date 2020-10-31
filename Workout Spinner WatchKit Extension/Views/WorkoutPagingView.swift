@@ -48,6 +48,7 @@ struct WorkoutPagingView: View {
                     }
             } else {
                 WorkoutFinishView(workoutManager: workoutManager, workoutTracker: workoutTracker)
+                    .navigationBarBackButtonHidden(true)
             }
         }
         .navigationBarBackButtonHidden(true)
