@@ -45,6 +45,13 @@ struct WorkoutPagingView: View {
                             .onAppear {
                                 finishExercise()
                             }
+                            .toolbar(content: {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Done") {
+                                        self.exerciseComplete = false
+                                    }
+                                }
+                            })
                     }
             } else {
                 WorkoutFinishView(workoutManager: workoutManager, workoutTracker: workoutTracker)

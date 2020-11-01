@@ -93,7 +93,7 @@ struct WorkoutFinishView: View {
                     ExerciseFinishView(workoutTracker: workoutTracker)
                         .toolbar(content: {
                             ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") {
+                                Button("Done") {
                                     self.showAllExercises = false
                                 }
                             }
