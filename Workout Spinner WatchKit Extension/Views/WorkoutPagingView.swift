@@ -97,7 +97,11 @@ extension WorkoutPagingView {
     /// Complete the entire workout session.
     func finishWorkout() {
         workoutManager.endWorkout()
-        currentPageIndex = 2
+        if workoutTracker.data.count > 0 {
+            currentPageIndex = 2
+        } else {
+            presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 

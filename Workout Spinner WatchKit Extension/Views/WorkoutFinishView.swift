@@ -33,6 +33,8 @@ struct LinkedInfoRowView: View {
     let titleColor: Color
     let value: String
     
+    var showEllipsis = true
+    
     let action: () -> Void
     
     var body: some View {
@@ -42,7 +44,7 @@ struct LinkedInfoRowView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Image(systemName: "ellipsis").opacity(0.75).padding(5)
+                        Image(systemName: "ellipsis").opacity(showEllipsis ? 0.75 : 0.0).padding(5)
                     }
                 }
                 InfoRowView(title: title, titleColor: titleColor, value: value)
@@ -102,11 +104,14 @@ struct WorkoutFinishView: View {
                 
                 InfoRowView(title: "Active Calories", titleColor: .yellow, value: "\(Int(workoutTracker.totalActiveCalories))")
                 
-                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR) {
+                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR) {  //, showEllipsis: averageHR != "NA") {
+//                    if averageHR != "NA" {
+//                        showHeartRateChartView = true
+//                    }
                     showHeartRateChartView = true
                 }
                 .sheet(isPresented: $showHeartRateChartView) {
-                    Text("HR Chart!")
+                    HeartRateGraphView(workoutTracker: workoutTracker)
                         .toolbar(content: {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") {
