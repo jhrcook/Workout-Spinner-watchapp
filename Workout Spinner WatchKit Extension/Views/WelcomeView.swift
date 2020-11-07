@@ -18,29 +18,36 @@ struct WelcomeView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            
             NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker)) {
                 Text("Start Workout")
-                    .font(.title)
+                    .font(.system(size: 20))
                     .foregroundColor(.orange)
                     .bold()
                     .multilineTextAlignment(.center)
             }
-            Text("Press and hold the spinner to finish the workout.")
-                .font(.system(size: 14))
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.leading)
             
-            Spacer(minLength: 0)
+            Spacer()
             
-            Button(action: {
-                presentSettingsView = true
-            }) {
-                HStack {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
+            VStack {
+                Text("Press and hold the spinner to finish the workout.")
+                    .font(.system(size: 14))
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.leading)
+                
+                Spacer(minLength: 0)
+                
+                Button(action: {
+                    presentSettingsView = true
+                }) {
+                    HStack {
+                        Image(systemName: "gearshape")
+                        Text("Settings")
+                    }
                 }
+                .buttonStyle(PlainButtonStyle())
             }
-            .buttonStyle(PlainButtonStyle())
         }
         .sheet(isPresented: self.$presentSettingsView) {
             Settings()
