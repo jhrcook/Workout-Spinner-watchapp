@@ -223,6 +223,7 @@ class WorkoutManager: NSObject, ObservableObject {
             switch quantityType {
             case .heartRate:
                 self.heartrate += Double.random(in: self.heartrate == 0 ? 100...120 : -5...5)
+                self.allHeartRateReadings.append(HeartRateReading(heartRate: self.heartrate))
             case .activeEnergyBurned:
                 self.activeCalories += Double.random(in: 1...3)
             }

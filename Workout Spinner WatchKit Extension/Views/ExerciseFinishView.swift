@@ -27,6 +27,10 @@ struct ExerciseDataRowView: View {
     
     let data: WorkoutTrackerDatum
     
+    var averageHeartRate: Int {
+        return Int(average(data.heartRate.map({ $0.heartRate })).rounded())
+    }
+    
     var body: some View {
         VStack {
             HStack {
@@ -35,7 +39,7 @@ struct ExerciseDataRowView: View {
             }.padding(.bottom, 2)
             HStack {
                 Spacer()
-                SmallImageAndTextView(imageName: "heart", text: data.heartRate.count == 0 ? "NA" :  "\(Int(average(data.heartRate).rounded()))", imageColor: .red)
+                SmallImageAndTextView(imageName: "heart", text: data.heartRate.count == 0 ? "NA" :  "\(averageHeartRate)", imageColor: .red)
                 Spacer()
                 SmallImageAndTextView(imageName: "flame", text: "\(Int(data.activeCalories.rounded()))", imageColor: .yellow)
                 Spacer()
