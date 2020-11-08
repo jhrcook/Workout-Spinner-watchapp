@@ -32,21 +32,23 @@ struct HeartRateGraphData {
     }
     
     init(workoutTraker: WorkoutTracker) {
-//        self.data = HeartRateGraphData.workoutTrackerDataToGraphData(workoutTraker)
-        self.data = HeartRateGraphData.mockHeartRateData()
+        self.data = HeartRateGraphData.workoutTrackerDataToGraphData(workoutTraker)
+//        self.data = HeartRateGraphData.mockHeartRateData()
     }
     
     static func workoutTrackerDataToGraphData(_ workoutTracker: WorkoutTracker) -> [HeartRateGraphDatum] {
         var HRData = [HeartRateGraphDatum]()
-        
-        var xIdx: Double = 0.0
-        for (dataIdx, data) in workoutTracker.data.enumerated() {
-            for hr in data.heartRate {
-                xIdx += 1.0
-                HRData.append(HeartRateGraphDatum(x: xIdx, y: hr, groupIndex: dataIdx))
+        var previousEndingX = 0.0
+        for (dataIdx, data) in workoutTracker.data.filter({ $0.heartRate.count > 0 }).enumerated() {
+            if data.heartRate.count > 0 {
+                let startingX = data.heartRate.first!.date.timeIntervalSince1970
+                for hr in data.heartRate {
+                    let hrTime = hr.date.timeIntervalSince1970 - startingX + previousEndingX + 2.0
+                    HRData.append(HeartRateGraphDatum(x: hrTime, y: hr.heartRate, groupIndex: dataIdx))
+                }
+                previousEndingX = HRData.last!.x
             }
         }
-        
         return HRData
     }
     
@@ -71,7 +73,6 @@ struct HeartRateGraphData {
 extension HeartRateGraphData {
     static func mockHeartRateData() -> [HeartRateGraphDatum] {
         var d = [HeartRateGraphDatum]()
-        
         var x = 0.0
         for i in 0..<5 {
             let n = (5...25).randomElement()!
@@ -82,7 +83,6 @@ extension HeartRateGraphData {
                 d.append(HeartRateGraphDatum(x: x, y: y, groupIndex: i))
             }
         }
-        
         return d
     }
 }
