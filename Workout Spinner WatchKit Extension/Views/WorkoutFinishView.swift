@@ -58,7 +58,8 @@ struct DoneButtonStyle: ButtonStyle {
         configuration.label
             .padding(5)
             .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous).fill(Color(red: 194, green: 255, blue: 60))
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(Color.workoutGreen)
             )
     }
 }
@@ -124,6 +125,7 @@ struct WorkoutFinishView: View {
                 
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
+                    workoutTracker.clear()
                 }) {
                     Text("Done")
                         .foregroundColor(.black)
