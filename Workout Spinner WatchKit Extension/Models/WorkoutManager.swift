@@ -147,7 +147,6 @@ class WorkoutManager: NSObject, ObservableObject {
         session.startActivity(with: Date())
     }
     
-    
     /// Pause a workout.
     func pauseWorkout() {
         // Pause the workout.
@@ -159,18 +158,25 @@ class WorkoutManager: NSObject, ObservableObject {
         active = false
     }
     
-    
     /// Resume a previously started workout.
     func resumeWorkout() {
         // Start the timer.
         setUpTimer()
-        accumulatedTime = 0
         active = true
         // Resume the workout.
         session.resume()
     }
     
+    /// Reset all of the informational variables.
+    func resetTrackedInformation() {
+        accumulatedTime = 0
+        allHeartRateReadings = []
+        heartrate = 0
+        activeCalories = 0
+        elapsedSeconds = 0
+    }
     
+    /// End a workout.
     func endWorkout() {
         print("Ending workout session.")
         
@@ -186,6 +192,7 @@ class WorkoutManager: NSObject, ObservableObject {
         
         session.end()
         active = false
+        resetTrackedInformation()
     }
     
     
