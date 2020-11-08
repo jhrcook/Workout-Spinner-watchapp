@@ -104,11 +104,10 @@ struct WorkoutFinishView: View {
                 
                 InfoRowView(title: "Active Calories", titleColor: .yellow, value: "\(Int(workoutTracker.totalActiveCalories))")
                 
-                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR) {  //, showEllipsis: averageHR != "NA") {
-//                    if averageHR != "NA" {
-//                        showHeartRateChartView = true
-//                    }
-                    showHeartRateChartView = true
+                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR, showEllipsis: averageHR != "NA") {
+                    if averageHR != "NA" {
+                        showHeartRateChartView = true
+                    }
                 }
                 .sheet(isPresented: $showHeartRateChartView) {
                     HeartRateGraphView(workoutTracker: workoutTracker)

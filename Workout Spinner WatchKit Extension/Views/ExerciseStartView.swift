@@ -104,7 +104,6 @@ extension ExerciseStartView {
                 return intensity
             }
         }
-        print("Unable to load preferred exercise intensity.")
         return ExerciseIntensity.medium
     }
 }

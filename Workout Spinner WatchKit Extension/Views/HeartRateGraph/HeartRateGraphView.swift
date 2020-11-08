@@ -25,7 +25,7 @@ struct HeartRateGraphView: View {
         return values
     }
     
-    var gridTextWidth: CGFloat = 14
+    var gridTextWidth: CGFloat = 25
     var verticalPadding: CGFloat = 10
     
     init (workoutTracker: WorkoutTracker) {
@@ -38,7 +38,7 @@ struct HeartRateGraphView: View {
                 ZStack {
                     ForEach(yGridValues, id: \.self) { val in
                         PlotHVGridText(value: val, horizontal: true, graphData: graphData, size: reduceGeoSize(geo, heightBy: verticalPadding * 2))
-                            .padding(0)
+                            .padding(.leading, 3)
                     }
                     .frame(width: gridTextWidth)
                     .padding(.vertical, verticalPadding)
@@ -53,7 +53,7 @@ struct HeartRateGraphView: View {
                     ForEach(yGridValues, id: \.self) { val in
                         PlotHVLines(value: val, horizontal: true, graphData: graphData)
                             .stroke(Color.white, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [3]))
-                            .opacity(0.5)
+                            .opacity(0.80)
                             .padding(.vertical, verticalPadding)
                             .padding(.horizontal, 3)
                     }

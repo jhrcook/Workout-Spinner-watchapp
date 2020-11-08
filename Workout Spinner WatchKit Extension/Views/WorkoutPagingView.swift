@@ -72,6 +72,7 @@ struct WorkoutPagingView: View {
 
 
 extension WorkoutPagingView {
+    
     /// Complete a single exercise.
     func finishExercise() {
         switch workoutManager.session.state {
