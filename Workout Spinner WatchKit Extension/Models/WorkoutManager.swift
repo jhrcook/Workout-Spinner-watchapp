@@ -33,7 +33,11 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var activeCalories: Double = 0.0
     @Published var elapsedSeconds: Int = 0
     
-    var allHeartRateReadings = [Double]()
+    struct HeartRateReading {
+        let date = Date()
+        let heartRate: Double
+    }
+    var allHeartRateReadings = [HeartRateReading]()
     
     /// - Tag: TimerSetup
     // The cancellable holds the timer publisher.
@@ -59,6 +63,14 @@ class WorkoutManager: NSObject, ObservableObject {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.elapsedSeconds = self.incrementElapsedTime()
+                
+                // Mock exercise stats with a 5 % chance.
+                if Int.random(in: 0...100) < 5 {
+                    self.updateMockStatistics(quantityType: .heartRate)
+                }
+                if Int.random(in: 0...100) < 5 {
+                    self.updateMockStatistics(quantityType: .activeEnergyBurned)
+                }
             }
     }
     
@@ -135,7 +147,6 @@ class WorkoutManager: NSObject, ObservableObject {
         session.startActivity(with: Date())
     }
     
-    
     /// Pause a workout.
     func pauseWorkout() {
         // Pause the workout.
@@ -147,18 +158,25 @@ class WorkoutManager: NSObject, ObservableObject {
         active = false
     }
     
-    
     /// Resume a previously started workout.
     func resumeWorkout() {
         // Start the timer.
         setUpTimer()
-        accumulatedTime = 0
         active = true
         // Resume the workout.
         session.resume()
     }
     
+    /// Reset all of the informational variables.
+    func resetTrackedInformation() {
+        accumulatedTime = 0
+        allHeartRateReadings = []
+        heartrate = 0
+        activeCalories = 0
+        elapsedSeconds = 0
+    }
     
+    /// End a workout.
     func endWorkout() {
         print("Ending workout session.")
         
@@ -174,6 +192,7 @@ class WorkoutManager: NSObject, ObservableObject {
         
         session.end()
         active = false
+        resetTrackedInformation()
     }
     
     
@@ -188,7 +207,7 @@ class WorkoutManager: NSObject, ObservableObject {
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 let value = statistics.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let roundedValue = Double( round( 1 * value! ) / 1 )
-                self.allHeartRateReadings.append(roundedValue)
+                self.allHeartRateReadings.append(HeartRateReading(heartRate: value!))
                 self.heartrate = roundedValue
                 return
             case HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned):
@@ -198,6 +217,22 @@ class WorkoutManager: NSObject, ObservableObject {
                 return
             default:
                 return
+            }
+        }
+    }
+    
+    enum MockWorkoutStatistics {
+        case heartRate, activeEnergyBurned
+    }
+    
+    internal func updateMockStatistics(quantityType: MockWorkoutStatistics) {
+        DispatchQueue.main.async {
+            switch quantityType {
+            case .heartRate:
+                self.heartrate += Double.random(in: self.heartrate == 0 ? 100...120 : -5...5)
+                self.allHeartRateReadings.append(HeartRateReading(heartRate: self.heartrate))
+            case .activeEnergyBurned:
+                self.activeCalories += Double.random(in: 1...3)
             }
         }
     }

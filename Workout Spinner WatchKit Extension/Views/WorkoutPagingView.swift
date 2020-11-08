@@ -45,9 +45,17 @@ struct WorkoutPagingView: View {
                             .onAppear {
                                 finishExercise()
                             }
+                            .toolbar(content: {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Done") {
+                                        self.exerciseComplete = false
+                                    }
+                                }
+                            })
                     }
             } else {
                 WorkoutFinishView(workoutManager: workoutManager, workoutTracker: workoutTracker)
+                    .navigationBarBackButtonHidden(true)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -64,6 +72,7 @@ struct WorkoutPagingView: View {
 
 
 extension WorkoutPagingView {
+    
     /// Complete a single exercise.
     func finishExercise() {
         switch workoutManager.session.state {
@@ -89,7 +98,11 @@ extension WorkoutPagingView {
     /// Complete the entire workout session.
     func finishWorkout() {
         workoutManager.endWorkout()
-        currentPageIndex = 2
+        if workoutTracker.data.count > 0 {
+            currentPageIndex = 2
+        } else {
+            presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 

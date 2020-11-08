@@ -17,6 +17,16 @@ struct ExerciseView: View {
     
     let intensity: ExerciseIntensity = ExerciseStartView.loadExerciseIntensity()
     
+    init(workoutManager: WorkoutManager, workoutTracker: WorkoutTracker, exerciseComplete: Binding<Bool>) {
+        self.workoutManager = workoutManager
+        self.workoutTracker = workoutTracker
+        self._exerciseComplete = exerciseComplete
+        workoutInfo = workoutManager.exerciseInfo
+    }
+    
+    let infoFontSize: CGFloat = 18
+    
+    /// The duration as "MM:SS".
     var displayDuration: String {
         guard let info = workoutManager.exerciseInfo else { return "" }
         if let workoutValue = info.workoutValue[intensity.rawValue] {
@@ -29,14 +39,10 @@ struct ExerciseView: View {
         return intensity.rawValue
     }
     
-    init(workoutManager: WorkoutManager, workoutTracker: WorkoutTracker, exerciseComplete: Binding<Bool>) {
-        self.workoutManager = workoutManager
-        self.workoutTracker = workoutTracker
-        self._exerciseComplete = exerciseComplete
-        workoutInfo = workoutManager.exerciseInfo
+    /// The heart rate information to display.
+    var displayHeartRate: String {
+        workoutManager.allHeartRateReadings.count == 0 ? "--" : "\(Int(workoutManager.heartrate))"
     }
-    
-    let infoFontSize: CGFloat = 18
     
     var body: some View {
         VStack {
@@ -50,7 +56,7 @@ struct ExerciseView: View {
                 Spacer()
                 HStack {
                     Image(systemName: "heart").foregroundColor(.red).font(.system(size: infoFontSize))
-                    Text("\(Int(workoutManager.heartrate))").font(.system(size: infoFontSize))
+                    Text(displayHeartRate).font(.system(size: infoFontSize))
                 }
                 
                 Spacer()
@@ -99,8 +105,11 @@ struct ExerciseView: View {
 extension ExerciseView {
     /// Called when the exercise is complete and the 'Done" button is tapped.
     internal func finishExercise() {
-        exerciseComplete = true
+        // Add data from exercise to the workout tracker and clear the info from the workout manager.
         workoutTracker.addData(info: workoutManager.exerciseInfo!, duration: Double(workoutManager.elapsedSeconds), activeCalories: workoutManager.activeCalories, heartRate: workoutManager.allHeartRateReadings)
+        workoutManager.resetTrackedInformation()
+        
+        exerciseComplete = true
     }
 }
 
