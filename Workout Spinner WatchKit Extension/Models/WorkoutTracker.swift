@@ -10,19 +10,26 @@ import Foundation
 
 
 class WorkoutTracker: NSObject, ObservableObject {
+    
+    /// Collected data of exercises.
     var data = [WorkoutTrackerDatum]()
+    
+    /// Number of exercises tracked.
     var numberOfExercises: Int {
         data.count
     }
     
+    /// Total active calories.
     var totalActiveCalories: Double {
         return data.map { $0.activeCalories }.reduce(0, +)
     }
     
+    /// Total duration.
     var totalDuration: Double {
         return data.map { $0.duration }.reduce(0, +)
     }
     
+    /// Average heart rate reading.
     var averageHeartRate: Double? {
         if data.count < 1 { return nil }
         let HRtotal = data
@@ -35,6 +42,7 @@ class WorkoutTracker: NSObject, ObservableObject {
         return HRtotal / Double(HRcount)
     }
     
+    /// Maximum heart rate reading.
     var maxHeartRate: Double? {
         if data.count < 1 { return nil }
         let x = data
@@ -43,18 +51,31 @@ class WorkoutTracker: NSObject, ObservableObject {
         return x == 0.0 ? nil : x
     }
     
+    /// Minimum heart rate reading.
     var minHeartRate: Double? {
         if data.count < 1 { return nil }
         let x = data
+            .filter { $0.heartRate.count > 0 }
             .map { ($0.heartRate.map({ $0.heartRate }).min()) ?? 0 }
             .min() ?? 0
         return x == 0.0 ? nil : x
     }
     
     
+    /// Add a new data point.
+    /// - Parameters:
+    ///   - info: Exercise information object
+    ///   - duration: duration of exercise
+    ///   - activeCalories: active calories consumed during exercise
+    ///   - heartRate: heart rate data throughout the evercise
     func addData(info: ExerciseInfo, duration: Double, activeCalories: Double, heartRate: [WorkoutManager.HeartRateReading]) {
         let newData = WorkoutTrackerDatum(exerciseInfo: info, duration: duration, activeCalories: activeCalories, heartRate: heartRate)
         data.append(newData)
+    }
+    
+    /// Clear the tracked data.
+    func clear() {
+        data = []
     }
 }
 
