@@ -26,11 +26,12 @@ struct WorkoutSlice: View {
     
     var body: some View {
         Text(workoutInfo.displayName)
-            .font(.system(.footnote))
-            .foregroundColor(.black)
+            .rotationEffect(.degrees(180))
+            .font(.system(size: 20))
+            .foregroundColor(.white)
             .lineLimit(1)
+            .padding(.horizontal, 5)
             .frame(width: size / 2 - offset, height: nil, alignment: .trailing)
-            .padding(2)
             .offset(x: size / 4 + halfOffset, y: 0)
             .rotationEffect(rotationAngle)
     }
