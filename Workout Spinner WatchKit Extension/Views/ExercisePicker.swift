@@ -34,42 +34,68 @@ struct ExercisePicker: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer(minLength: 0)
-            GeometryReader { geo in
-                ZStack {
+        ZStack {
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                GeometryReader { geo in
                     ZStack {
-                        ForEach(0..<self.numExercises) { i in
-                            SpinnerSlice(idx: i,
-                                         numberOfSlices: self.numExercises,
-                                         width: geo.minSize * 2.0)
+                        ZStack {
+                            ForEach(0..<self.numExercises) { i in
+                                SpinnerSlice(idx: i,
+                                             numberOfSlices: self.numExercises,
+                                             width: geo.minSize * 2.0)
+                            }
+                            ForEach(0..<self.numExercises) { i in
+                                WorkoutSlice(workoutInfo: self.exerciseOptions.workouts[i],
+                                             idx: i,
+                                             numberOfWorkouts: self.numExercises,
+                                             size: geo.minSize * 2.0)
+                            }
                         }
-                        ForEach(0..<self.numExercises) { i in
-                            WorkoutSlice(workoutInfo: self.exerciseOptions.workouts[i],
-                                         idx: i,
-                                         numberOfWorkouts: self.numExercises,
-                                         size: geo.minSize * 2.0)
+                        .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
+                                                          onFinishedRotationAnimation: self.rotationEffectDidFinish))
+                        .animation(.default)
+                        
+                        
+                        HStack {
+                            SpinnerPointer().frame(width: 20, height: 15)
+                            Spacer()
                         }
                     }
-                    .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
-                                                      onFinishedRotationAnimation: self.rotationEffectDidFinish))
-                    .animation(.default)
-                    
-                    
-                    HStack {
-                        SpinnerPointer().frame(width: 20, height: 15)
-                        Spacer()
-                    }
+                    .frame(width: geo.minSize * 2, height: geo.minSize * 2, alignment: .center)
+                    .offset(x: 0, y: geo.minSize / -2.0)
                 }
-                .frame(width: geo.minSize * 2, height: geo.minSize * 2, alignment: .center)
-                .offset(x: 0, y: geo.minSize / -2.0)
+                .edgesIgnoringSafeArea(.bottom)
+                .padding(0)
+                .focusable()
+                .digitalCrownRotation(self.$crownRotation)
+                .onReceive(Just(crownRotation), perform: crownRotationDidChange)
+            }
+            
+            VStack {
+                BlurredBar(height: 10, blurRadius: 4, isTop: true)
+                    .padding(EdgeInsets(top: 0, leading: -50, bottom: 0, trailing: -50))
+                Spacer()
+                BlurredBar(height: 10, blurRadius: 4, isTop: false)
+                    .padding(EdgeInsets(top: 0, leading: -50, bottom: 0, trailing: -50))
             }
             .edgesIgnoringSafeArea(.bottom)
-            .padding(0)
-            .focusable()
-            .digitalCrownRotation(self.$crownRotation)
-            .onReceive(Just(crownRotation), perform: crownRotationDidChange)
         }
+    }
+}
+
+
+struct BlurredBar: View {
+    let height: CGFloat
+    let blurRadius: CGFloat
+    let isTop: Bool
+    
+    var body: some View {
+        Color.black
+            .padding(0)
+            .frame(height: height)
+            .offset(x: 0, y: height / 2 * (isTop ? -1 : 1))
+            .blur(radius: blurRadius, opaque: false)
     }
 }
 
