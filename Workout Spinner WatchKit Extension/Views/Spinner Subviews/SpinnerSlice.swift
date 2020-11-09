@@ -42,11 +42,13 @@ struct SpinnerSlice: View {
     
     var body: some View {
         ZStack {
+            Color.darkGray
+                .clipShape(SpinnerSliceShape(radius: width / 2.0, angle: sliceAngle))
             SpinnerSliceShape(radius: width / 2.0, angle: sliceAngle)
+                .stroke(Color.gray, lineWidth: 3)
                 .frame(width: width, height: width)
-                .foregroundColor(Color.randomPastelColor())
-                .rotationEffect(rotationAngle)
         }
+        .rotationEffect(rotationAngle)
     }
 }
 
