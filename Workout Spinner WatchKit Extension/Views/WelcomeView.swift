@@ -64,6 +64,13 @@ struct WelcomeView: View {
         .ignoresSafeArea(SafeAreaRegions.all, edges: .bottom)
         .sheet(isPresented: self.$presentSettingsView) {
             Settings()
+                .toolbar(content: {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Done") {
+                            self.presentSettingsView = false
+                        }
+                    }
+                })
         }
         .onAppear {
             workoutManager.requestAuthorization()
