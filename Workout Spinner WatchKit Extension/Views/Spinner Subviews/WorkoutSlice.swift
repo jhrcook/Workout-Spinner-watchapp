@@ -26,6 +26,7 @@ struct WorkoutSlice: View {
     
     var body: some View {
         Text(workoutInfo.displayName)
+            .rotationEffect(.degrees(180))
             .font(.system(size: 20))
             .foregroundColor(.black)
             .lineLimit(1)
