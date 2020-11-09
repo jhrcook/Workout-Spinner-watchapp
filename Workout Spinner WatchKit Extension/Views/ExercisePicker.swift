@@ -42,13 +42,13 @@ struct ExercisePicker: View {
                         ForEach(0..<self.numExercises) { i in
                             SpinnerSlice(idx: i,
                                          numberOfSlices: self.numExercises,
-                                         width: geo.minSize)
+                                         width: geo.minSize * 2.0)
                         }
                         ForEach(0..<self.numExercises) { i in
                             WorkoutSlice(workoutInfo: self.exerciseOptions.workouts[i],
                                          idx: i,
                                          numberOfWorkouts: self.numExercises,
-                                         size: geo.minSize)
+                                         size: geo.minSize * 2.0)
                         }
                     }
                     .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
@@ -60,8 +60,9 @@ struct ExercisePicker: View {
                         SpinnerPointer().frame(width: 20, height: 15)
                         Spacer()
                     }
-                    
                 }
+                .frame(width: geo.minSize * 2, height: geo.minSize * 2, alignment: .center)
+                .offset(x: 0, y: geo.minSize / -2.0)
             }
             .edgesIgnoringSafeArea(.bottom)
             .padding(0)
