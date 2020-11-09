@@ -42,8 +42,7 @@ struct Settings: View {
                         Text(self.exerciseIntensities[idx])
                     }
                 }
-                .pickerStyle(DefaultPickerStyle())
-                .labelsHidden()
+                .pickerStyle(WheelPickerStyle())
                 
                 NavigationLink(destination: BodyPartSelectionListView()) {
                     HStack {
@@ -52,17 +51,6 @@ struct Settings: View {
                         Image(systemName: "chevron.right").opacity(0.5)
                     }
                 }
-                
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        Spacer()
-                        Text("Done").font(.system(.body, design: .rounded)).bold()
-                        Spacer()
-                    }
-                }
-                .foregroundColor(.blue)
             }
             
             Section(header: SectionHeader(imageName: "info.circle", text: "About")) {
@@ -79,7 +67,6 @@ struct Settings: View {
         .onReceive(NotificationCenter.default.publisher(for: .NSExtensionHostWillResignActive)) { _ in
             self.saveUserDefualts()
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
 
