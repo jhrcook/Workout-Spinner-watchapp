@@ -9,18 +9,101 @@
 import Foundation
 
 struct ExerciseOptions: Codable {
-    var workouts = [ExerciseInfo]()
+    
+    var exercises = [ExerciseInfo]()
     
     init() {
-        do {
-            workouts = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
-        } catch {
-            print("error in loading workouts: \(error.localizedDescription)")
+        exercises = loadExercises()
+        if exercises.count == 0 {
+            do {
+                exercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
+                saveExercises()
+            } catch {
+                print("error in loading workouts: \(error.localizedDescription)")
+            }
         }
+    }
+    
+    /// Write exercise array to disk.
+    func saveExercises() {
+        let encoder = JSONEncoder()
+        do {
+            let encodedExercises = try encoder.encode(exercises)
+            UserDefaults.standard.set(encodedExercises, forKey: UserDefaultsKeys.exerciseOptions.rawValue)
+        } catch {
+            print("Error when encoding exercises to JSON: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    /// Read in exercise array from disk.
+    /// - Returns: Array of exercises.
+    func loadExercises() -> [ExerciseInfo] {
+        if let codedExercises = UserDefaults.standard.object(forKey: UserDefaultsKeys.exerciseOptions.rawValue) as? Data {
+            do {
+                let decodedExercises = try JSONDecoder().decode([ExerciseInfo].self, from: codedExercises)
+                return decodedExercises
+            } catch {
+                print("Unable to decode exercises: \(error.localizedDescription)")
+            }
+        }
+        return []
     }
 }
 
 
+
+// MARK: - Editing options array
+extension ExerciseOptions {
+    /// Add a new exercise.
+    mutating func append(_ exercise: ExerciseInfo) {
+        exercises.append(exercise)
+        saveExercises()
+    }
+    
+    /// Replace one exercise with another.
+    mutating func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
+        if let idx = exercises.firstIndex(where: { $0 == exercise }) {
+            exercises[idx] = newExercise
+            saveExercises()
+        }
+    }
+    
+    /// Remove an exercise.
+    mutating func remove(_ exercise: ExerciseInfo) {
+        let startCount = exercises.count
+        exercises = exercises.filter { $0 == exercise }
+        if startCount != exercises.count {
+            saveExercises()
+        }
+    }
+    
+    /// Remove multiple exercises.
+    mutating func remove(_ exercisesToRemove: [ExerciseInfo]) {
+        if exercisesToRemove.count == 0 { return }
+        let startCount = exercises.count
+        for exercise in exercisesToRemove {
+            exercises = exercises.filter { $0 != exercise }
+        }
+        if startCount != exercises.count {
+            saveExercises()
+        }
+    }
+    
+    /// Update an existing exercise or append it to the end of the options.
+    mutating func updateOrAppend(_ exercise: ExerciseInfo) {
+        if let idx = exercises.firstIndex(where: { $0 == exercise }) {
+            exercises[idx] = exercise
+        } else {
+            exercises.append(exercise)
+        }
+        saveExercises()
+    }
+}
+
+
+
+// MARK: - Reading in default exercise JSON.
 extension ExerciseOptions {
     /// Parse the JSON data to an array of workouts.
     /// - Parameter jsonData: JSON data as a `Data` object.
@@ -33,7 +116,6 @@ extension ExerciseOptions {
             throw error
         }
     }
-    
     
     /// Read in data from a JSON file.
     /// - Parameter name: Local file name.
@@ -54,7 +136,6 @@ extension ExerciseOptions {
             throw DataReadingError.fileDoesNotExist(name)
         }
     }
-
     
     enum DataReadingError: Error, LocalizedError {
         case fileDoesNotExist(String)
