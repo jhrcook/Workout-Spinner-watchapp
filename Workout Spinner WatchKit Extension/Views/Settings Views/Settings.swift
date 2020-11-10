@@ -20,6 +20,17 @@ struct SectionHeader: View {
     }
 }
 
+struct LabelWithIndicator: View {
+    let text: String
+    var body: some View {
+        HStack {
+            Text(text)
+            Spacer()
+            Image(systemName: "chevron.right").opacity(0.5)
+        }
+    }
+}
+
 struct Settings: View {
     
     @State private var selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
@@ -36,7 +47,7 @@ struct Settings: View {
     
     var body: some View {
         Form {
-            Section(header: SectionHeader(imageName: "flame", text: "Exercise")) {
+            Section(header: SectionHeader(imageName: "figure.wave", text: "Preferences")) {
                 Picker(selection: $selectedExerciseIntensity, label: Text("Intensity")) {
                     ForEach(0..<exerciseIntensities.count) { idx in
                         Text(self.exerciseIntensities[idx])
@@ -45,11 +56,14 @@ struct Settings: View {
                 .pickerStyle(WheelPickerStyle())
                 
                 NavigationLink(destination: BodyPartSelectionListView()) {
-                    HStack {
-                        Text("Muscle groups")
-                        Spacer()
-                        Image(systemName: "chevron.right").opacity(0.5)
-                    }
+                    LabelWithIndicator(text: "Muscle groups")
+                }
+            }
+            
+            Section(header: SectionHeader(imageName: "flame", text: "Exercises")) {
+                Text("Choose exercises")
+                NavigationLink(destination: EditExerciseView()) {
+                    LabelWithIndicator(text: "New exercise")
                 }
             }
             
