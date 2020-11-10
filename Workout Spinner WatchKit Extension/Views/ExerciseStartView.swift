@@ -114,15 +114,15 @@ struct WorkoutStartView_Previews: PreviewProvider {
     
     static var workouts: ExerciseOptions {
         var ws = ExerciseOptions()
-        let i = ws.workouts.first { $0.type == .count }!
-        let j = ws.workouts.first { $0.type == .time }!
-        ws.workouts = [i, j]
+        let i = ws.exercises.first { $0.type == .count }!
+        let j = ws.exercises.first { $0.type == .time }!
+        ws.exercises = [i, j]
         return ws
     }
     
     static var previews: some View {
         Group {
-            ForEach(workouts.workouts) { info in
+            ForEach(workouts.exercises) { info in
                 ExerciseStartView(workoutManager: WorkoutManager(exerciseInfo: info), exerciseCanceled: .constant(false))
                     .previewDisplayName(info.displayName)
             }

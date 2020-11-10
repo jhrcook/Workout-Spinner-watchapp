@@ -33,7 +33,7 @@ extension ExercisePicker {
             pointingSlice = Double(numExercises) + pointingSlice
         }
         
-        workoutManager.exerciseInfo = exerciseOptions.workouts[selectedExerciseIndex]
+        workoutManager.exerciseInfo = exerciseOptions.exercises[selectedExerciseIndex]
         self.selectedExerciseIndex = min(Int(pointingSlice), numExercises - 1)
     }
     
@@ -50,7 +50,7 @@ extension ExercisePicker {
         }
         
         // Remove workouts that contain blacklisted exercises.
-        workouts.workouts = workouts.workouts.filter { workout in
+        workouts.exercises = workouts.exercises.filter { workout in
             if let _ = workout.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
                 return false
             }
