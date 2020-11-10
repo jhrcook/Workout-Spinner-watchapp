@@ -16,7 +16,7 @@ struct ExercisePicker: View {
     @State internal var crownRotation = 0.0
     
     var numExercises: Int {
-        return exerciseOptions.workouts.count
+        return exerciseOptions.exercises.count
     }
     
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
@@ -46,7 +46,7 @@ struct ExercisePicker: View {
                                              width: geo.minSize * 2.0)
                             }
                             ForEach(0..<self.numExercises) { i in
-                                WorkoutSlice(workoutInfo: self.exerciseOptions.workouts[i],
+                                WorkoutSlice(workoutInfo: self.exerciseOptions.exercises[i],
                                              idx: i,
                                              numberOfWorkouts: self.numExercises,
                                              size: geo.minSize * 2.0)
