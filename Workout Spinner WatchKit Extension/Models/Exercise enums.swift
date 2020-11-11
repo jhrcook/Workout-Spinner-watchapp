@@ -18,7 +18,7 @@ func == (lhs: ExerciseIntensity, rhs: ExerciseIntensity) -> Bool {
 
 
 enum ExerciseType: String, Codable, CaseIterable {
-    case time, count
+    case count, time
 }
 
 
