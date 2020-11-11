@@ -39,25 +39,29 @@ struct EditExerciseView: View {
     
     @State private var name: String = "Exercise name"
     @State private var exerciseTypeIndex = 0
-    @State private var bodyParts = [ExerciseBodyPart]()
+    @ObservedObject var bodyparts: BodyPartSelections
     @State private var lightVal: Int = 5
     @State private var mediumVal: Int = 10
     @State private var hardVal: Int = 15
     @State private var gruelingVal: Int = 20
     @State private var killingVal: Int = 25
     
+    
     @Environment(\.presentationMode) var presentationMode
     
     init() {
         self.exercise = nil
+        self.bodyparts = BodyPartSelections(with: .none)
     }
     
     init(exercise: ExerciseInfo) {
         self.exercise = exercise
+        self.bodyparts = BodyPartSelections(fromExerciseInfo: exercise)
         
+        // Fill in form data with existing exercise information.
         self.name = exercise.displayName
         self.exerciseTypeIndex = ExerciseType.allCases.firstIndex(where: { $0 == exercise.type }) ?? self.exerciseTypeIndex
-        self.bodyParts = exercise.bodyParts
+
         self.lightVal = convert(value: exercise.workoutValue[ExerciseIntensity.light.rawValue], orUse: self.lightVal)
         self.mediumVal = convert(value: exercise.workoutValue[ExerciseIntensity.medium.rawValue], orUse: self.mediumVal)
         self.hardVal = convert(value: exercise.workoutValue[ExerciseIntensity.hard.rawValue], orUse: self.hardVal)
@@ -80,8 +84,6 @@ struct EditExerciseView: View {
             return "repetitions"
         case .time:
             return "duration"
-        default:
-            return "repetitions"
         }
     }
     
@@ -111,7 +113,13 @@ struct EditExerciseView: View {
             }
             
             Section(header: Text("Body parts involved")) {
-                Text("hi")
+                ForEach(0..<bodyparts.bodyparts.count) { i in
+                    HStack {
+                        Toggle(isOn: self.$bodyparts.bodyparts[i].enabled) {
+                            Text(self.bodyparts.bodyparts[i].bodypart.rawValue.capitalized)
+                        }
+                    }
+                }
             }
             
             Button(action: saveAndFinish) {
