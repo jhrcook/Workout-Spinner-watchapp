@@ -43,7 +43,7 @@ extension ExercisePicker {
         
         // An array of the body parts to keep inactive.
         var inactiveBodyparts: [ExerciseBodyPart] {
-            BodyPartSelections()
+            BodyPartSelections(with: .userDefaults)
                 .bodyparts
                 .filter { !$0.enabled }
                 .map { $0.bodypart }
