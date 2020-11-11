@@ -38,4 +38,8 @@ struct CustomColors_Previews: PreviewProvider {
 extension Color {
     static let workoutGreen = Color(red: 194, green: 255, blue: 60)
     static let darkGray = Color(red: 40, green: 40, blue: 40)
+    static let deepRed = Color(red: 232, green: 39, blue: 39)
+    static let deepRed2 = Color(red: 200, green: 20, blue: 20)
+    static let pastelDarkRed = Color(red: 230, green: 78, blue: 78)
+    static let pastelDarkRed2 = Color(red: 209, green: 67, blue: 67)
 }

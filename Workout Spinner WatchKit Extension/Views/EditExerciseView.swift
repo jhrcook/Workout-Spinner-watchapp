@@ -122,9 +122,8 @@ struct EditExerciseView: View {
                 }
             }
             
-            Button(action: saveAndFinish) {
-                Text("Save")
-            }
+            ListViewTextButton(label: "Save", action: saveAndFinish)
+                .buttonStyle(DoneButtonStyle(color: .pastelDarkRed))
         }
     }
 }
