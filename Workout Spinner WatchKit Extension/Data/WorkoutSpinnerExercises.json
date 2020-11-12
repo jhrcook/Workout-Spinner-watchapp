@@ -10,7 +10,8 @@
             "hard": 15,
             "grueling": 20,
             "killing": 30
-        }
+        },
+        "active": true
     },
     {
         "id": "1",
@@ -23,7 +24,8 @@
             "hard": 40,
             "grueling": 50,
             "killing": 60
-        }
+        },
+        "active": true
     },
     {
         "id": "2",
@@ -36,7 +38,8 @@
             "hard": 15,
             "grueling": 25,
             "killing": 35
-        }
+        },
+        "active": true
     },
     {
         "id": "3",
@@ -49,7 +52,8 @@
             "hard": 45,
             "grueling": 60,
             "killing": 90
-        }
+        },
+        "active": true
     },
     {
         "id": "4",
@@ -62,7 +66,8 @@
             "hard": 60,
             "grueling": 80,
             "killing": 100
-        }
+        },
+        "active": true
     },
     {
         "id": "5",
@@ -75,7 +80,8 @@
             "hard": 15,
             "grueling": 20,
             "killing": 30
-        }
+        },
+        "active": true
     },
     {
         "id": "6",
@@ -88,7 +94,8 @@
             "hard": 60,
             "grueling": 75,
             "killing": 90
-        }
+        },
+        "active": true
     },
     {
         "id": "7",
@@ -101,7 +108,8 @@
             "hard": 10,
             "grueling": 15,
             "killing": 20
-        }
+        },
+        "active": true
     },
     {
         "id": "8",
@@ -114,7 +122,8 @@
             "hard": 45,
             "grueling": 60,
             "killing": 75
-        }
+        },
+        "active": true
     },
     {
         "id": "9",
@@ -127,6 +136,7 @@
             "hard": 30,
             "grueling": 45,
             "killing": 60
-        }
+        },
+        "active": true
     }
 ]
