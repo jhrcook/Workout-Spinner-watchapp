@@ -99,7 +99,7 @@ struct EditExerciseView: View {
             }
             
             Section {
-                Text("hi")
+                Toggle("Include exercise", isOn: $active)
             }
             
             Section(header: Text("Exercise type")) {
@@ -132,6 +132,7 @@ struct EditExerciseView: View {
             
             ListViewTextButton(label: "Save", action: saveAndFinish)
                 .buttonStyle(DoneButtonStyle(color: .workoutRed))
+                .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines) == "")
         }
     }
 }
@@ -155,7 +156,8 @@ extension EditExerciseView {
                                        displayName: name,
                                        type: ExerciseType.allCases[exerciseTypeIndex],
                                        bodyParts: bp,
-                                       workoutValue: workoutValue)
+                                       workoutValue: workoutValue,
+                                       active: active)
         
         var exerciseOptions = ExerciseOptions()
         exerciseOptions.updateOrAppend(newExercise)
