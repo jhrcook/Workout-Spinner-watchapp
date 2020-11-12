@@ -37,7 +37,7 @@ struct EditExerciseView: View {
     
     var exercise: ExerciseInfo?
     
-    @State private var name: String = "Exercise name"
+    @State private var name: String = ""
     @State private var exerciseTypeIndex = 0
     @ObservedObject var bodyparts: BodyPartSelections
     @State private var lightVal: Int = 5
@@ -61,7 +61,7 @@ struct EditExerciseView: View {
         // Fill in form data with existing exercise information.
         self.name = exercise.displayName
         self.exerciseTypeIndex = ExerciseType.allCases.firstIndex(where: { $0 == exercise.type }) ?? self.exerciseTypeIndex
-
+        
         self.lightVal = convert(value: exercise.workoutValue[ExerciseIntensity.light.rawValue], orUse: self.lightVal)
         self.mediumVal = convert(value: exercise.workoutValue[ExerciseIntensity.medium.rawValue], orUse: self.mediumVal)
         self.hardVal = convert(value: exercise.workoutValue[ExerciseIntensity.hard.rawValue], orUse: self.hardVal)
@@ -90,7 +90,7 @@ struct EditExerciseView: View {
     
     var body: some View {
         Form {
-            Section {
+            Section(header: Text("Exercise name")) {
                 TextField("Exercise name", text: $name)
             }
             
@@ -123,7 +123,7 @@ struct EditExerciseView: View {
             }
             
             ListViewTextButton(label: "Save", action: saveAndFinish)
-                .buttonStyle(DoneButtonStyle(color: .pastelDarkRed))
+                .buttonStyle(DoneButtonStyle(color: .workoutRed))
         }
     }
 }
@@ -133,11 +133,26 @@ extension EditExerciseView {
     
     func saveAndFinish() {
         
-        //        let newExercise = ExerciseInfo(id: exercise?.id ?? UUID().uuidString, displayName: name, type: ExerciseType.allCases[exerciseTypeIndex], bodyParts: bodyParts, workoutValue: [ExerciseIntensity.light.rawValue : lightVal])
-        //        var exerciseOptions = ExerciseOptions()
-        //        exerciseOptions.updateOrAppend(newExercise)
+        let bp = bodyparts.bodyparts.map { $0.bodypart }
         
-        //        presentationMode.wrappedValue.dismiss()
+        let workoutValue: [String: Float] = [
+            ExerciseIntensity.light.rawValue: Float(lightVal),
+            ExerciseIntensity.medium.rawValue: Float(mediumVal),
+            ExerciseIntensity.hard.rawValue: Float(hardVal),
+            ExerciseIntensity.grueling.rawValue: Float(gruelingVal),
+            ExerciseIntensity.killing.rawValue: Float(killingVal)
+        ]
+        
+        let newExercise = ExerciseInfo(id: exercise?.id ?? UUID().uuidString,
+                                       displayName: name,
+                                       type: ExerciseType.allCases[exerciseTypeIndex],
+                                       bodyParts: bp,
+                                       workoutValue: workoutValue)
+        
+        var exerciseOptions = ExerciseOptions()
+        exerciseOptions.updateOrAppend(newExercise)
+        
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
