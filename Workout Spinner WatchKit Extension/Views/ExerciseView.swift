@@ -125,7 +125,7 @@ struct WorkoutView_Previews: PreviewProvider {
         var ws = ExerciseOptions()
         let i = ws.exercises.first { $0.type == .count }!
         let j = ws.exercises.first { $0.type == .time }!
-        ws.exercises = [i, j]
+        ws.allExercises = [i, j]
         return ws
     }
     

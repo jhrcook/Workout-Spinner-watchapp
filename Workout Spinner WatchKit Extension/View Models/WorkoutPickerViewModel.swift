@@ -39,23 +39,8 @@ extension ExercisePicker {
     
     
     static func loadWorkouts() -> ExerciseOptions {
-        var workouts = ExerciseOptions()
-        
-        // An array of the body parts to keep inactive.
-        var inactiveBodyparts: [ExerciseBodyPart] {
-            BodyPartSelections(with: .userDefaults)
-                .bodyparts
-                .filter { !$0.enabled }
-                .map { $0.bodypart }
-        }
-        
-        // Remove workouts that contain blacklisted exercises.
-        workouts.exercises = workouts.exercises.filter { workout in
-            if let _ = workout.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
-                return false
-            }
-            return true
-        }
-        return workouts
+        var options = ExerciseOptions()
+        options.filterBlacklistedBodyParts()
+        return options
     }
 }

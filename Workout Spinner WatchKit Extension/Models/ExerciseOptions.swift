@@ -10,13 +10,18 @@ import Foundation
 
 struct ExerciseOptions: Codable {
     
-    var exercises = [ExerciseInfo]()
-    
+    var allExercises = [ExerciseInfo]()
+    var exercises: [ExerciseInfo] {
+        get {
+            return allExercises.filter { $0.active }
+        }
+    }
+        
     init() {
-        exercises = loadExercises()
-        if exercises.count == 0 {
+        allExercises = loadExercises()
+        if allExercises.count == 0 {
             do {
-                exercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
+                allExercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
                 saveExercises()
             } catch {
                 print("error in loading workouts: \(error.localizedDescription)")
@@ -28,7 +33,7 @@ struct ExerciseOptions: Codable {
     func saveExercises() {
         let encoder = JSONEncoder()
         do {
-            let encodedExercises = try encoder.encode(exercises)
+            let encodedExercises = try encoder.encode(allExercises)
             UserDefaults.standard.set(encodedExercises, forKey: UserDefaultsKeys.exerciseOptions.rawValue)
         } catch {
             print("Error when encoding exercises to JSON: \(error.localizedDescription)")
@@ -49,6 +54,20 @@ struct ExerciseOptions: Codable {
         }
         return []
     }
+    
+    mutating func filterBlacklistedBodyParts() {
+        let inactiveBodyparts: [ExerciseBodyPart] = BodyPartSelections(with: .userDefaults)
+            .bodyparts
+            .filter { !$0.enabled }
+            .map { $0.bodypart }
+        
+        self.allExercises = allExercises.filter { exercise in
+            if let _ = exercise.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
+                return false
+            }
+            return true
+        }
+    }
 }
 
 
@@ -57,23 +76,23 @@ struct ExerciseOptions: Codable {
 extension ExerciseOptions {
     /// Add a new exercise.
     mutating func append(_ exercise: ExerciseInfo) {
-        exercises.append(exercise)
+        allExercises.append(exercise)
         saveExercises()
     }
     
     /// Replace one exercise with another.
     mutating func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
-        if let idx = exercises.firstIndex(where: { $0 == exercise }) {
-            exercises[idx] = newExercise
+        if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
+            allExercises[idx] = newExercise
             saveExercises()
         }
     }
     
     /// Remove an exercise.
     mutating func remove(_ exercise: ExerciseInfo) {
-        let startCount = exercises.count
-        exercises = exercises.filter { $0 == exercise }
-        if startCount != exercises.count {
+        let startCount = allExercises.count
+        allExercises = exercises.filter { $0 == exercise }
+        if startCount != allExercises.count {
             saveExercises()
         }
     }
@@ -81,21 +100,21 @@ extension ExerciseOptions {
     /// Remove multiple exercises.
     mutating func remove(_ exercisesToRemove: [ExerciseInfo]) {
         if exercisesToRemove.count == 0 { return }
-        let startCount = exercises.count
+        let startCount = allExercises.count
         for exercise in exercisesToRemove {
-            exercises = exercises.filter { $0 != exercise }
+            allExercises = allExercises.filter { $0 != exercise }
         }
-        if startCount != exercises.count {
+        if startCount != allExercises.count {
             saveExercises()
         }
     }
     
     /// Update an existing exercise or append it to the end of the options.
     mutating func updateOrAppend(_ exercise: ExerciseInfo) {
-        if let idx = exercises.firstIndex(where: { $0 == exercise }) {
-            exercises[idx] = exercise
+        if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
+            allExercises[idx] = exercise
         } else {
-            exercises.append(exercise)
+            allExercises.append(exercise)
         }
         saveExercises()
     }
