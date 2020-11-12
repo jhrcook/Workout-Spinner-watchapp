@@ -117,6 +117,7 @@ struct WorkoutFinishView: View {
                     presentationMode.wrappedValue.dismiss()
                     workoutTracker.clear()
                 }
+                .buttonStyle(DoneButtonStyle(color: .workoutRed))
             }
         }
         .navigationBarBackButtonHidden(true)
