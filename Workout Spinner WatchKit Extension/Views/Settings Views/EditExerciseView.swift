@@ -40,6 +40,8 @@ struct EditExerciseView: View {
     @State private var name: String = ""
     @State private var exerciseTypeIndex = 0
     @ObservedObject var bodyparts: BodyPartSelections
+    @State private var active: Bool = true
+    
     @State private var lightVal: Int = 5
     @State private var mediumVal: Int = 10
     @State private var hardVal: Int = 15
@@ -67,6 +69,8 @@ struct EditExerciseView: View {
         self.hardVal = convert(value: exercise.workoutValue[ExerciseIntensity.hard.rawValue], orUse: self.hardVal)
         self.gruelingVal = convert(value: exercise.workoutValue[ExerciseIntensity.grueling.rawValue], orUse: self.gruelingVal)
         self.killingVal = convert(value: exercise.workoutValue[ExerciseIntensity.killing.rawValue], orUse: self.killingVal)
+        
+        self.active = exercise.active
     }
     
     func convert(value: Float?, orUse defaultValue: Int) -> Int {
@@ -92,6 +96,10 @@ struct EditExerciseView: View {
         Form {
             Section(header: Text("Exercise name")) {
                 TextField("Exercise name", text: $name)
+            }
+            
+            Section {
+                Text("hi")
             }
             
             Section(header: Text("Exercise type")) {
