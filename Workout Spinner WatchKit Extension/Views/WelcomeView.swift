@@ -36,7 +36,7 @@ struct WelcomeView: View {
             NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker)) {
                 Text("Start Workout")
                     .font(.system(size: 30))
-                    .foregroundColor(.workoutGreen)
+                    .foregroundColor(.workoutRed)
                     .bold()
                     .multilineTextAlignment(.center)
             }
