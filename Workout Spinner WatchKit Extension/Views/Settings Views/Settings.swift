@@ -8,31 +8,11 @@
 
 import SwiftUI
 
-struct SectionHeader: View {
-    let imageName: String
-    let text: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: imageName)
-            Text(text)
-        }
-    }
-}
 
-struct LabelWithIndicator: View {
-    let text: String
-    var body: some View {
-        HStack {
-            Text(text)
-            Spacer()
-            Image(systemName: "chevron.right").opacity(0.5)
-        }
-    }
-}
 
 struct Settings: View {
     
+    @ObservedObject var exerciseOptions: ExerciseOptions
     @State private var selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
     
     private var exerciseIntensities: [String] {
@@ -61,9 +41,15 @@ struct Settings: View {
             }
             
             Section(header: SectionHeader(imageName: "flame", text: "Exercises")) {
-                Text("Choose exercises")
-                NavigationLink(destination: EditExerciseView()) {
+                NavigationLink(destination: SelectExercisesView(exerciseOptions: exerciseOptions)) {
+                    LabelWithIndicator(text: "Edit exercises")
+                }
+                NavigationLink(destination: EditExerciseView(exerciseOptions: exerciseOptions)) {
                     LabelWithIndicator(text: "New exercise")
+                }
+                ListViewTextButton(label: "Reset Exercises") {
+                    // TODO: reset exercises to defaults (from JSON).
+                    print("TODO....")
                 }
             }
             
@@ -110,6 +96,6 @@ extension Settings {
 
 struct Settings_Previews: PreviewProvider {
     static var previews: some View {
-        Settings()
+        Settings(exerciseOptions: ExerciseOptions())
     }
 }

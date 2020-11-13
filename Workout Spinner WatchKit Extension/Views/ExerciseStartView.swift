@@ -113,7 +113,7 @@ extension ExerciseStartView {
 struct WorkoutStartView_Previews: PreviewProvider {
     
     static var workouts: ExerciseOptions {
-        var ws = ExerciseOptions()
+        let ws = ExerciseOptions()
         let i = ws.exercises.first { $0.type == .count }!
         let j = ws.exercises.first { $0.type == .time }!
         ws.allExercises = [i, j]

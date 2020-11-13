@@ -12,9 +12,11 @@ struct ContentView: View {
     
     let workoutManager = WorkoutManager()
     let workoutTracker = WorkoutTracker()
+    let exerciseOptions = ExerciseOptions()
     
     var body: some View {
-        WelcomeView(workoutManager: workoutManager, workoutTracker: workoutTracker)
+//        WelcomeView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)
+        Settings(exerciseOptions: exerciseOptions)
     }
 }
 
