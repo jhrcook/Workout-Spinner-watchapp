@@ -36,6 +36,7 @@ struct ExerciseAmountValuePicker: View {
 struct EditExerciseView: View {
     
     var exercise: ExerciseInfo?
+    @ObservedObject var exerciseOptions: ExerciseOptions
     
     @State private var name: String = ""
     @State private var exerciseTypeIndex = 0
@@ -51,26 +52,28 @@ struct EditExerciseView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    init() {
+    init(exerciseOptions: ExerciseOptions) {
+        self.exerciseOptions = exerciseOptions
         self.exercise = nil
         self.bodyparts = BodyPartSelections(with: .none)
     }
     
-    init(exercise: ExerciseInfo) {
+    init(exerciseOptions: ExerciseOptions, exercise: ExerciseInfo) {
+        self.exerciseOptions = exerciseOptions
         self.exercise = exercise
         self.bodyparts = BodyPartSelections(fromExerciseInfo: exercise)
         
         // Fill in form data with existing exercise information.
-        self.name = exercise.displayName
-        self.exerciseTypeIndex = ExerciseType.allCases.firstIndex(where: { $0 == exercise.type }) ?? self.exerciseTypeIndex
+        self._name = .init(initialValue: exercise.displayName)
+        self._exerciseTypeIndex = .init(initialValue: ExerciseType.allCases.firstIndex(where: { $0 == exercise.type }) ?? self.exerciseTypeIndex)
         
-        self.lightVal = convert(value: exercise.workoutValue[ExerciseIntensity.light.rawValue], orUse: self.lightVal)
-        self.mediumVal = convert(value: exercise.workoutValue[ExerciseIntensity.medium.rawValue], orUse: self.mediumVal)
-        self.hardVal = convert(value: exercise.workoutValue[ExerciseIntensity.hard.rawValue], orUse: self.hardVal)
-        self.gruelingVal = convert(value: exercise.workoutValue[ExerciseIntensity.grueling.rawValue], orUse: self.gruelingVal)
-        self.killingVal = convert(value: exercise.workoutValue[ExerciseIntensity.killing.rawValue], orUse: self.killingVal)
+        self._lightVal = .init(initialValue: convert(value: exercise.workoutValue[ExerciseIntensity.light.rawValue], orUse: self.lightVal))
+        self._mediumVal = .init(initialValue: convert(value: exercise.workoutValue[ExerciseIntensity.medium.rawValue], orUse: self.mediumVal))
+        self._hardVal = .init(initialValue: convert(value: exercise.workoutValue[ExerciseIntensity.hard.rawValue], orUse: self.hardVal))
+        self._gruelingVal = .init(initialValue: convert(value: exercise.workoutValue[ExerciseIntensity.grueling.rawValue], orUse: self.gruelingVal))
+        self._killingVal = .init(initialValue: convert(value: exercise.workoutValue[ExerciseIntensity.killing.rawValue], orUse: self.killingVal))
         
-        self.active = exercise.active
+        self._active = .init(initialValue: exercise.active)
     }
     
     func convert(value: Float?, orUse defaultValue: Int) -> Int {
@@ -142,7 +145,9 @@ extension EditExerciseView {
     
     func saveAndFinish() {
         
-        let bp = bodyparts.bodyparts.map { $0.bodypart }
+        let bp = bodyparts.bodyparts
+            .filter { $0.enabled }
+            .map { $0.bodypart }
         
         let workoutValue: [String: Float] = [
             ExerciseIntensity.light.rawValue: Float(lightVal),
@@ -159,7 +164,6 @@ extension EditExerciseView {
                                        workoutValue: workoutValue,
                                        active: active)
         
-        var exerciseOptions = ExerciseOptions()
         exerciseOptions.updateOrAppend(newExercise)
         
         presentationMode.wrappedValue.dismiss()
@@ -169,6 +173,6 @@ extension EditExerciseView {
 
 struct EditExerciseView_Previews: PreviewProvider {
     static var previews: some View {
-        EditExerciseView()
+        EditExerciseView(exerciseOptions: ExerciseOptions())
     }
 }
