@@ -8,16 +8,24 @@
 
 import Foundation
 
-struct ExerciseOptions: Codable {
+class ExerciseOptions: NSObject, ObservableObject {
     
-    var allExercises = [ExerciseInfo]()
+    @Published var allExercises = [ExerciseInfo]()
+    
     var exercises: [ExerciseInfo] {
         get {
             return allExercises.filter { $0.active }
         }
     }
+    
+    var exercisesBlacklistFiltered: [ExerciseInfo] {
+        get {
+            return filterBlacklistedBodyParts()
+        }
+    }
         
-    init() {
+    override init() {
+        super.init()
         allExercises = loadExercises()
         if allExercises.count == 0 {
             do {
@@ -55,13 +63,14 @@ struct ExerciseOptions: Codable {
         return []
     }
     
-    mutating func filterBlacklistedBodyParts() {
+    
+    func filterBlacklistedBodyParts() -> [ExerciseInfo] {
         let inactiveBodyparts: [ExerciseBodyPart] = BodyPartSelections(with: .userDefaults)
             .bodyparts
             .filter { !$0.enabled }
             .map { $0.bodypart }
         
-        self.allExercises = allExercises.filter { exercise in
+        return exercises.filter { exercise in
             if let _ = exercise.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
                 return false
             }
@@ -75,13 +84,13 @@ struct ExerciseOptions: Codable {
 // MARK: - Editing options array
 extension ExerciseOptions {
     /// Add a new exercise.
-    mutating func append(_ exercise: ExerciseInfo) {
+    func append(_ exercise: ExerciseInfo) {
         allExercises.append(exercise)
         saveExercises()
     }
     
     /// Replace one exercise with another.
-    mutating func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
+    func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
         if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
             allExercises[idx] = newExercise
             saveExercises()
@@ -89,7 +98,7 @@ extension ExerciseOptions {
     }
     
     /// Remove an exercise.
-    mutating func remove(_ exercise: ExerciseInfo) {
+    func remove(_ exercise: ExerciseInfo) {
         let startCount = allExercises.count
         allExercises = exercises.filter { $0 == exercise }
         if startCount != allExercises.count {
@@ -98,7 +107,7 @@ extension ExerciseOptions {
     }
     
     /// Remove multiple exercises.
-    mutating func remove(_ exercisesToRemove: [ExerciseInfo]) {
+    func remove(_ exercisesToRemove: [ExerciseInfo]) {
         if exercisesToRemove.count == 0 { return }
         let startCount = allExercises.count
         for exercise in exercisesToRemove {
@@ -110,7 +119,7 @@ extension ExerciseOptions {
     }
     
     /// Update an existing exercise or append it to the end of the options.
-    mutating func updateOrAppend(_ exercise: ExerciseInfo) {
+    func updateOrAppend(_ exercise: ExerciseInfo) {
         if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
             allExercises[idx] = exercise
         } else {
