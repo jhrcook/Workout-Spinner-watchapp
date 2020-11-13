@@ -36,11 +36,4 @@ extension ExercisePicker {
         workoutManager.exerciseInfo = exerciseOptions.exercises[selectedExerciseIndex]
         self.selectedExerciseIndex = min(Int(pointingSlice), numExercises - 1)
     }
-    
-    
-    static func loadWorkouts() -> ExerciseOptions {
-        var options = ExerciseOptions()
-        options.filterBlacklistedBodyParts()
-        return options
-    }
 }
