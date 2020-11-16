@@ -28,12 +28,7 @@ class ExerciseOptions: NSObject, ObservableObject {
         super.init()
         allExercises = loadExercises()
         if allExercises.count == 0 {
-            do {
-                allExercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
-                saveExercises()
-            } catch {
-                print("error in loading workouts: \(error.localizedDescription)")
-            }
+            resetExerciseOptions()
         }
     }
     
@@ -126,6 +121,16 @@ extension ExerciseOptions {
             allExercises.append(exercise)
         }
         saveExercises()
+    }
+    
+    /// Resest the list of exercises to default options.
+    func resetExerciseOptions() {
+        do {
+            allExercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
+            saveExercises()
+        } catch {
+            print("error in loading workouts: \(error.localizedDescription)")
+        }
     }
 }
 
