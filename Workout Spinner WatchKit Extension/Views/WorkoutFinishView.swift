@@ -53,16 +53,6 @@ struct LinkedInfoRowView: View {
     }
 }
 
-struct DoneButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(5)
-            .background(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.workoutGreen)
-            )
-    }
-}
 
 
 struct WorkoutFinishView: View {
@@ -122,18 +112,12 @@ struct WorkoutFinishView: View {
                 }
                 
                 InfoRowView(title: "Min/Max heart rate", titleColor: .red, value: "\(minHR) / \(maxHR)")
-                
-                Button(action: {
+                                
+                ListViewTextButton(label: "Done") {
                     presentationMode.wrappedValue.dismiss()
                     workoutTracker.clear()
-                }) {
-                    Text("Done")
-                        .foregroundColor(.black)
-                        .frame(minWidth: 0, maxWidth: .infinity)
                 }
-                .listStyle(PlainListStyle())
-                .listRowPlatterColor(.clear)
-                .buttonStyle(DoneButtonStyle())
+                .buttonStyle(DoneButtonStyle(color: .workoutRed))
             }
         }
         .navigationBarBackButtonHidden(true)

@@ -12,6 +12,7 @@ struct WorkoutPagingView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
+    @ObservedObject var exerciseOptions: ExerciseOptions
     
     @State private var currentPageIndex: Int = 0
     @State private var exerciseSelectedByPicker = false
@@ -24,7 +25,7 @@ struct WorkoutPagingView: View {
     var body: some View {
         ZStack {
             if currentPageIndex == 0 {
-                ExercisePicker(workoutManager: workoutManager, exerciseSelected: $exerciseSelectedByPicker)
+                ExercisePicker(workoutManager: workoutManager, exerciseOptions: exerciseOptions, exerciseSelected: $exerciseSelectedByPicker)
                     .sheet(isPresented: $exerciseSelectedByPicker, onDismiss: {
                         if !exerciseCanceled {
                             startExercise()
@@ -109,6 +110,6 @@ extension WorkoutPagingView {
 
 struct WorkoutPagingView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPagingView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker())
+        WorkoutPagingView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker(), exerciseOptions: ExerciseOptions())
     }
 }

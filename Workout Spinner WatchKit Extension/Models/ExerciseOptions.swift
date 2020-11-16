@@ -8,12 +8,126 @@
 
 import Foundation
 
-struct ExerciseOptions: Codable {
-    var workouts = [ExerciseInfo]()
+class ExerciseOptions: NSObject, ObservableObject {
     
-    init() {
+    @Published var allExercises = [ExerciseInfo]()
+    
+    var exercises: [ExerciseInfo] {
+        get {
+            return allExercises.filter { $0.active }
+        }
+    }
+    
+    var exercisesBlacklistFiltered: [ExerciseInfo] {
+        get {
+            return filterBlacklistedBodyParts()
+        }
+    }
+        
+    override init() {
+        super.init()
+        allExercises = loadExercises()
+        if allExercises.count == 0 {
+            resetExerciseOptions()
+        }
+    }
+    
+    /// Write exercise array to disk.
+    func saveExercises() {
+        let encoder = JSONEncoder()
         do {
-            workouts = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
+            let encodedExercises = try encoder.encode(allExercises)
+            UserDefaults.standard.set(encodedExercises, forKey: UserDefaultsKeys.exerciseOptions.rawValue)
+        } catch {
+            print("Error when encoding exercises to JSON: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    /// Read in exercise array from disk.
+    /// - Returns: Array of exercises.
+    func loadExercises() -> [ExerciseInfo] {
+        if let codedExercises = UserDefaults.standard.object(forKey: UserDefaultsKeys.exerciseOptions.rawValue) as? Data {
+            do {
+                let decodedExercises = try JSONDecoder().decode([ExerciseInfo].self, from: codedExercises)
+                return decodedExercises
+            } catch {
+                print("Unable to decode exercises: \(error.localizedDescription)")
+            }
+        }
+        return []
+    }
+    
+    
+    func filterBlacklistedBodyParts() -> [ExerciseInfo] {
+        let inactiveBodyparts: [ExerciseBodyPart] = BodyPartSelections(with: .userDefaults)
+            .bodyparts
+            .filter { !$0.enabled }
+            .map { $0.bodypart }
+        
+        return exercises.filter { exercise in
+            if let _ = exercise.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
+                return false
+            }
+            return true
+        }
+    }
+}
+
+
+
+// MARK: - Editing options array
+extension ExerciseOptions {
+    /// Add a new exercise.
+    func append(_ exercise: ExerciseInfo) {
+        allExercises.append(exercise)
+        saveExercises()
+    }
+    
+    /// Replace one exercise with another.
+    func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
+        if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
+            allExercises[idx] = newExercise
+            saveExercises()
+        }
+    }
+    
+    /// Remove an exercise.
+    func remove(_ exercise: ExerciseInfo) {
+        let startCount = allExercises.count
+        allExercises = exercises.filter { $0 == exercise }
+        if startCount != allExercises.count {
+            saveExercises()
+        }
+    }
+    
+    /// Remove multiple exercises.
+    func remove(_ exercisesToRemove: [ExerciseInfo]) {
+        if exercisesToRemove.count == 0 { return }
+        let startCount = allExercises.count
+        for exercise in exercisesToRemove {
+            allExercises = allExercises.filter { $0 != exercise }
+        }
+        if startCount != allExercises.count {
+            saveExercises()
+        }
+    }
+    
+    /// Update an existing exercise or append it to the end of the options.
+    func updateOrAppend(_ exercise: ExerciseInfo) {
+        if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
+            allExercises[idx] = exercise
+        } else {
+            allExercises.append(exercise)
+        }
+        saveExercises()
+    }
+    
+    /// Resest the list of exercises to default options.
+    func resetExerciseOptions() {
+        do {
+            allExercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
+            saveExercises()
         } catch {
             print("error in loading workouts: \(error.localizedDescription)")
         }
@@ -21,6 +135,8 @@ struct ExerciseOptions: Codable {
 }
 
 
+
+// MARK: - Reading in default exercise JSON.
 extension ExerciseOptions {
     /// Parse the JSON data to an array of workouts.
     /// - Parameter jsonData: JSON data as a `Data` object.
@@ -33,7 +149,6 @@ extension ExerciseOptions {
             throw error
         }
     }
-    
     
     /// Read in data from a JSON file.
     /// - Parameter name: Local file name.
@@ -54,7 +169,6 @@ extension ExerciseOptions {
             throw DataReadingError.fileDoesNotExist(name)
         }
     }
-
     
     enum DataReadingError: Error, LocalizedError {
         case fileDoesNotExist(String)

@@ -24,6 +24,7 @@ struct WelcomeView: View {
     
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
+    @ObservedObject var exerciseOptions: ExerciseOptions
     
     @State private var startWorkout = false
     @State private var presentSettingsView = false
@@ -33,10 +34,10 @@ struct WelcomeView: View {
             
             Spacer(minLength: 0)
             
-            NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker)) {
+            NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)) {
                 Text("Start Workout")
                     .font(.system(size: 30))
-                    .foregroundColor(.workoutGreen)
+                    .foregroundColor(.workoutRed)
                     .bold()
                     .multilineTextAlignment(.center)
             }
@@ -63,7 +64,7 @@ struct WelcomeView: View {
         }
         .ignoresSafeArea(SafeAreaRegions.all, edges: .bottom)
         .sheet(isPresented: self.$presentSettingsView) {
-            Settings()
+            Settings(exerciseOptions: exerciseOptions)
                 .toolbar(content: {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Done") {
@@ -81,6 +82,6 @@ struct WelcomeView: View {
 
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker())
+        WelcomeView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker(), exerciseOptions: ExerciseOptions())
     }
 }

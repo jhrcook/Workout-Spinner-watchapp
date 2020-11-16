@@ -8,20 +8,11 @@
 
 import SwiftUI
 
-struct SectionHeader: View {
-    let imageName: String
-    let text: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: imageName)
-            Text(text)
-        }
-    }
-}
+
 
 struct Settings: View {
     
+    @ObservedObject var exerciseOptions: ExerciseOptions
     @State private var selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
     
     private var exerciseIntensities: [String] {
@@ -32,11 +23,12 @@ struct Settings: View {
         return a
     }
     
+    @State private var confirmResetExerciseOptions = false
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         Form {
-            Section(header: SectionHeader(imageName: "flame", text: "Exercise")) {
+            Section(header: SectionHeader(imageName: "figure.wave", text: "Preferences")) {
                 Picker(selection: $selectedExerciseIntensity, label: Text("Intensity")) {
                     ForEach(0..<exerciseIntensities.count) { idx in
                         Text(self.exerciseIntensities[idx])
@@ -45,10 +37,24 @@ struct Settings: View {
                 .pickerStyle(WheelPickerStyle())
                 
                 NavigationLink(destination: BodyPartSelectionListView()) {
+                    LabelWithIndicator(text: "Muscle groups")
+                }
+            }
+            
+            Section(header: SectionHeader(imageName: "flame", text: "Exercises")) {
+                NavigationLink(destination: SelectExercisesView(exerciseOptions: exerciseOptions)) {
+                    LabelWithIndicator(text: "Edit exercises")
+                }
+                NavigationLink(destination: EditExerciseView(exerciseOptions: exerciseOptions)) {
+                    LabelWithIndicator(text: "New exercise")
+                }
+                Button(action: {
+                    confirmResetExerciseOptions.toggle()
+                }) {
                     HStack {
-                        Text("Muscle groups")
-                        Spacer()
-                        Image(systemName: "chevron.right").opacity(0.5)
+                        Spacer(minLength: 0)
+                        Text("Reset Exercises").foregroundColor(.red)
+                        Spacer(minLength: 0)
                     }
                 }
             }
@@ -60,6 +66,16 @@ struct Settings: View {
                     Text("0.0.0.9000")
                 }
             }
+        }
+        .alert(isPresented: $confirmResetExerciseOptions) {
+            Alert(
+                title: Text("Reset exercises?"),
+                message: Text("Are you sure you want to reset the list of exercises?"),
+                primaryButton: .destructive(Text("Reset"), action: {
+                    self.exerciseOptions.resetExerciseOptions()
+                }),
+                secondaryButton: .cancel()
+            )
         }
         .onDisappear() {
             self.saveUserDefualts()
@@ -96,6 +112,6 @@ extension Settings {
 
 struct Settings_Previews: PreviewProvider {
     static var previews: some View {
-        Settings()
+        Settings(exerciseOptions: ExerciseOptions())
     }
 }

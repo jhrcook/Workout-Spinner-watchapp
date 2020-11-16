@@ -12,11 +12,11 @@ import Combine
 struct ExercisePicker: View {
     
     @ObservedObject var workoutManager: WorkoutManager
-    @State var exerciseOptions: ExerciseOptions = ExercisePicker.loadWorkouts()
+    @ObservedObject var exerciseOptions: ExerciseOptions
     @State internal var crownRotation = 0.0
     
     var numExercises: Int {
-        return exerciseOptions.workouts.count
+        return exerciseOptions.exercisesBlacklistFiltered.count
     }
     
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
@@ -28,8 +28,9 @@ struct ExercisePicker: View {
         return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
     }
     
-    init(workoutManager: WorkoutManager, exerciseSelected: Binding<Bool>) {
+    init(workoutManager: WorkoutManager, exerciseOptions: ExerciseOptions, exerciseSelected: Binding<Bool>) {
         self.workoutManager = workoutManager
+        self.exerciseOptions = exerciseOptions
         self._exerciseSelected = exerciseSelected
     }
     
@@ -46,7 +47,7 @@ struct ExercisePicker: View {
                                              width: geo.minSize * 2.0)
                             }
                             ForEach(0..<self.numExercises) { i in
-                                WorkoutSlice(workoutInfo: self.exerciseOptions.workouts[i],
+                                WorkoutSlice(workoutInfo: self.exerciseOptions.exercisesBlacklistFiltered[i],
                                              idx: i,
                                              numberOfWorkouts: self.numExercises,
                                              size: geo.minSize * 2.0)
@@ -103,6 +104,6 @@ struct BlurredBar: View {
 
 struct WorkoutPicker_Previews: PreviewProvider {
     static var previews: some View {
-        ExercisePicker(workoutManager: WorkoutManager(), exerciseSelected: .constant(false))
+        ExercisePicker(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), exerciseSelected: .constant(false))
     }
 }

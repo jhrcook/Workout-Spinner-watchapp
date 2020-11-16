@@ -11,7 +11,7 @@ import SwiftUI
 
 struct BodyPartSelectionListView: View {
     
-    @ObservedObject var bodyparts = BodyPartSelections()
+    @ObservedObject var bodyparts = BodyPartSelections(with: .userDefaults)
     
     var body: some View {
         List {
