@@ -8,13 +8,11 @@
 
 import SwiftUI
 
-
 struct DoneButtonStyle: ButtonStyle {
-    
     var padding: CGFloat = 5.0
     var cornerRadius: CGFloat = 5.0
-    var color: Color = Color.workoutGreen
-    
+    var color = Color.workoutGreen
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(padding)
@@ -26,7 +24,6 @@ struct DoneButtonStyle: ButtonStyle {
             .animation(.linear(duration: 0.2))
     }
 }
-
 
 struct ButtonStyles_Previews: PreviewProvider {
     static var previews: some View {

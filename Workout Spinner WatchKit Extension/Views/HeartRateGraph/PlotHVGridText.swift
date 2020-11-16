@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct PlotHVGridText: View {
-    
     let value: Double
     let horizontal: Bool
     let graphData: HeartRateGraphData
     let size: CGSize
-    
+
     let fontSize: CGFloat = 10
-    
+
     var position: CGPoint {
         var mappedValue = 0.0
         if horizontal {

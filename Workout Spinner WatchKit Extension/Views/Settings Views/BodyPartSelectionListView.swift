@@ -8,14 +8,12 @@
 
 import SwiftUI
 
-
 struct BodyPartSelectionListView: View {
-    
     @ObservedObject var bodyparts = BodyPartSelections(with: .userDefaults)
-    
+
     var body: some View {
         List {
-            ForEach(0..<bodyparts.bodyparts.count) { i in
+            ForEach(0 ..< bodyparts.bodyparts.count) { i in
                 HStack {
                     Toggle(isOn: self.$bodyparts.bodyparts[i].enabled) {
                         Text(self.bodyparts.bodyparts[i].bodypart.rawValue.capitalized)

@@ -9,21 +9,20 @@
 import SwiftUI
 
 struct WorkoutSlice: View {
-    
     let workoutInfo: ExerciseInfo
     let idx: Int
     let numberOfWorkouts: Int
     let size: CGFloat
-    
+
     let offset: CGFloat = 8.0
     var halfOffset: CGFloat {
         (offset / 2.0) - 2.0
     }
-    
+
     var rotationAngle: Angle {
         .degrees(Double(idx) * 360.0 / Double(numberOfWorkouts))
     }
-    
+
     var body: some View {
         Text(workoutInfo.displayName)
             .rotationEffect(.degrees(180))
@@ -37,14 +36,13 @@ struct WorkoutSlice: View {
     }
 }
 
-
 struct WorkoutSlice_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.white
-            
+
             VStack {
-                ForEach(3..<8) { i in
+                ForEach(3 ..< 8) { i in
                     WorkoutSlice(workoutInfo: ExerciseOptions().exercises[0], idx: 1, numberOfWorkouts: i, size: 200)
                         .padding()
                 }

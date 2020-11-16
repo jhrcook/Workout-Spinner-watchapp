@@ -16,11 +16,9 @@ func == (lhs: ExerciseIntensity, rhs: ExerciseIntensity) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
 
-
 enum ExerciseType: String, Codable, CaseIterable {
     case count, time
 }
-
 
 enum ExerciseBodyPart: String, Codable, CaseIterable {
     case arms, core, legs, back, cardio, neck
