@@ -9,10 +9,9 @@
 import SwiftUI
 
 struct ListViewTextButton: View {
-    
     var label: String
     var action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             Text(label)

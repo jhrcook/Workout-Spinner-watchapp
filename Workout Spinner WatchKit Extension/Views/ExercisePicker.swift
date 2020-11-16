@@ -6,34 +6,33 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
 struct ExercisePicker: View {
-    
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var exerciseOptions: ExerciseOptions
     @State internal var crownRotation = 0.0
-    
+
     var numExercises: Int {
         return exerciseOptions.exercisesBlacklistFiltered.count
     }
-    
+
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
-    
+
     @Binding internal var exerciseSelected: Bool
     @State internal var selectedExerciseIndex: Int = 0
-    
+
     var spinDirection: Double {
         return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
     }
-    
+
     init(workoutManager: WorkoutManager, exerciseOptions: ExerciseOptions, exerciseSelected: Binding<Bool>) {
         self.workoutManager = workoutManager
         self.exerciseOptions = exerciseOptions
-        self._exerciseSelected = exerciseSelected
+        _exerciseSelected = exerciseSelected
     }
-    
+
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -41,12 +40,12 @@ struct ExercisePicker: View {
                 GeometryReader { geo in
                     ZStack {
                         ZStack {
-                            ForEach(0..<self.numExercises) { i in
+                            ForEach(0 ..< self.numExercises) { i in
                                 SpinnerSlice(idx: i,
                                              numberOfSlices: self.numExercises,
                                              width: geo.minSize * 2.0)
                             }
-                            ForEach(0..<self.numExercises) { i in
+                            ForEach(0 ..< self.numExercises) { i in
                                 WorkoutSlice(workoutInfo: self.exerciseOptions.exercisesBlacklistFiltered[i],
                                              idx: i,
                                              numberOfWorkouts: self.numExercises,
@@ -56,8 +55,7 @@ struct ExercisePicker: View {
                         .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
                                                           onFinishedRotationAnimation: self.rotationEffectDidFinish))
                         .animation(.default)
-                        
-                        
+
                         HStack {
                             SpinnerPointer().frame(width: 20, height: 15)
                             Spacer()
@@ -72,7 +70,7 @@ struct ExercisePicker: View {
                 .digitalCrownRotation(self.$crownRotation)
                 .onReceive(Just(crownRotation), perform: crownRotationDidChange)
             }
-            
+
             VStack {
                 BlurredBar(height: 10, blurRadius: 4, isTop: true)
                     .padding(EdgeInsets(top: 0, leading: -50, bottom: 0, trailing: -50))
@@ -85,12 +83,11 @@ struct ExercisePicker: View {
     }
 }
 
-
 struct BlurredBar: View {
     let height: CGFloat
     let blurRadius: CGFloat
     let isTop: Bool
-    
+
     var body: some View {
         Color.black
             .padding(0)
@@ -99,8 +96,6 @@ struct BlurredBar: View {
             .blur(radius: blurRadius, opaque: false)
     }
 }
-
-
 
 struct WorkoutPicker_Previews: PreviewProvider {
     static var previews: some View {

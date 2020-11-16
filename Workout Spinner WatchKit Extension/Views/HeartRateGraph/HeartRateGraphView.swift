@@ -9,29 +9,28 @@
 import SwiftUI
 
 struct HeartRateGraphView: View {
-    
     var graphData: HeartRateGraphData
-    
+
     let numYGridLines = 3
     var yGridValues: [Double] {
         let min = graphData.minY.rounded(.down)
         let max = graphData.maxY.rounded(.up)
         var values = [min, max]
         let gap = ((max - min) / Double(numYGridLines + 1))
-        for i in 1...numYGridLines {
+        for i in 1 ... numYGridLines {
             values.append(min + (gap * Double(i)))
         }
         values.sort { $0 > $1 }
         return values
     }
-    
+
     var gridTextWidth: CGFloat = 25
     var verticalPadding: CGFloat = 10
-    
-    init (workoutTracker: WorkoutTracker) {
+
+    init(workoutTracker: WorkoutTracker) {
         graphData = HeartRateGraphData(workoutTraker: workoutTracker)
     }
-    
+
     var body: some View {
         GeometryReader { geo in
             HStack(alignment: .center, spacing: 0) {
@@ -64,8 +63,7 @@ struct HeartRateGraphView: View {
             }
         }
     }
-    
-    
+
     func reduceGeoSize(_ geo: GeometryProxy, widthBy widthAdjust: CGFloat = 0, heightBy heightAdjust: CGFloat = 0) -> CGSize {
         var modSize = geo.size
         modSize.width = modSize.width - widthAdjust
@@ -74,7 +72,6 @@ struct HeartRateGraphView: View {
     }
 }
 
-
 struct HeartRateGraphView_Previews: PreviewProvider {
     static var previews: some View {
         HeartRateGraphView(workoutTracker: WorkoutTracker())
@@ -82,4 +79,3 @@ struct HeartRateGraphView_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 300, height: 200))
     }
 }
-

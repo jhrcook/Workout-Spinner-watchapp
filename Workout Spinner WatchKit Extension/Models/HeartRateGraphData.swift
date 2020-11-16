@@ -15,27 +15,29 @@ struct HeartRateGraphDatum {
 }
 
 struct HeartRateGraphData {
-    
     var data: [HeartRateGraphDatum]
-    
+
     var minX: Double {
         return data.map { $0.x }.min()!
     }
+
     var minY: Double {
         return data.map { $0.y }.min()!
     }
+
     var maxX: Double {
         return data.map { $0.x }.max()!
     }
+
     var maxY: Double {
         return data.map { $0.y }.max()!
     }
-    
+
     init(workoutTraker: WorkoutTracker) {
-        self.data = HeartRateGraphData.workoutTrackerDataToGraphData(workoutTraker)
+        data = HeartRateGraphData.workoutTrackerDataToGraphData(workoutTraker)
 //        self.data = HeartRateGraphData.mockHeartRateData()
     }
-    
+
     static func workoutTrackerDataToGraphData(_ workoutTracker: WorkoutTracker) -> [HeartRateGraphDatum] {
         var HRData = [HeartRateGraphDatum]()
         var previousEndingX = 0.0
@@ -51,35 +53,34 @@ struct HeartRateGraphData {
         }
         return HRData
     }
-    
+
     func convertedXData(toMin: Double, toMax: Double) -> [Double] {
         return data.map { convert(x: $0.x, toMin: toMin, toMax: toMax) }
     }
-    
+
     func convertedYData(toMin: Double, toMax: Double) -> [Double] {
         return data.map { convert(y: $0.y, toMin: toMin, toMax: toMax) }
     }
-    
+
     func convert(x: Double, toMin: Double, toMax: Double) -> Double {
-        return x.rangeMap(inMin: self.minX, inMax: self.maxX, outMin: toMin, outMax: toMax)
+        return x.rangeMap(inMin: minX, inMax: maxX, outMin: toMin, outMax: toMax)
     }
-    
+
     func convert(y: Double, toMin: Double, toMax: Double) -> Double {
-        return y.rangeMap(inMin: self.minY, inMax: self.maxY, outMin: toMin, outMax: toMax)
+        return y.rangeMap(inMin: minY, inMax: maxY, outMin: toMin, outMax: toMax)
     }
 }
-
 
 extension HeartRateGraphData {
     static func mockHeartRateData() -> [HeartRateGraphDatum] {
         var d = [HeartRateGraphDatum]()
         var x = 0.0
-        for i in 0..<5 {
-            let n = (5...25).randomElement()!
+        for i in 0 ..< 5 {
+            let n = (5 ... 25).randomElement()!
             var y = 50.0
-            for _ in 0..<n {
+            for _ in 0 ..< n {
                 x += 1
-                y += Double.random(in: -5.0...5.0)
+                y += Double.random(in: -5.0 ... 5.0)
                 d.append(HeartRateGraphDatum(x: x, y: y, groupIndex: i))
             }
         }

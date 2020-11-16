@@ -9,21 +9,16 @@
 import Foundation
 
 class ExerciseOptions: NSObject, ObservableObject {
-    
     @Published var allExercises = [ExerciseInfo]()
-    
+
     var exercises: [ExerciseInfo] {
-        get {
-            return allExercises.filter { $0.active }
-        }
+        return allExercises.filter { $0.active }
     }
-    
+
     var exercisesBlacklistFiltered: [ExerciseInfo] {
-        get {
-            return filterBlacklistedBodyParts()
-        }
+        return filterBlacklistedBodyParts()
     }
-        
+
     override init() {
         super.init()
         allExercises = loadExercises()
@@ -31,7 +26,7 @@ class ExerciseOptions: NSObject, ObservableObject {
             resetExerciseOptions()
         }
     }
-    
+
     /// Write exercise array to disk.
     func saveExercises() {
         let encoder = JSONEncoder()
@@ -42,8 +37,7 @@ class ExerciseOptions: NSObject, ObservableObject {
             print("Error when encoding exercises to JSON: \(error.localizedDescription)")
         }
     }
-    
-    
+
     /// Read in exercise array from disk.
     /// - Returns: Array of exercises.
     func loadExercises() -> [ExerciseInfo] {
@@ -57,14 +51,13 @@ class ExerciseOptions: NSObject, ObservableObject {
         }
         return []
     }
-    
-    
+
     func filterBlacklistedBodyParts() -> [ExerciseInfo] {
         let inactiveBodyparts: [ExerciseBodyPart] = BodyPartSelections(with: .userDefaults)
             .bodyparts
             .filter { !$0.enabled }
             .map { $0.bodypart }
-        
+
         return exercises.filter { exercise in
             if let _ = exercise.bodyParts.first(where: { inactiveBodyparts.contains($0) }) {
                 return false
@@ -74,16 +67,15 @@ class ExerciseOptions: NSObject, ObservableObject {
     }
 }
 
-
-
 // MARK: - Editing options array
+
 extension ExerciseOptions {
     /// Add a new exercise.
     func append(_ exercise: ExerciseInfo) {
         allExercises.append(exercise)
         saveExercises()
     }
-    
+
     /// Replace one exercise with another.
     func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
         if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
@@ -91,7 +83,7 @@ extension ExerciseOptions {
             saveExercises()
         }
     }
-    
+
     /// Remove an exercise.
     func remove(_ exercise: ExerciseInfo) {
         let startCount = allExercises.count
@@ -100,7 +92,7 @@ extension ExerciseOptions {
             saveExercises()
         }
     }
-    
+
     /// Remove multiple exercises.
     func remove(_ exercisesToRemove: [ExerciseInfo]) {
         if exercisesToRemove.count == 0 { return }
@@ -112,7 +104,7 @@ extension ExerciseOptions {
             saveExercises()
         }
     }
-    
+
     /// Update an existing exercise or append it to the end of the options.
     func updateOrAppend(_ exercise: ExerciseInfo) {
         if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
@@ -122,7 +114,7 @@ extension ExerciseOptions {
         }
         saveExercises()
     }
-    
+
     /// Resest the list of exercises to default options.
     func resetExerciseOptions() {
         do {
@@ -134,9 +126,8 @@ extension ExerciseOptions {
     }
 }
 
-
-
 // MARK: - Reading in default exercise JSON.
+
 extension ExerciseOptions {
     /// Parse the JSON data to an array of workouts.
     /// - Parameter jsonData: JSON data as a `Data` object.
@@ -149,7 +140,7 @@ extension ExerciseOptions {
             throw error
         }
     }
-    
+
     /// Read in data from a JSON file.
     /// - Parameter name: Local file name.
     /// - Throws: Will throw an error if the file in unreachable or cannot be converted to a `Data` object.
@@ -169,14 +160,14 @@ extension ExerciseOptions {
             throw DataReadingError.fileDoesNotExist(name)
         }
     }
-    
+
     enum DataReadingError: Error, LocalizedError {
         case fileDoesNotExist(String)
         case cannotConvertToData
-        
+
         var errorDescription: String? {
             switch self {
-            case .fileDoesNotExist(let fileName):
+            case let .fileDoesNotExist(fileName):
                 return NSLocalizedString("No such file in bundle: '\(fileName)'", comment: "")
             case .cannotConvertToData:
                 return NSLocalizedString("Cannot convert text in file to data.", comment: "")
@@ -184,8 +175,3 @@ extension ExerciseOptions {
         }
     }
 }
-
-
-
-
-

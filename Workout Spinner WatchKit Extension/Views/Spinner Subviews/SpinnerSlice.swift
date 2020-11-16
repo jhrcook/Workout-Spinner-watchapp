@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct SpinnerSliceShape: Shape {
-    
     let radius: CGFloat
     let angle: Angle
-    
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
         path.move(to: CGPoint(x: rect.midX, y: rect.midY))
-        path.addArc(center: CGPoint(x: rect.midX, y:rect.midY),
+        path.addArc(center: CGPoint(x: rect.midX, y: rect.midY),
                     radius: radius,
                     startAngle: angle * 0.5,
                     endAngle: angle * (-0.5),
@@ -25,21 +24,19 @@ struct SpinnerSliceShape: Shape {
     }
 }
 
-
 struct SpinnerSlice: View {
-    
     let idx: Int
     let numberOfSlices: Int
     let width: CGFloat
-    
+
     var sliceAngle: Angle {
         Angle.degrees(360.0 / Double(numberOfSlices))
     }
-    
+
     var rotationAngle: Angle {
         Angle.degrees(Double(idx) * 360.0 / Double(numberOfSlices))
     }
-    
+
     var body: some View {
         ZStack {
             Color.darkGray
@@ -52,11 +49,10 @@ struct SpinnerSlice: View {
     }
 }
 
-
 struct SpinnerSlice_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ForEach(3..<8) { i in
+            ForEach(3 ..< 8) { i in
                 SpinnerSlice(idx: 1, numberOfSlices: i, width: 100)
                     .padding()
             }

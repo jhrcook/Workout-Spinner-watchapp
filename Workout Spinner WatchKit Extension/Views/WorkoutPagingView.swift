@@ -9,19 +9,18 @@
 import SwiftUI
 
 struct WorkoutPagingView: View {
-    
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
     @ObservedObject var exerciseOptions: ExerciseOptions
-    
+
     @State private var currentPageIndex: Int = 0
     @State private var exerciseSelectedByPicker = false
     @State private var exerciseCanceled = false
     @State private var exerciseComplete = false
     @State private var confirmFinishWorkout = false
-    
+
     @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
         ZStack {
             if currentPageIndex == 0 {
@@ -71,9 +70,7 @@ struct WorkoutPagingView: View {
     }
 }
 
-
 extension WorkoutPagingView {
-    
     /// Complete a single exercise.
     func finishExercise() {
         switch workoutManager.session.state {
@@ -83,7 +80,7 @@ extension WorkoutPagingView {
             break
         }
     }
-    
+
     /// Start an exercise.
     func startExercise() {
         switch workoutManager.session.state {
@@ -95,7 +92,7 @@ extension WorkoutPagingView {
             break
         }
     }
-    
+
     /// Complete the entire workout session.
     func finishWorkout() {
         workoutManager.endWorkout()
@@ -106,7 +103,6 @@ extension WorkoutPagingView {
         }
     }
 }
-
 
 struct WorkoutPagingView_Previews: PreviewProvider {
     static var previews: some View {
