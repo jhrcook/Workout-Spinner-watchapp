@@ -11,7 +11,7 @@ import SwiftUI
 struct SectionHeader: View {
     let imageName: String
     let text: String
-    
+
     var body: some View {
         HStack {
             Image(systemName: imageName)
@@ -19,7 +19,6 @@ struct SectionHeader: View {
         }
     }
 }
-
 
 struct SectionHeader_Previews: PreviewProvider {
     static var previews: some View {

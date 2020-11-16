@@ -9,11 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     let workoutManager = WorkoutManager()
     let workoutTracker = WorkoutTracker()
     let exerciseOptions = ExerciseOptions()
-    
+
     var body: some View {
         WelcomeView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)
     }

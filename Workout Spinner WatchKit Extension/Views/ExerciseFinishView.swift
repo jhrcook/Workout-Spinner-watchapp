@@ -12,9 +12,9 @@ struct SmallImageAndTextView: View {
     let imageName: String
     let text: String
     let imageColor: Color
-    
+
     let font: Font = .system(size: 14)
-    
+
     var body: some View {
         HStack {
             Image(systemName: imageName).font(font).foregroundColor(imageColor)
@@ -24,13 +24,12 @@ struct SmallImageAndTextView: View {
 }
 
 struct ExerciseDataRowView: View {
-    
     let data: WorkoutTrackerDatum
-    
+
     var averageHeartRate: Int {
-        return Int(average(data.heartRate.map({ $0.heartRate })).rounded())
+        return Int(average(data.heartRate.map { $0.heartRate }).rounded())
     }
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -39,7 +38,7 @@ struct ExerciseDataRowView: View {
             }.padding(.bottom, 2)
             HStack {
                 Spacer()
-                SmallImageAndTextView(imageName: "heart", text: data.heartRate.count == 0 ? "NA" :  "\(averageHeartRate)", imageColor: .red)
+                SmallImageAndTextView(imageName: "heart", text: data.heartRate.count == 0 ? "NA" : "\(averageHeartRate)", imageColor: .red)
                 Spacer()
                 SmallImageAndTextView(imageName: "flame", text: "\(Int(data.activeCalories.rounded()))", imageColor: .yellow)
                 Spacer()
@@ -48,7 +47,7 @@ struct ExerciseDataRowView: View {
             }
         }
     }
-    
+
     internal func average(_ x: [Double]) -> Double {
         if x.count == 0 {
             return 0
@@ -58,9 +57,8 @@ struct ExerciseDataRowView: View {
 }
 
 struct ExerciseFinishView: View {
-    
     @ObservedObject var workoutTracker: WorkoutTracker
-    
+
     var body: some View {
         List {
             ForEach(workoutTracker.data) { data in

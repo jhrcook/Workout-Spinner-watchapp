@@ -6,9 +6,9 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
-import WatchKit
 import Foundation
 import SwiftUI
+import WatchKit
 
 class HostingController: WKHostingController<ContentView> {
     override var body: ContentView {

@@ -8,11 +8,9 @@
 
 import SwiftUI
 
-
 struct SelectExercisesView: View {
-    
     @ObservedObject var exerciseOptions: ExerciseOptions
-    
+
     var body: some View {
         List {
             ForEach(exerciseOptions.allExercises) { exercise in
@@ -23,7 +21,6 @@ struct SelectExercisesView: View {
         }
     }
 }
-
 
 struct SelectExercisesView_Previews: PreviewProvider {
     static var previews: some View {

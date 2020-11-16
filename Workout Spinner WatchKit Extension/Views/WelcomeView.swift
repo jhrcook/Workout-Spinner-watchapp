@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 struct StartWorkoutButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
@@ -21,19 +20,17 @@ struct StartWorkoutButtonStyle: ButtonStyle {
 }
 
 struct WelcomeView: View {
-    
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
     @ObservedObject var exerciseOptions: ExerciseOptions
-    
+
     @State private var startWorkout = false
     @State private var presentSettingsView = false
-    
+
     var body: some View {
         VStack {
-            
             Spacer(minLength: 0)
-            
+
             NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)) {
                 Text("Start Workout")
                     .font(.system(size: 30))
@@ -43,14 +40,14 @@ struct WelcomeView: View {
             }
             .buttonStyle(StartWorkoutButtonStyle())
             .padding(.bottom, 5)
-            
+
             Text("Press and hold the spinner to finish the workout.")
                 .font(.system(size: 14))
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.leading)
-            
+
             Spacer(minLength: 0)
-            
+
             Button(action: {
                 presentSettingsView = true
             }) {
