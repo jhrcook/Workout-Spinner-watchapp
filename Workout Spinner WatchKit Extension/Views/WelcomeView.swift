@@ -59,7 +59,7 @@ struct WelcomeView: View {
         }
         .ignoresSafeArea(SafeAreaRegions.all, edges: .bottom)
         .sheet(isPresented: $showInstructions) {
-            Text("INSTRUCTIONS!")
+            InstructionsView()
                 .toolbar(content: {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Done") {
