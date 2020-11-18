@@ -5,11 +5,11 @@
 ![Swift](https://img.shields.io/badge/Swift-App-FA7343.svg?style=flat&logo=swift)
 ![iOS](https://img.shields.io/badge/watchOS-App-999999.svg?style=flat&logo=apple&logoColor=white)
 
-<img src="demos/01-spinner.png" width="25%">
-<img src="demos/02-start.png" width="25%">
-<img src="demos/03-workout.png" width="25%">
+<img src="demos/spinner-demo_main.gif" width="35%">
 
-<img src="demos/demo.gif" width="35%">
+<img src="demos/spinner-demo_finished.gif" width="35%">
+
+<img src="demos/spinner-demo_settings.gif" width="35%">
 
 ---
 
