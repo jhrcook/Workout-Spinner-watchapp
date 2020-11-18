@@ -8,17 +8,6 @@
 
 import SwiftUI
 
-struct StartWorkoutButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .padding(20)
-            .background(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.darkGray)
-            )
-    }
-}
-
 struct WelcomeView: View {
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
@@ -26,6 +15,7 @@ struct WelcomeView: View {
 
     @State private var startWorkout = false
     @State private var presentSettingsView = false
+    @State private var showInstructions = false
 
     var body: some View {
         VStack {
@@ -41,31 +31,39 @@ struct WelcomeView: View {
             .buttonStyle(StartWorkoutButtonStyle())
             .padding(.bottom, 5)
 
-            Text("Press and hold the spinner to finish the workout.")
-                .font(.system(size: 14))
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.leading)
-
             Spacer(minLength: 0)
 
-            Button(action: {
-                presentSettingsView = true
-            }) {
-                HStack {
-                    Image(systemName: "gearshape").font(.system(size: 14))
-                    Text("Settings").font(.system(size: 14))
+            HStack {
+                Spacer()
+
+                Button(action: {
+                    showInstructions = true
+                }) {
+                    Image(systemName: "info.circle").font(.system(size: 18))
                 }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.horizontal, 3)
+
+                Spacer()
+
+                NavigationLink(
+                    destination: Settings(exerciseOptions: exerciseOptions)) {
+                    Image(systemName: "gearshape").font(.system(size: 18))
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.horizontal, 3)
+
+                Spacer()
             }
-            .buttonStyle(PlainButtonStyle())
             .padding(.top, 3)
         }
         .ignoresSafeArea(SafeAreaRegions.all, edges: .bottom)
-        .sheet(isPresented: self.$presentSettingsView) {
-            Settings(exerciseOptions: exerciseOptions)
+        .sheet(isPresented: $showInstructions) {
+            Text("INSTRUCTIONS!")
                 .toolbar(content: {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Done") {
-                            self.presentSettingsView = false
+                            self.showInstructions = false
                         }
                     }
                 })

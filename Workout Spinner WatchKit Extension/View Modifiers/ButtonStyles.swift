@@ -25,12 +25,25 @@ struct DoneButtonStyle: ButtonStyle {
     }
 }
 
+struct StartWorkoutButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(Color.darkGray)
+            )
+    }
+}
+
 struct ButtonStyles_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             HStack {
                 Button(action: {}) { Text("Button") }
                     .buttonStyle(DoneButtonStyle())
+                Button(action: {}) { Text("Button") }
+                    .buttonStyle(StartWorkoutButtonStyle())
             }
         }
     }
