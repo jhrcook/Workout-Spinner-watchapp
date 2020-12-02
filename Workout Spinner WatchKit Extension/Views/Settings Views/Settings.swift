@@ -74,6 +74,9 @@ struct Settings: View {
                 secondaryButton: .cancel()
             )
         }
+        .onAppear {
+            selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
+        }
         .onDisappear {
             self.saveUserDefualts()
         }
