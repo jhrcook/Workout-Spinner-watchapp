@@ -9,6 +9,12 @@
 import SwiftUI
 
 struct HeartRateGraphView: View {
+    @ObservedObject var workoutTracker: WorkoutTracker {
+        didSet {
+            graphData = HeartRateGraphData(workoutTraker: workoutTracker)
+        }
+    }
+
     var graphData: HeartRateGraphData
 
     let numYGridLines = 3
@@ -28,6 +34,7 @@ struct HeartRateGraphView: View {
     var verticalPadding: CGFloat = 10
 
     init(workoutTracker: WorkoutTracker) {
+        self.workoutTracker = workoutTracker
         graphData = HeartRateGraphData(workoutTraker: workoutTracker)
     }
 

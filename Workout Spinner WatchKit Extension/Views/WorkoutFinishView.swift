@@ -116,7 +116,6 @@ struct WorkoutFinishView: View {
                 }
                 .buttonStyle(DoneButtonStyle(color: .workoutRed))
             }
-            .navigationBarBackButtonHidden(true)
         }
         .navigationBarBackButtonHidden(true)
     }
