@@ -56,6 +56,12 @@ struct WorkoutPagingView: View {
             } else {
                 WorkoutFinishView(workoutManager: workoutManager, workoutTracker: workoutTracker)
                     .navigationBarBackButtonHidden(true)
+                    // This is a bit of a hack to remove the "<" back arrow button.
+                    .toolbar(content: {
+                        ToolbarItem(placement: .cancellationAction) {
+                            EmptyView()
+                        }
+                    })
             }
         }
         .navigationBarBackButtonHidden(true)
