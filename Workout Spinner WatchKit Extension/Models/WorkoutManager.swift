@@ -62,13 +62,15 @@ class WorkoutManager: NSObject, ObservableObject {
                 guard let self = self else { return }
                 self.elapsedSeconds = self.incrementElapsedTime()
 
-                // Mock exercise stats with a 5 % chance.
-                if Int.random(in: 0 ... 100) < 5 {
-                    self.updateMockStatistics(quantityType: .heartRate)
-                }
-                if Int.random(in: 0 ... 100) < 5 {
-                    self.updateMockStatistics(quantityType: .activeEnergyBurned)
-                }
+                #if DEBUG
+                    // Mock exercise stats with a 5 % chance.
+                    if Int.random(in: 0 ... 100) < 5 {
+                        self.updateMockStatistics(quantityType: .heartRate)
+                    }
+                    if Int.random(in: 0 ... 100) < 5 {
+                        self.updateMockStatistics(quantityType: .activeEnergyBurned)
+                    }
+                #endif
             }
     }
 
