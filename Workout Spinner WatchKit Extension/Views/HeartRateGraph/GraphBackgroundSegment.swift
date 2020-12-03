@@ -44,7 +44,11 @@ struct GraphBackgroundSegment: View {
     /// - Parameter width: Width to be scaled.
     /// - Returns: Scaled width.
     func scaleWidth(_ width: Double) -> CGFloat {
-        CGFloat(width.rangeMap(inMin: 0, inMax: totalSegmentWidth, outMin: 0, outMax: Double(size.width)))
+        let x = CGFloat(width.rangeMap(inMin: 0, inMax: totalSegmentWidth, outMin: 0, outMax: Double(size.width)))
+        print("scaled width from \(width) to \(x)")
+        print("  totalSegmentWidth: \(totalSegmentWidth)")
+        print("  size.width: \(size.width)")
+        return x
     }
 
     /// Scale a value to the height of the entire frame.
@@ -74,7 +78,7 @@ struct GraphBackgroundSegment: View {
             let maxX = xValues.max()!
             let minY = graphData.minY
             let maxY = graphData.maxY
-            data.append(RectangleSegment(width: maxX - minX, height: maxY - minY, color: colors[idx]))
+            data.append(RectangleSegment(width: max(1.0, maxX - minX), height: maxY - minY, color: colors[idx]))
         }
 
         return data

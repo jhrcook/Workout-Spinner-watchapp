@@ -56,8 +56,6 @@ struct DoneButton: View {
                 .modifier(DoneButtonText())
         }
         .buttonStyle(DoneButtonStyle())
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
     }
 }
 

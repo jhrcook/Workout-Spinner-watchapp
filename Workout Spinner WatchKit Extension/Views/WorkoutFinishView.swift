@@ -58,16 +58,20 @@ struct WorkoutFinishView: View {
 
     @Environment(\.presentationMode) var presentationMode
 
+    private var heartRateGraphIsAvailable: Bool {
+        workoutTracker.numberOfHeartRateMeasurements > 1
+    }
+
     private var averageHR: String {
-        return valueAsIntStringOrNA(workoutTracker.averageHeartRate)
+        valueAsIntStringOrNA(workoutTracker.averageHeartRate)
     }
 
     private var minHR: String {
-        return valueAsIntStringOrNA(workoutTracker.minHeartRate)
+        valueAsIntStringOrNA(workoutTracker.minHeartRate)
     }
 
     private var maxHR: String {
-        return valueAsIntStringOrNA(workoutTracker.maxHeartRate)
+        valueAsIntStringOrNA(workoutTracker.maxHeartRate)
     }
 
     @State private var showAllExercises: Bool = false
@@ -92,8 +96,8 @@ struct WorkoutFinishView: View {
 
                 InfoRowView(title: "Active Calories", titleColor: .yellow, value: "\(Int(workoutTracker.totalActiveCalories))")
 
-                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR, showEllipsis: averageHR != "NA") {
-                    if averageHR != "NA" {
+                LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR, showEllipsis: heartRateGraphIsAvailable) {
+                    if heartRateGraphIsAvailable {
                         showHeartRateChartView = true
                     }
                 }

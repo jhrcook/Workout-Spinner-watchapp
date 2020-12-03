@@ -77,6 +77,8 @@ struct ExerciseView: View {
             Spacer()
 
             DoneButton(action: finishExercise)
+                .padding(.horizontal, 8)
+                .padding(.top, 4)
         }
     }
 

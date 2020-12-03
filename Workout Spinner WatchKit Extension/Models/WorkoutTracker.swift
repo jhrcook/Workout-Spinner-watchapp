@@ -19,12 +19,17 @@ class WorkoutTracker: NSObject, ObservableObject {
 
     /// Total active calories.
     var totalActiveCalories: Double {
-        return data.map { $0.activeCalories }.reduce(0, +)
+        data.map { $0.activeCalories }.reduce(0, +)
     }
 
     /// Total duration.
     var totalDuration: Double {
-        return data.map { $0.duration }.reduce(0, +)
+        data.map { $0.duration }.reduce(0, +)
+    }
+
+    /// The total number of heart rate measurements.
+    var numberOfHeartRateMeasurements: Int {
+        data.map { $0.heartRate.count }.reduce(0, +)
     }
 
     /// Average heart rate reading.
