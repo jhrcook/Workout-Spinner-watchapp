@@ -11,11 +11,11 @@ import SwiftUI
 struct DoneButtonStyle: ButtonStyle {
     var padding: CGFloat = 5.0
     var cornerRadius: CGFloat = 5.0
-    var color = Color.workoutGreen
+    var color = Color.workoutRed
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(padding)
+            .padding(.vertical, padding)
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .fill(color)
@@ -33,6 +33,15 @@ struct StartWorkoutButtonStyle: ButtonStyle {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(Color.darkGray)
             )
+    }
+}
+
+struct DoneButtonText: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(.body, design: .rounded))
+            .foregroundColor(.white)
+            .frame(minWidth: 0, maxWidth: .infinity)
     }
 }
 

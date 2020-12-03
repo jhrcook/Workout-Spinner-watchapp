@@ -110,11 +110,10 @@ struct WorkoutFinishView: View {
 
                 InfoRowView(title: "Min/Max heart rate", titleColor: .red, value: "\(minHR) / \(maxHR)")
 
-                ListViewTextButton(label: "Done") {
+                ListViewDoneButton {
                     presentationMode.wrappedValue.dismiss()
                     workoutTracker.clear()
                 }
-                .buttonStyle(DoneButtonStyle(color: .workoutRed))
             }
         }
         .navigationBarBackButtonHidden(true)

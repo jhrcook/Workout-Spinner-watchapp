@@ -76,9 +76,7 @@ struct ExerciseView: View {
 
             Spacer()
 
-            Button(action: finishExercise, label: {
-                Text("Done").foregroundColor(.green).bold()
-            })
+            DoneButton(action: finishExercise)
         }
     }
 
