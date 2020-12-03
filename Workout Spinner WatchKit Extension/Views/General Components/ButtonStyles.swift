@@ -36,15 +36,6 @@ struct StartWorkoutButtonStyle: ButtonStyle {
     }
 }
 
-struct DoneButtonText: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .font(.system(.body, design: .rounded))
-            .foregroundColor(.white)
-            .frame(minWidth: 0, maxWidth: .infinity)
-    }
-}
-
 struct ButtonStyles_Previews: PreviewProvider {
     static var previews: some View {
         Group {
