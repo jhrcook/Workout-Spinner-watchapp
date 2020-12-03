@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
-import SwfitUI
+import SwiftUI
 
 struct DoneButtonText: ViewModifier {
     func body(content: Content) -> some View {
