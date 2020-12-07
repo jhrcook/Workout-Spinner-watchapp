@@ -13,6 +13,8 @@ struct WelcomeView: View {
     @ObservedObject var workoutTracker: WorkoutTracker
     @ObservedObject var exerciseOptions: ExerciseOptions
 
+    @State var arrowButtonSize: CGFloat = 1.0
+
     @State private var startWorkout = false
     @State private var presentSettingsView = false
     @State private var showInstructions = false
@@ -21,15 +23,25 @@ struct WelcomeView: View {
         VStack {
             Spacer(minLength: 0)
 
+            Text("Start Workout")
+                .font(.system(size: 25))
+                .foregroundColor(.white)
+                .bold()
+                .multilineTextAlignment(.center)
+                .padding()
+
             NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)) {
-                Text("Start Workout")
-                    .font(.system(size: 30))
-                    .foregroundColor(.white)
-                    .bold()
-                    .multilineTextAlignment(.center)
+                Image(systemName: "arrow.right.circle.fill")
+                    .font(.system(size: 80))
+                    .foregroundColor(.workoutRed)
+                    .scaleEffect(arrowButtonSize)
+                    .animation(
+                        Animation.easeInOut(duration: 1.0)
+                            .repeatForever(autoreverses: true)
+                    )
             }
-            .buttonStyle(StartWorkoutButtonStyle())
-            .padding(.bottom, 5)
+            .buttonStyle(PlainButtonStyle())
+            .padding(.vertical, 5)
 
             Spacer(minLength: 0)
 
@@ -69,6 +81,7 @@ struct WelcomeView: View {
                 })
         }
         .onAppear {
+            self.arrowButtonSize = 0.9
             workoutManager.requestAuthorization()
             workoutManager.setupWorkout()
         }
