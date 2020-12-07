@@ -10,7 +10,7 @@ import SwiftUI
 
 struct DoneButtonStyle: ButtonStyle {
     var padding: CGFloat = 5.0
-    var cornerRadius: CGFloat = 5.0
+    var cornerRadius: CGFloat = 18.0
     var color = Color.workoutRed
 
     func makeBody(configuration: Configuration) -> some View {
@@ -31,8 +31,10 @@ struct StartWorkoutButtonStyle: ButtonStyle {
             .padding(20)
             .background(
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.darkGray)
+                    .fill(Color.workoutRed)
             )
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .animation(.linear(duration: 0.2))
     }
 }
 

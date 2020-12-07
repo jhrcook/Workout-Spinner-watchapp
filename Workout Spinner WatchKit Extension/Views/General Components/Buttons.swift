@@ -33,11 +33,13 @@ struct ListViewTextButton: View {
 struct ListViewDoneButton: View {
     var text: String = "Done"
     var action: () -> Void
+    var verticalTextPadding: CGFloat = 3
 
     var body: some View {
         Button(action: action) {
             Text(text)
                 .bold()
+                .padding(.vertical, verticalTextPadding)
                 .modifier(DoneButtonText())
         }
         .modifier(CleanListViewButtonModifications())
@@ -48,11 +50,13 @@ struct ListViewDoneButton: View {
 struct DoneButton: View {
     var text: String = "Done"
     var action: () -> Void
+    var verticalTextPadding: CGFloat = 3
 
     var body: some View {
         Button(action: action) {
             Text(text)
                 .bold()
+                .padding(.vertical, verticalTextPadding)
                 .modifier(DoneButtonText())
         }
         .buttonStyle(DoneButtonStyle())
