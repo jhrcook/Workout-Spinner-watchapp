@@ -40,10 +40,11 @@ struct SpinnerSlice: View {
     var body: some View {
         ZStack {
 //            Color.darkGray
-            LinearGradient(gradient: Gradient(colors: [.gray, .darkGray]), startPoint: .leading, endPoint: .trailing)
+//            LinearGradient(gradient: Gradient(colors: [.gray, .darkGray]), startPoint: .leading, endPoint: .trailing)
+            Color.white
                 .clipShape(SpinnerSliceShape(radius: width / 2.0, angle: sliceAngle))
             SpinnerSliceShape(radius: width / 2.0, angle: sliceAngle)
-                .stroke(Color.white, lineWidth: 3)
+                .stroke(Color.black, lineWidth: 3)
                 .frame(width: width, height: width)
         }
         .rotationEffect(rotationAngle)

@@ -27,7 +27,7 @@ struct WorkoutSlice: View {
         Text(workoutInfo.displayName)
             .rotationEffect(.degrees(180))
             .font(.system(size: 20))
-            .foregroundColor(.white)
+            .foregroundColor(.black)
             .lineLimit(1)
             .padding(.horizontal, 5)
             .frame(width: size / 2 - offset, height: nil, alignment: .trailing)

@@ -22,8 +22,8 @@ struct PointerTriangle: Shape {
 struct SpinnerPointer: View {
     var body: some View {
         PointerTriangle()
-            .foregroundColor(.white)
-            .shadow(color: .black, radius: 5, x: 5, y: 5)
+            .foregroundColor(.workoutRed)
+            .shadow(color: .black, radius: 5, x: 3, y: 3)
     }
 }
 
