@@ -1,5 +1,10 @@
 name: WorkoutSpinner
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, reopened, ready_for_review, assigned]
+  schedule:
+    - cron: "0 5 * * SAT"
 jobs:
   build-app:
     name: Build WatchOS app
