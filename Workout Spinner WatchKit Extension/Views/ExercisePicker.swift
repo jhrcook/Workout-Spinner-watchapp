@@ -57,7 +57,9 @@ struct ExercisePicker: View {
                         .animation(.default)
 
                         HStack {
-                            SpinnerPointer().frame(width: 20, height: 15)
+                            SpinnerPointer()
+                                .frame(width: 35, height: 25)
+                                .opacity(0.8)
                             Spacer()
                         }
                     }

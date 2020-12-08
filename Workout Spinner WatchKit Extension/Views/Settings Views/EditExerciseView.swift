@@ -126,9 +126,9 @@ struct EditExerciseView: View {
                 }
             }
 
-            ListViewTextButton(label: "Save", action: saveAndFinish)
-                .buttonStyle(DoneButtonStyle(color: .workoutRed))
+            ListViewDoneButton(text: "Save", action: saveAndFinish)
                 .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines) == "")
+                .opacity(name.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? 0.7 : 1.0)
         }
     }
 }
