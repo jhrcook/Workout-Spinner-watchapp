@@ -32,6 +32,7 @@
 		84BCB975255D574400C83B28 /* SelectExercisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BCB974255D574400C83B28 /* SelectExercisesView.swift */; };
 		84C1FA7425497A050008CE09 /* WorkoutPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1FA7325497A050008CE09 /* WorkoutPagingView.swift */; };
 		84C1FA7C25497CD20008CE09 /* WorkoutTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1FA7B25497CD20008CE09 /* WorkoutTracker.swift */; };
+		84CACD8F258235C9004CD231 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CACD8E258235C9004CD231 /* Logger.swift */; };
 		84D0BDD9254ADA51001ABA83 /* ExerciseFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D0BDD8254ADA51001ABA83 /* ExerciseFinishView.swift */; };
 		84DD331725445DBF00409E57 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD331625445DBF00409E57 /* WelcomeView.swift */; };
 		84DEC01824FE5ABD002FF9BC /* ExercisePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DEC01724FE5ABD002FF9BC /* ExercisePicker.swift */; };
@@ -131,6 +132,7 @@
 		84BCB974255D574400C83B28 /* SelectExercisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectExercisesView.swift; sourceTree = "<group>"; };
 		84C1FA7325497A050008CE09 /* WorkoutPagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutPagingView.swift; path = "Workout Spinner WatchKit Extension/Views/WorkoutPagingView.swift"; sourceTree = SOURCE_ROOT; };
 		84C1FA7B25497CD20008CE09 /* WorkoutTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTracker.swift; sourceTree = "<group>"; };
+		84CACD8E258235C9004CD231 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		84D0BDD8254ADA51001ABA83 /* ExerciseFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseFinishView.swift; sourceTree = "<group>"; };
 		84DD331625445DBF00409E57 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		84DEC01724FE5ABD002FF9BC /* ExercisePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePicker.swift; sourceTree = "<group>"; };
@@ -229,6 +231,14 @@
 			path = "Settings Views";
 			sourceTree = "<group>";
 		};
+		84CACD8D25823591004CD231 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				84CACD8E258235C9004CD231 /* Logger.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
 		84E1503524FD112F007F577D /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				848BE23D250B854900F48C7C /* Workout Spinner WatchKit Extension.entitlements */,
+				84CACD8D25823591004CD231 /* Logging */,
 				843F33EA24FFB29F00919AD5 /* Extensions */,
 				84E372B524FD0B1F00AFB355 /* Views */,
 				84E372B424FD0AD500AFB355 /* View Models */,
@@ -532,6 +543,7 @@
 				84E9C0DD255422B9002D461B /* HeartRateGraphView.swift in Sources */,
 				84A7F866255C0BFB006D26CD /* ButtonStyles.swift in Sources */,
 				849C732A255EA67100C28F96 /* SectionHeader.swift in Sources */,
+				84CACD8F258235C9004CD231 /* Logger.swift in Sources */,
 				84BCB975255D574400C83B28 /* SelectExercisesView.swift in Sources */,
 				84E3729624FD0A5D00AFB355 /* HostingController.swift in Sources */,
 				849C7325255EA64400C28F96 /* LabelWithIndicator.swift in Sources */,

@@ -9,6 +9,7 @@
 import Combine
 import Foundation
 import HealthKit
+import os
 
 enum WorkoutState {
     case running, paused, ended
@@ -45,12 +46,16 @@ class WorkoutManager: NSObject, ObservableObject {
     var cancellable: Cancellable?
     var accumulatedTime: Int = 0
 
+    let logger = Logger.workoutManagerLogger
+
     override init() {
         exerciseInfo = nil
+        logger.info("WorkoutManager initialized with no arguments.")
     }
 
     init(exerciseInfo: ExerciseInfo) {
         self.exerciseInfo = exerciseInfo
+        logger.info("WorkoutManager initialized with exercise information: \(exerciseInfo.displayName, privacy: .public).")
     }
 
     // Set up and start the timer.
@@ -96,10 +101,10 @@ class WorkoutManager: NSObject, ObservableObject {
         // Request authorization for those quantity types.
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { _, error in
             if let error = error {
-                print("Error requesting data read/share authorization: \(error.localizedDescription)")
+                self.logger.error("Error requesting data read/share authorization: \(error.localizedDescription, privacy: .public)")
                 return
             }
-            print("Successfully requesting authoriation for data reading and sharing.")
+            self.logger.log("Successfully requesting authoriation for data reading and sharing.")
         }
     }
 
@@ -113,13 +118,14 @@ class WorkoutManager: NSObject, ObservableObject {
 
     /// Start the workout.
     internal func setupWorkout() {
+        logger.log("Setting up workout.")
         // Create the session and obtain the workout builder.
         do {
             session = try HKWorkoutSession(healthStore: healthStore, configuration: workoutConfiguration())
             builder = session.associatedWorkoutBuilder()
         } catch {
             // Handle any exceptions.
-            print("Error creating workout: \(error.localizedDescription)")
+            logger.error("Error creating workout: \(error.localizedDescription, privacy: .public)")
             return
         }
 
@@ -130,10 +136,12 @@ class WorkoutManager: NSObject, ObservableObject {
         // Set the workout builder's data source.
         builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
                                                      workoutConfiguration: workoutConfiguration())
+        logger.log("Finished setting up workout.")
     }
 
     /// Start a workout
     func startWorkout() {
+        logger.log("Workout started.")
         // Start the timer.
         setUpTimer()
         accumulatedTime = 0
@@ -145,6 +153,7 @@ class WorkoutManager: NSObject, ObservableObject {
 
     /// Pause a workout.
     func pauseWorkout() {
+        logger.log("Workout paused.")
         // Pause the workout.
         session.pause()
         // Stop the timer.
@@ -156,6 +165,7 @@ class WorkoutManager: NSObject, ObservableObject {
 
     /// Resume a previously started workout.
     func resumeWorkout() {
+        logger.log("Workout resumed.")
         // Start the timer.
         setUpTimer()
         active = true
@@ -165,6 +175,7 @@ class WorkoutManager: NSObject, ObservableObject {
 
     /// Reset all of the informational variables.
     func resetTrackedInformation() {
+        logger.log("Reset exercise information saved.")
         accumulatedTime = 0
         allHeartRateReadings = []
         heartrate = 0
@@ -174,15 +185,15 @@ class WorkoutManager: NSObject, ObservableObject {
 
     /// End a workout.
     func endWorkout() {
-        print("Ending workout session.")
+        logger.log("Ending workout session.")
 
         builder.endCollection(withEnd: Date()) { success, error in
             if let error = error {
-                print("Data collection ended with error: \(error.localizedDescription)")
+                self.logger.error("Data collection ended with error: \(error.localizedDescription, privacy: .public)")
             } else if success {
-                print("Data collection ended successfully.")
+                self.logger.log("Data collection ended successfully.")
             } else {
-                print("Data collection did not end successfully (but without error).")
+                self.logger.log("Data collection did not end successfully (but without error).")
             }
         }
 
@@ -240,22 +251,24 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
     func workoutSession(_: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState,
                         from fromState: HKWorkoutSessionState, date _: Date)
     {
-        print("Workout session did change state: \(workoutStateDescription(fromState)) -> \(workoutStateDescription(toState))")
+        let fromStateH = workoutStateDescription(fromState)
+        let toStateH = workoutStateDescription(toState)
+        logger.info("Workout session did change state: \(fromStateH, privacy: .public) -> \(toStateH, privacy: .public)")
 
         if toState == .ended {
             // Wait for the session to transition states before ending the builder.
             builder.finishWorkout { _, error in
                 // Optionally display a workout summary to the user.
                 if let error = error {
-                    print("Builder did finish with error: \(error.localizedDescription)")
+                    self.logger.error("Builder did finish with error: \(error.localizedDescription, privacy: .public)")
                 }
-                print("Builder finished successfully.")
+                self.logger.info("Builder finished successfully.")
             }
         }
     }
 
     func workoutSession(_: HKWorkoutSession, didFailWithError error: Error) {
-        print("Workout session failed: \(error.localizedDescription)")
+        logger.error("Workout session failed: \(error.localizedDescription, privacy: .public)")
     }
 
     /// Return a description for the workout session state.
