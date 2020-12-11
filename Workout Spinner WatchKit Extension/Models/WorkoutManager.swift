@@ -67,15 +67,15 @@ class WorkoutManager: NSObject, ObservableObject {
                 guard let self = self else { return }
                 self.elapsedSeconds = self.incrementElapsedTime()
 
-                #if DEBUG
-                    // Mock exercise stats with a 5 % chance.
-                    if Int.random(in: 0 ... 100) < 5 {
-                        self.updateMockStatistics(quantityType: .heartRate)
-                    }
-                    if Int.random(in: 0 ... 100) < 5 {
-                        self.updateMockStatistics(quantityType: .activeEnergyBurned)
-                    }
-                #endif
+//                #if DEBUG
+//                    // Mock exercise stats with a 5 % chance.
+//                    if Int.random(in: 0 ... 100) < 5 {
+//                        self.updateMockStatistics(quantityType: .heartRate)
+//                    }
+//                    if Int.random(in: 0 ... 100) < 5 {
+//                        self.updateMockStatistics(quantityType: .activeEnergyBurned)
+//                    }
+//                #endif
             }
     }
 
@@ -303,6 +303,7 @@ extension WorkoutManager: HKLiveWorkoutBuilderDelegate {
 
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
         for type in collectedTypes {
+            logger.debug("Did collect data of \(type.description, privacy: .public)")
             guard let quantityType = type as? HKQuantityType else {
                 return // Nothing to do.
             }
