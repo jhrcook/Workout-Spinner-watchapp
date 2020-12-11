@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import os
 import SwiftUI
 
 struct WorkoutPagingView: View {
@@ -21,6 +22,8 @@ struct WorkoutPagingView: View {
 
     @Environment(\.presentationMode) var presentationMode
 
+    let logger = Logger.workoutPagingViewLogger
+
     var body: some View {
         ZStack {
             if currentPageIndex == 0 {
@@ -31,9 +34,11 @@ struct WorkoutPagingView: View {
                             withAnimation(.none) { currentPageIndex = 1 }
                         }
                     }) {
-                        ExerciseStartView(workoutManager: workoutManager, exerciseCanceled: $exerciseCanceled).navigationTitle(Text(""))
+                        ExerciseStartView(workoutManager: workoutManager, exerciseCanceled: $exerciseCanceled)
+                            .navigationTitle(Text(""))
                     }
                     .onLongPressGesture {
+                        logger.info("Long press gesture recognized.")
                         confirmFinishWorkout = true
                     }
             } else if currentPageIndex == 1 {
@@ -48,6 +53,7 @@ struct WorkoutPagingView: View {
                             .toolbar(content: {
                                 ToolbarItem(placement: .cancellationAction) {
                                     Button("Done") {
+                                        logger.info("ExerciseFinishView dismissed.")
                                         self.exerciseComplete = false
                                     }
                                 }
@@ -79,8 +85,10 @@ struct WorkoutPagingView: View {
 extension WorkoutPagingView {
     /// Complete a single exercise.
     func finishExercise() {
+        logger.info("Finish exercise method run.")
         switch workoutManager.session.state {
         case .running:
+            logger.debug("Pasuing workout session.")
             workoutManager.pauseWorkout()
         default:
             break
@@ -89,10 +97,13 @@ extension WorkoutPagingView {
 
     /// Start an exercise.
     func startExercise() {
+        logger.info("Start exercise method run.")
         switch workoutManager.session.state {
         case .notStarted, .prepared:
+            logger.debug("Starting workout session.")
             workoutManager.startWorkout()
         case .paused:
+            logger.debug("Resuming workout session.")
             workoutManager.resumeWorkout()
         default:
             break
@@ -101,6 +112,7 @@ extension WorkoutPagingView {
 
     /// Complete the entire workout session.
     func finishWorkout() {
+        logger.info("Finish exercise method run.")
         workoutManager.endWorkout()
         if workoutTracker.data.count > 0 {
             currentPageIndex = 2

@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import os
 
 class ExerciseOptions: NSObject, ObservableObject {
+    let logger = Logger.exerciseOptionsLogger
     @Published var allExercises = [ExerciseInfo]()
 
     var exercises: [ExerciseInfo] {
@@ -29,26 +31,32 @@ class ExerciseOptions: NSObject, ObservableObject {
 
     /// Write exercise array to disk.
     func saveExercises() {
+        logger.info("Saving exercises.")
         let encoder = JSONEncoder()
         do {
             let encodedExercises = try encoder.encode(allExercises)
             UserDefaults.standard.set(encodedExercises, forKey: UserDefaultsKeys.exerciseOptions.rawValue)
+            logger.log("Finished saving exercises.")
         } catch {
-            print("Error when encoding exercises to JSON: \(error.localizedDescription)")
+            logger.error("Error when encoding exercises to JSON: \(error.localizedDescription, privacy: .public)")
         }
+        logger.log("Finished saving exercises.")
     }
 
     /// Read in exercise array from disk.
     /// - Returns: Array of exercises.
     func loadExercises() -> [ExerciseInfo] {
+        logger.info("Loading exercises.")
         if let codedExercises = UserDefaults.standard.object(forKey: UserDefaultsKeys.exerciseOptions.rawValue) as? Data {
             do {
                 let decodedExercises = try JSONDecoder().decode([ExerciseInfo].self, from: codedExercises)
+                logger.log("Loaded \(decodedExercises.count) exercises.")
                 return decodedExercises
             } catch {
-                print("Unable to decode exercises: \(error.localizedDescription)")
+                logger.error("Unable to decode exercises: \(error.localizedDescription, privacy: .public)")
             }
         }
+        logger.log("Did not load any exercises.")
         return []
     }
 
@@ -72,12 +80,14 @@ class ExerciseOptions: NSObject, ObservableObject {
 extension ExerciseOptions {
     /// Add a new exercise.
     func append(_ exercise: ExerciseInfo) {
+        logger.debug("Adding new exercise: \(exercise.shortDescription, privacy: .public)")
         allExercises.append(exercise)
         saveExercises()
     }
 
     /// Replace one exercise with another.
     func replace(_ exercise: ExerciseInfo, with newExercise: ExerciseInfo) {
+        logger.debug("Replacing exercise: \(newExercise.shortDescription, privacy: .public) replacing \(exercise.shortDescription, privacy: .public)")
         if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
             allExercises[idx] = newExercise
             saveExercises()
@@ -86,6 +96,7 @@ extension ExerciseOptions {
 
     /// Remove an exercise.
     func remove(_ exercise: ExerciseInfo) {
+        logger.debug("Removing exercise: \(exercise.shortDescription)")
         let startCount = allExercises.count
         allExercises = exercises.filter { $0 == exercise }
         if startCount != allExercises.count {
@@ -95,6 +106,7 @@ extension ExerciseOptions {
 
     /// Remove multiple exercises.
     func remove(_ exercisesToRemove: [ExerciseInfo]) {
+        logger.debug("Removing \(exercisesToRemove.count) exercises.")
         if exercisesToRemove.count == 0 { return }
         let startCount = allExercises.count
         for exercise in exercisesToRemove {
@@ -107,6 +119,7 @@ extension ExerciseOptions {
 
     /// Update an existing exercise or append it to the end of the options.
     func updateOrAppend(_ exercise: ExerciseInfo) {
+        logger.debug("Updating or adding (as necessary) exercise: \(exercise.shortDescription, privacy: .public)")
         if let idx = allExercises.firstIndex(where: { $0 == exercise }) {
             allExercises[idx] = exercise
         } else {
@@ -117,11 +130,12 @@ extension ExerciseOptions {
 
     /// Resest the list of exercises to default options.
     func resetExerciseOptions() {
+        logger.log("Reseting exercise options to defaults.")
         do {
             allExercises = try parse(jsonData: readLocalJsonFile(named: "WorkoutSpinnerExercises"))
             saveExercises()
         } catch {
-            print("error in loading workouts: \(error.localizedDescription)")
+            logger.error("Error in loading workouts: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

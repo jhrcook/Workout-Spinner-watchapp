@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os
 
 struct HeartRateGraphDatum {
     let x: Double
@@ -16,6 +17,7 @@ struct HeartRateGraphDatum {
 
 struct HeartRateGraphData {
     var data: [HeartRateGraphDatum]
+    var logger = Logger.heartRateGraphLogger
 
     var minX: Double {
         return data.map { $0.x }.min()!
@@ -34,8 +36,8 @@ struct HeartRateGraphData {
     }
 
     init(workoutTraker: WorkoutTracker) {
+        logger.info("Heart rate graph initialized with workout tracker (\(workoutTraker.numberOfExercises) exercise(s))")
         data = HeartRateGraphData.workoutTrackerDataToGraphData(workoutTraker)
-//        self.data = HeartRateGraphData.mockHeartRateData()
     }
 
     static func workoutTrackerDataToGraphData(_ workoutTracker: WorkoutTracker) -> [HeartRateGraphDatum] {
@@ -71,19 +73,21 @@ struct HeartRateGraphData {
     }
 }
 
-extension HeartRateGraphData {
-    static func mockHeartRateData() -> [HeartRateGraphDatum] {
-        var d = [HeartRateGraphDatum]()
-        var x = 0.0
-        for i in 0 ..< 5 {
-            let n = (5 ... 25).randomElement()!
-            var y = 50.0
-            for _ in 0 ..< n {
-                x += 1
-                y += Double.random(in: -5.0 ... 5.0)
-                d.append(HeartRateGraphDatum(x: x, y: y, groupIndex: i))
+#if DEBUG
+    extension HeartRateGraphData {
+        static func mockHeartRateData() -> [HeartRateGraphDatum] {
+            var d = [HeartRateGraphDatum]()
+            var x = 0.0
+            for i in 0 ..< 5 {
+                let n = (5 ... 25).randomElement()!
+                var y = 50.0
+                for _ in 0 ..< n {
+                    x += 1
+                    y += Double.random(in: -5.0 ... 5.0)
+                    d.append(HeartRateGraphDatum(x: x, y: y, groupIndex: i))
+                }
             }
+            return d
         }
-        return d
     }
-}
+#endif

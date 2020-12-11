@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import os
 import SwiftUI
 
 struct Settings: View {
@@ -22,6 +23,8 @@ struct Settings: View {
 
     @State private var confirmResetExerciseOptions = false
     @Environment(\.presentationMode) var presentationMode
+
+    let logger = Logger.settingsLogger
 
     var body: some View {
         Form {
@@ -46,6 +49,7 @@ struct Settings: View {
                     LabelWithIndicator(text: "New exercise")
                 }
                 Button(action: {
+                    logger.info("User tapped 'Reset Exercises' button.")
                     confirmResetExerciseOptions.toggle()
                 }) {
                     HStack {
@@ -69,18 +73,22 @@ struct Settings: View {
                 title: Text("Reset exercises?"),
                 message: Text("Are you sure you want to reset the list of exercises?"),
                 primaryButton: .destructive(Text("Reset"), action: {
+                    self.logger.info("User confirmed to reset exercises.")
                     self.exerciseOptions.resetExerciseOptions()
                 }),
                 secondaryButton: .cancel()
             )
         }
         .onAppear {
+            logger.debug("Settings will appear.")
             selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
         }
         .onDisappear {
+            logger.debug("Setting will disappear.")
             self.saveUserDefualts()
         }
         .onReceive(NotificationCenter.default.publisher(for: .NSExtensionHostWillResignActive)) { _ in
+            logger.debug("System notification that Settings will resign active.")
             self.saveUserDefualts()
         }
     }
@@ -89,6 +97,7 @@ struct Settings: View {
 extension Settings {
     func saveUserDefualts() {
         let intensity = ExerciseIntensity.allCases[selectedExerciseIntensity]
+        logger.log("Saving preferences to UserDefaults (intensity: \(intensity.rawValue, privacy: .public))")
         UserDefaults.standard.set(intensity.rawValue,
                                   forKey: UserDefaultsKeys.exerciseIntensity.rawValue)
     }

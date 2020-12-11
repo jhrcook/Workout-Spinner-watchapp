@@ -15,6 +15,13 @@ struct ExerciseInfo: Identifiable, Codable, Equatable {
     let bodyParts: [ExerciseBodyPart]
     let workoutValue: [String: Float]
     var active: Bool = true
+    var shortDescription: String {
+        "\(displayName) (\(id))"
+    }
+
+    var longDescription: String {
+        "\(id). \(displayName) - type: \(type.rawValue), num bodyparts: \(bodyParts.count), active: \(active)"
+    }
 
     static func == (lhs: ExerciseInfo, rhs: ExerciseInfo) -> Bool {
         return lhs.id == rhs.id
