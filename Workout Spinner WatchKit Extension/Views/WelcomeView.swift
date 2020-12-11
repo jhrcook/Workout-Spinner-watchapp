@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import os
 import SwiftUI
 
 struct WelcomeView: View {
@@ -18,6 +19,8 @@ struct WelcomeView: View {
     @State private var startWorkout = false
     @State private var presentSettingsView = false
     @State private var showInstructions = false
+
+    let logger = Logger.welcomeViewLogger
 
     var body: some View {
         VStack {
@@ -49,6 +52,7 @@ struct WelcomeView: View {
                 Spacer()
 
                 Button(action: {
+                    logger.info("Instruction button tapped.")
                     showInstructions = true
                 }) {
                     Image(systemName: "info.circle").font(.system(size: 18))
@@ -81,6 +85,7 @@ struct WelcomeView: View {
                 })
         }
         .onAppear {
+            self.logger.info("WelcomeView did appear.")
             self.arrowButtonSize = 0.9
             workoutManager.requestAuthorization()
             workoutManager.setupWorkout()

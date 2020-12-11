@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import os
 import SwiftUI
 
 struct HeartRateGraphView: View {
@@ -34,9 +35,13 @@ struct HeartRateGraphView: View {
     var verticalPadding: CGFloat = 10
 
     init(workoutTracker: WorkoutTracker) {
+        logger.debug("Initializing `HeartRateGraphView`.")
         self.workoutTracker = workoutTracker
         graphData = HeartRateGraphData(workoutTraker: workoutTracker)
+        logger.log("Finished initializing `HeartRateGraphView`.")
     }
+
+    let logger = Logger.heartRateGraphViewLogger
 
     var body: some View {
         GeometryReader { geo in

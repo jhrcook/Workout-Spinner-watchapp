@@ -175,7 +175,7 @@ class WorkoutManager: NSObject, ObservableObject {
 
     /// Reset all of the informational variables.
     func resetTrackedInformation() {
-        logger.log("Reset exercise information saved.")
+        logger.log("Reset recorded exercise information.")
         accumulatedTime = 0
         allHeartRateReadings = []
         heartrate = 0

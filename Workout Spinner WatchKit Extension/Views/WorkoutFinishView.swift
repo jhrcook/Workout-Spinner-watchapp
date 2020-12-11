@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import os
 import SwiftUI
 
 struct InfoRowView: View {
@@ -77,10 +78,13 @@ struct WorkoutFinishView: View {
     @State private var showAllExercises: Bool = false
     @State private var showHeartRateChartView: Bool = false
 
+    let logger = Logger.workoutFinishViewLogger
+
     var body: some View {
         VStack {
             List {
                 LinkedInfoRowView(title: "Number of exercises", titleColor: .green, value: "\(workoutTracker.numberOfExercises)") {
+                    logger.info("Will show list of all exercises.")
                     showAllExercises = true
                 }
                 .sheet(isPresented: $showAllExercises) {
@@ -98,6 +102,7 @@ struct WorkoutFinishView: View {
 
                 LinkedInfoRowView(title: "Average heart rate", titleColor: .red, value: averageHR, showEllipsis: heartRateGraphIsAvailable) {
                     if heartRateGraphIsAvailable {
+                        logger.info("Will show heart rate graph.")
                         showHeartRateChartView = true
                     }
                 }
@@ -115,6 +120,7 @@ struct WorkoutFinishView: View {
                 InfoRowView(title: "Min/Max heart rate", titleColor: .red, value: "\(minHR) / \(maxHR)")
 
                 ListViewDoneButton {
+                    logger.info("Done button tapped.")
                     presentationMode.wrappedValue.dismiss()
                     workoutTracker.clear()
                 }

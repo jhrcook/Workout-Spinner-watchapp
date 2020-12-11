@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import os
 import SwiftUI
 
 struct ExerciseAmountValuePicker: View {
@@ -47,13 +48,19 @@ struct EditExerciseView: View {
 
     @Environment(\.presentationMode) var presentationMode
 
+    let logger = Logger.editExercisesViewLogger
+
     init(exerciseOptions: ExerciseOptions) {
+        logger.debug("Initializing `EditExerciseView` with `ExerciseOptions`.")
         self.exerciseOptions = exerciseOptions
         exercise = nil
         bodyparts = BodyPartSelections(with: .none)
+        logger.log("Finished initializing `EditExerciseView` with `ExerciseOptions`.")
     }
 
     init(exerciseOptions: ExerciseOptions, exercise: ExerciseInfo) {
+        logger.debug("Initializing `EditExerciseView` with `ExerciseOptions` and `ExerciseInfo`.")
+
         self.exerciseOptions = exerciseOptions
         self.exercise = exercise
         bodyparts = BodyPartSelections(fromExerciseInfo: exercise)
@@ -69,6 +76,8 @@ struct EditExerciseView: View {
         _killingVal = .init(initialValue: convert(value: exercise.workoutValue[ExerciseIntensity.killing.rawValue], orUse: killingVal))
 
         _active = .init(initialValue: exercise.active)
+
+        logger.log("Finished initializing `EditExerciseView` with `ExerciseOptions` and `ExerciseInfo`.")
     }
 
     func convert(value: Float?, orUse defaultValue: Int) -> Int {
@@ -135,6 +144,8 @@ struct EditExerciseView: View {
 
 extension EditExerciseView {
     func saveAndFinish() {
+        logger.debug("Saving exercise.")
+
         let bp = bodyparts.bodyparts
             .filter { $0.enabled }
             .map { $0.bodypart }
@@ -155,7 +166,7 @@ extension EditExerciseView {
                                        active: active)
 
         exerciseOptions.updateOrAppend(newExercise)
-
+        logger.log("Saved exercise: \(newExercise.shortDescription, privacy: .public).")
         presentationMode.wrappedValue.dismiss()
     }
 }

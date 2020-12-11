@@ -7,6 +7,7 @@
 //
 
 import Combine
+import os
 import SwiftUI
 
 struct ExercisePicker: View {
@@ -27,10 +28,14 @@ struct ExercisePicker: View {
         return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
     }
 
+    let logger = Logger.exercisePickerLogger
+
     init(workoutManager: WorkoutManager, exerciseOptions: ExerciseOptions, exerciseSelected: Binding<Bool>) {
+        logger.info("Initializing ExercisePicker.")
         self.workoutManager = workoutManager
         self.exerciseOptions = exerciseOptions
         _exerciseSelected = exerciseSelected
+        logger.debug("Finished initializing ExercisePicker.")
     }
 
     var body: some View {
