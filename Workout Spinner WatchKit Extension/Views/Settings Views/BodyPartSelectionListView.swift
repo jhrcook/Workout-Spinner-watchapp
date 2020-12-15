@@ -20,9 +20,9 @@ struct BodyPartSelectionListView: View {
                     }
                 }
             }
-        }
-        .onDisappear {
-            self.bodyparts.saveDataToUserDefaults()
+            ListViewDoneButton(text: "Save") {
+                self.bodyparts.saveDataToUserDefaults()
+            }
         }
     }
 }

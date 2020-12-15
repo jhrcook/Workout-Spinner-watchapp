@@ -17,6 +17,7 @@ extension Logger {
     static let workoutManagerLogger = Logger(subsystem: Logger.mySubsystem, category: "workout-manager")
     static let exerciseOptionsLogger = Logger(subsystem: Logger.mySubsystem, category: "exercise-options")
     static let heartRateGraphLogger = Logger(subsystem: Logger.mySubsystem, category: "heart-rate-graph")
+    static let bodyPartSelectionsLogger = Logger(subsystem: Logger.mySubsystem, category: "body-part-selections")
 
     // MARK: - View loggers
 
