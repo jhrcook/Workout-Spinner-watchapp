@@ -26,7 +26,9 @@ struct WorkoutPagingView: View {
 
     var body: some View {
         ZStack {
-            if currentPageIndex == 0 {
+            if exerciseOptions.numberOfExercisesFiltered < 5 {
+                CannotSpinView(workoutManager: workoutManager, exerciseOptions: exerciseOptions, presentationMode: presentationMode)
+            } else if currentPageIndex == 0 {
                 ExercisePicker(workoutManager: workoutManager, exerciseOptions: exerciseOptions, exerciseSelected: $exerciseSelectedByPicker)
                     .sheet(isPresented: $exerciseSelectedByPicker, onDismiss: {
                         if !exerciseCanceled {

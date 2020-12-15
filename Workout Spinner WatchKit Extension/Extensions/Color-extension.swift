@@ -74,4 +74,5 @@ extension Color {
     static let deepRed2 = Color(red: 200, green: 20, blue: 20)
     static let pastelDarkRed = Color(red: 230, green: 78, blue: 78)
     static let pastelDarkRed2 = Color(red: 209, green: 67, blue: 67)
+    static let lighterDarkGray = Color(red: 79, green: 33, blue: 33)
 }

@@ -33,7 +33,11 @@ struct WelcomeView: View {
                 .multilineTextAlignment(.center)
                 .padding()
 
-            NavigationLink(destination: WorkoutPagingView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)) {
+            NavigationLink(
+                destination: WorkoutPagingView(workoutManager: workoutManager,
+                                               workoutTracker: workoutTracker,
+                                               exerciseOptions: exerciseOptions)
+            ) {
                 Image(systemName: "arrow.right.circle.fill")
                     .font(.system(size: 80))
                     .foregroundColor(.workoutRed)

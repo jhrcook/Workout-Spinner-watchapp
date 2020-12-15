@@ -14,11 +14,15 @@ class ExerciseOptions: NSObject, ObservableObject {
     @Published var allExercises = [ExerciseInfo]()
 
     var exercises: [ExerciseInfo] {
-        return allExercises.filter { $0.active }
+        allExercises.filter { $0.active }
     }
 
     var exercisesBlacklistFiltered: [ExerciseInfo] {
-        return filterBlacklistedBodyParts()
+        filterBlacklistedBodyParts()
+    }
+
+    var numberOfExercisesFiltered: Int {
+        filterBlacklistedBodyParts().count
     }
 
     override init() {

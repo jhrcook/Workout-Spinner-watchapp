@@ -10,6 +10,7 @@ import SwiftUI
 
 struct BodyPartSelectionListView: View {
     @ObservedObject var bodyparts = BodyPartSelections(with: .userDefaults)
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         List {
@@ -22,6 +23,7 @@ struct BodyPartSelectionListView: View {
             }
             ListViewDoneButton(text: "Save") {
                 self.bodyparts.saveDataToUserDefaults()
+                presentationMode.wrappedValue.dismiss()
             }
         }
     }

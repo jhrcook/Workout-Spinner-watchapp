@@ -28,14 +28,12 @@ class BodyPartSelections: ObservableObject {
         bodyparts = ExerciseBodyPart.allCases
             .sorted { $0.rawValue < $1.rawValue }
             .map { BodyPartSelection(bodypart: $0, enabled: exerciseInfo.bodyParts.contains($0)) }
-        logger.debug("Number of body parts: \(bodyparts.count, privacy: .public)")
     }
 
     /// Initialize with specificed body parts.
     init(bodyparts: [BodyPartSelection]) {
         logger.info("Initialized `BodyPartSelections` with and array of \(bodyparts.count, privacy: .public) body part(s).")
         self.bodyparts = bodyparts
-        logger.debug("Number of body parts: \(self.bodyparts.count, privacy: .public)")
     }
 
     enum DefaultBodyPartsSelection: String {
@@ -58,8 +56,6 @@ class BodyPartSelections: ObservableObject {
                 .sorted { $0.rawValue < $1.rawValue }
                 .map { BodyPartSelection(bodypart: $0, enabled: selection == .all) }
         }
-
-        logger.debug("Number of body parts: \(bodyparts.count, privacy: .public)")
     }
 
     static func readUserDefaults() -> [String: Bool] {
