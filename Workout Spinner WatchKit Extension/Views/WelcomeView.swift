@@ -9,12 +9,46 @@
 import os
 import SwiftUI
 
+struct StartWorkoutText: View {
+    let fontSize: CGFloat = 25
+    let screenWidth: CGFloat
+
+    init(screenWidth: CGFloat) {
+        self.screenWidth = screenWidth
+    }
+
+    static let width4mmSeries6: CGFloat = 183.0
+
+    var body: some View {
+        Text("Start Workout")
+            .font(.system(size: fontSize * screenWidth / StartWorkoutText.width4mmSeries6))
+            .foregroundColor(.white)
+            .bold()
+            .multilineTextAlignment(.center)
+            .padding()
+    }
+}
+
+struct PulsingStartWorkoutButtonImage: View {
+    @State var arrowButtonSize: CGFloat = 1.0
+    var body: some View {
+        Image(systemName: "arrow.right.circle.fill")
+            .font(.system(size: 80))
+            .foregroundColor(.workoutRed)
+            .scaleEffect(arrowButtonSize)
+            .animation(
+                Animation.easeInOut(duration: 1.0)
+                    .repeatForever(autoreverses: true)
+            ).onAppear {
+                self.arrowButtonSize = 0.9
+            }
+    }
+}
+
 struct WelcomeView: View {
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
     @ObservedObject var exerciseOptions: ExerciseOptions
-
-    @State var arrowButtonSize: CGFloat = 1.0
 
     @State private var startWorkout = false
     @State private var presentSettingsView = false
@@ -27,26 +61,14 @@ struct WelcomeView: View {
             VStack {
                 Spacer(minLength: 0)
 
-                Text("Start Workout")
-                    .font(.system(size: 25.0 * geo.size.width / 183.0))
-                    .foregroundColor(.white)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                    .padding()
+                StartWorkoutText(screenWidth: geo.size.width)
 
                 NavigationLink(
                     destination: WorkoutPagingView(workoutManager: workoutManager,
                                                    workoutTracker: workoutTracker,
                                                    exerciseOptions: exerciseOptions)
                 ) {
-                    Image(systemName: "arrow.right.circle.fill")
-                        .font(.system(size: 80))
-                        .foregroundColor(.workoutRed)
-                        .scaleEffect(arrowButtonSize)
-                        .animation(
-                            Animation.easeInOut(duration: 1.0)
-                                .repeatForever(autoreverses: true)
-                        )
+                    PulsingStartWorkoutButtonImage()
                 }
                 .buttonStyle(PlainButtonStyle())
                 .padding(.vertical, 5)
@@ -93,7 +115,6 @@ struct WelcomeView: View {
         }
         .onAppear {
             self.logger.info("WelcomeView did appear.")
-            self.arrowButtonSize = 0.9
             workoutManager.requestAuthorization()
             workoutManager.setupWorkout()
         }
