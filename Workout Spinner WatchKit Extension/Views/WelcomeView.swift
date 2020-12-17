@@ -23,59 +23,62 @@ struct WelcomeView: View {
     let logger = Logger.welcomeViewLogger
 
     var body: some View {
-        VStack {
-            Spacer(minLength: 0)
+        GeometryReader { geo in
+            VStack {
+                Spacer(minLength: 0)
 
-            Text("Start Workout")
-                .font(.system(size: 25))
-                .foregroundColor(.white)
-                .bold()
-                .multilineTextAlignment(.center)
-                .padding()
-
-            NavigationLink(
-                destination: WorkoutPagingView(workoutManager: workoutManager,
-                                               workoutTracker: workoutTracker,
-                                               exerciseOptions: exerciseOptions)
-            ) {
-                Image(systemName: "arrow.right.circle.fill")
-                    .font(.system(size: 80))
-                    .foregroundColor(.workoutRed)
-                    .scaleEffect(arrowButtonSize)
-                    .animation(
-                        Animation.easeInOut(duration: 1.0)
-                            .repeatForever(autoreverses: true)
-                    )
-            }
-            .buttonStyle(PlainButtonStyle())
-            .padding(.vertical, 5)
-
-            Spacer(minLength: 0)
-
-            HStack {
-                Spacer()
-
-                Button(action: {
-                    logger.info("Instruction button tapped.")
-                    showInstructions = true
-                }) {
-                    Image(systemName: "info.circle").font(.system(size: 18))
-                }
-                .buttonStyle(PlainButtonStyle())
-                .padding(.horizontal, 3)
-
-                Spacer()
+                Text("Start Workout")
+                    .font(.system(size: 25.0 * geo.size.width / 183.0))
+                    .foregroundColor(.white)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .padding()
 
                 NavigationLink(
-                    destination: Settings(exerciseOptions: exerciseOptions)) {
-                    Image(systemName: "gearshape").font(.system(size: 18))
+                    destination: WorkoutPagingView(workoutManager: workoutManager,
+                                                   workoutTracker: workoutTracker,
+                                                   exerciseOptions: exerciseOptions)
+                ) {
+                    Image(systemName: "arrow.right.circle.fill")
+                        .font(.system(size: 80))
+                        .foregroundColor(.workoutRed)
+                        .scaleEffect(arrowButtonSize)
+                        .animation(
+                            Animation.easeInOut(duration: 1.0)
+                                .repeatForever(autoreverses: true)
+                        )
                 }
                 .buttonStyle(PlainButtonStyle())
-                .padding(.horizontal, 3)
+                .padding(.vertical, 5)
 
-                Spacer()
+                Spacer(minLength: 0)
+
+                HStack {
+                    Spacer()
+
+                    Button(action: {
+                        logger.info("Instruction button tapped.")
+                        logger.debug("Geometry Reader size -- width: \(geo.size.width) x height: \(geo.size.height)")
+                        showInstructions = true
+                    }) {
+                        Image(systemName: "info.circle").font(.system(size: 18))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal, 3)
+
+                    Spacer()
+
+                    NavigationLink(
+                        destination: Settings(exerciseOptions: exerciseOptions)) {
+                        Image(systemName: "gearshape").font(.system(size: 18))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal, 3)
+
+                    Spacer()
+                }
+                .padding(.top, 3)
             }
-            .padding(.top, 3)
         }
         .ignoresSafeArea(SafeAreaRegions.all, edges: .bottom)
         .sheet(isPresented: $showInstructions) {
