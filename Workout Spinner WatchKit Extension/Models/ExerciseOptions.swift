@@ -12,6 +12,7 @@ import os
 class ExerciseOptions: NSObject, ObservableObject {
     let logger = Logger.exerciseOptionsLogger
     @Published var allExercises = [ExerciseInfo]()
+    let bodyPartsSelection = BodyPartSelections(with: .userDefaults)
 
     var exercises: [ExerciseInfo] {
         allExercises.filter { $0.active }
@@ -65,7 +66,7 @@ class ExerciseOptions: NSObject, ObservableObject {
     }
 
     func filterBlacklistedBodyParts() -> [ExerciseInfo] {
-        let inactiveBodyparts: [ExerciseBodyPart] = BodyPartSelections(with: .userDefaults)
+        let inactiveBodyparts: [ExerciseBodyPart] = bodyPartsSelection
             .bodyparts
             .filter { !$0.enabled }
             .map { $0.bodypart }
