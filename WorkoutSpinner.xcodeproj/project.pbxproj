@@ -252,8 +252,8 @@
 		84E3727424FD0A5800AFB355 = {
 			isa = PBXGroup;
 			children = (
-				84E3728324FD0A5800AFB355 /* Workout Spinner WatchKit App */,
-				84E3729224FD0A5D00AFB355 /* Workout Spinner WatchKit Extension */,
+				84E3728324FD0A5800AFB355 /* WorkoutSpinnerWatchKitApp */,
+				84E3729224FD0A5D00AFB355 /* WorkoutSpinnerWatchKitExtension */,
 				84E3727C24FD0A5800AFB355 /* Products */,
 				848BE23E250B854900F48C7C /* Frameworks */,
 			);
@@ -269,17 +269,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		84E3728324FD0A5800AFB355 /* Workout Spinner WatchKit App */ = {
+		84E3728324FD0A5800AFB355 /* WorkoutSpinnerWatchKitApp */ = {
 			isa = PBXGroup;
 			children = (
 				84E3728424FD0A5800AFB355 /* Interface.storyboard */,
 				84E3728724FD0A5C00AFB355 /* Assets.xcassets */,
 				84E3728924FD0A5C00AFB355 /* Info.plist */,
 			);
-			path = "Workout Spinner WatchKit App";
+			path = WorkoutSpinnerWatchKitApp;
 			sourceTree = "<group>";
 		};
-		84E3729224FD0A5D00AFB355 /* Workout Spinner WatchKit Extension */ = {
+		84E3729224FD0A5D00AFB355 /* WorkoutSpinnerWatchKitExtension */ = {
 			isa = PBXGroup;
 			children = (
 				848BE23D250B854900F48C7C /* Workout Spinner WatchKit Extension.entitlements */,
@@ -299,7 +299,7 @@
 				84E372A524FD0A5E00AFB355 /* PushNotificationPayload.apns */,
 				84E372A124FD0A5E00AFB355 /* Preview Content */,
 			);
-			path = "Workout Spinner WatchKit Extension";
+			path = WorkoutSpinnerWatchKitExtension;
 			sourceTree = "<group>";
 		};
 		84E372A124FD0A5E00AFB355 /* Preview Content */ = {

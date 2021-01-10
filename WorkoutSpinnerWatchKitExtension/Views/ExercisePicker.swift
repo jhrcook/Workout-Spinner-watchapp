@@ -16,7 +16,7 @@ struct ExercisePicker: View {
     @State internal var crownRotation = 0.0
 
     var numExercises: Int {
-        return exerciseOptions.exercisesBlacklistFiltered.count
+        exerciseOptions.exercisesBlacklistFiltered.count
     }
 
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
