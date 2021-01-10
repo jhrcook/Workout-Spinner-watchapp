@@ -104,8 +104,10 @@ struct BlurredBar: View {
     }
 }
 
-struct WorkoutPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        ExercisePicker(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), exerciseSelected: .constant(false))
+#if DEBUG
+    struct WorkoutPicker_Previews: PreviewProvider {
+        static var previews: some View {
+            ExercisePicker(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), exerciseSelected: .constant(false))
+        }
     }
-}
+#endif
