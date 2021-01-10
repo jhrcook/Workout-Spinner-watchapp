@@ -31,12 +31,7 @@ extension ExercisePicker {
             pointingSlice = Double(numExercises) + pointingSlice
         }
 
-        logger.debug("reading spinner selection: pointing angle: \(Int(pointingAtAngle.rounded()))")
-        logger.debug("reading spinner selection - pointing slice: \(Int(pointingSlice))")
-
-//        workoutManager.exerciseInfo = exerciseOptions.exercises[selectedExerciseIndex]
-        selectedExerciseIndex = min(Int(pointingSlice), numExercises - 1)
         workoutManager.exerciseInfo = exerciseOptions.exercises[selectedExerciseIndex]
-        logger.debug("reading spinner selection - selected index: \(selectedExerciseIndex)")
+        selectedExerciseIndex = min(Int(pointingSlice), numExercises - 1)
     }
 }
