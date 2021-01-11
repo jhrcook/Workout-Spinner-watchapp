@@ -34,6 +34,5 @@ extension ExercisePicker {
 
         workoutManager.exerciseInfo = exerciseOptions.exercises[selectedExerciseIndex]
         selectedExerciseIndex = min(Int(pointingSlice), numExercises - 1)
-        logger.debug("selected exercise \"\(workoutManager.exerciseInfo?.displayName ?? "(none)")\" at index \(selectedExerciseIndex)")
     }
 }

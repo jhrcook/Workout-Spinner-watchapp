@@ -66,16 +66,6 @@ class WorkoutManager: NSObject, ObservableObject {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.elapsedSeconds = self.incrementElapsedTime()
-
-//                #if DEBUG
-//                    // Mock exercise stats with a 5 % chance.
-//                    if Int.random(in: 0 ... 100) < 5 {
-//                        self.updateMockStatistics(quantityType: .heartRate)
-//                    }
-//                    if Int.random(in: 0 ... 100) < 5 {
-//                        self.updateMockStatistics(quantityType: .activeEnergyBurned)
-//                    }
-//                #endif
             }
     }
 
@@ -136,7 +126,14 @@ class WorkoutManager: NSObject, ObservableObject {
         // Set the workout builder's data source.
         builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
                                                      workoutConfiguration: workoutConfiguration())
+
         logger.log("Finished setting up workout.")
+    }
+
+    /// Prepare a workout (I am not sure what this does, but it is in the `HKWorkoutSession` API.)
+    func prepareWorkout() {
+        logger.log("Workout prepared.")
+        session.prepare()
     }
 
     /// Start a workout
@@ -147,8 +144,10 @@ class WorkoutManager: NSObject, ObservableObject {
         accumulatedTime = 0
         // Set state to active.
         active = true
-        // Start the workout session and begin data collection.
+        // Start the workout session.
         session.startActivity(with: Date())
+        // Start data collection.
+        startWorkoutDataCollection()
     }
 
     /// Pause a workout.
@@ -186,20 +185,33 @@ class WorkoutManager: NSObject, ObservableObject {
     /// End a workout.
     func endWorkout() {
         logger.log("Ending workout session.")
-
-        builder.endCollection(withEnd: Date()) { success, error in
-            if let error = error {
-                self.logger.error("Data collection ended with error: \(error.localizedDescription, privacy: .public)")
-            } else if success {
-                self.logger.log("Data collection ended successfully.")
-            } else {
-                self.logger.log("Data collection did not end successfully (but without error).")
-            }
-        }
-
+        session.stopActivity(with: Date())
         session.end()
         active = false
+        stopWorkoutDataCollection()
         resetTrackedInformation()
+    }
+
+    internal func stopWorkoutDataCollection() {
+        builder.endCollection(withEnd: Date()) { success, error in
+            if let error = error {
+                self.logger.error("Builder data collection ended with error: \(error.localizedDescription, privacy: .public)")
+            } else if success {
+                self.logger.log("Builder data collection ended successfully.")
+            } else {
+                self.logger.log("Builder data collection did not end successfully (but without error).")
+            }
+        }
+    }
+
+    internal func startWorkoutDataCollection() {
+        builder.beginCollection(withStart: Date()) { [unowned self] _, error in
+            if let error = error {
+                self.logger.error("Error when beginning data collection: \(error.localizedDescription)")
+            } else {
+                self.logger.info("Data collection begun successfully.")
+            }
+        }
     }
 
     // MARK: - Update the UI
@@ -207,6 +219,7 @@ class WorkoutManager: NSObject, ObservableObject {
     // Update the published values.
     internal func updateForStatistics(_ statistics: HKStatistics?) {
         guard let statistics = statistics else { return }
+        if !active { return }
 
         DispatchQueue.main.async {
             switch statistics.quantityType {
@@ -224,22 +237,6 @@ class WorkoutManager: NSObject, ObservableObject {
                 return
             default:
                 return
-            }
-        }
-    }
-
-    enum MockWorkoutStatistics {
-        case heartRate, activeEnergyBurned
-    }
-
-    internal func updateMockStatistics(quantityType: MockWorkoutStatistics) {
-        DispatchQueue.main.async {
-            switch quantityType {
-            case .heartRate:
-                self.heartrate += Double.random(in: self.heartrate == 0 ? 100 ... 120 : -5 ... 5)
-                self.allHeartRateReadings.append(HeartRateReading(heartRate: self.heartrate))
-            case .activeEnergyBurned:
-                self.activeCalories += Double.random(in: 1 ... 3)
             }
         }
     }
@@ -262,7 +259,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
                 if let error = error {
                     self.logger.error("Builder did finish with error: \(error.localizedDescription, privacy: .public)")
                 }
-                self.logger.info("Builder finished successfully.")
+                self.logger.info("Builder finished workout successfully.")
             }
         }
     }

@@ -57,8 +57,10 @@ struct ExercisePicker: View {
                                              size: geo.minSize * 2.0)
                             }
                         }
-                        .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
-                                                          onFinishedRotationAnimation: self.rotationEffectDidFinish))
+                        .modifier(SpinnerRotationModifier(
+                            rotation: .degrees(self.spinDirection * self.crownRotation),
+                            onFinishedRotationAnimation: self.rotationEffectDidFinish
+                        ))
                         .animation(.default)
 
                         HStack {
