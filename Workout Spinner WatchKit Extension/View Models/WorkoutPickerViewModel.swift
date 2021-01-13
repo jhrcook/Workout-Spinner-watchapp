@@ -24,7 +24,8 @@ extension ExercisePicker {
     func readSelectedWorkout() {
         let pointerAngle = 180.0
         let sliceAngle = 360.0 / Double(numExercises)
-        let pointingAtAngle = (0.5 * sliceAngle) + (pointerAngle + crownRotation).truncatingRemainder(dividingBy: 360.0)
+        let pointingAtAngle = (0.5 * sliceAngle) + (pointerAngle - spinDirection * crownRotation)
+            .truncatingRemainder(dividingBy: 360.0)
         var pointingSlice = (pointingAtAngle / sliceAngle).rounded(.down)
 
         if pointingSlice < 0 {

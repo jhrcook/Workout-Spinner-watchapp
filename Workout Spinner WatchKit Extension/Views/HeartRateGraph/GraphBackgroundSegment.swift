@@ -45,9 +45,6 @@ struct GraphBackgroundSegment: View {
     /// - Returns: Scaled width.
     func scaleWidth(_ width: Double) -> CGFloat {
         let x = CGFloat(width.rangeMap(inMin: 0, inMax: totalSegmentWidth, outMin: 0, outMax: Double(size.width)))
-        print("scaled width from \(width) to \(x)")
-        print("  totalSegmentWidth: \(totalSegmentWidth)")
-        print("  size.width: \(size.width)")
         return x
     }
 

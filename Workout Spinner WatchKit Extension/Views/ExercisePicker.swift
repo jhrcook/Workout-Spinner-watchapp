@@ -57,8 +57,10 @@ struct ExercisePicker: View {
                                              size: geo.minSize * 2.0)
                             }
                         }
-                        .modifier(SpinnerRotationModifier(rotation: .degrees(self.spinDirection * self.crownRotation),
-                                                          onFinishedRotationAnimation: self.rotationEffectDidFinish))
+                        .modifier(SpinnerRotationModifier(
+                            rotation: .degrees(self.spinDirection * self.crownRotation),
+                            onFinishedRotationAnimation: self.rotationEffectDidFinish
+                        ))
                         .animation(.default)
 
                         HStack {
@@ -104,8 +106,10 @@ struct BlurredBar: View {
     }
 }
 
-struct WorkoutPicker_Previews: PreviewProvider {
-    static var previews: some View {
-        ExercisePicker(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), exerciseSelected: .constant(false))
+#if DEBUG
+    struct WorkoutPicker_Previews: PreviewProvider {
+        static var previews: some View {
+            ExercisePicker(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), exerciseSelected: .constant(false))
+        }
     }
-}
+#endif

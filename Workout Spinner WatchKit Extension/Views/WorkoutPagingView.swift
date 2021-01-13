@@ -26,8 +26,12 @@ struct WorkoutPagingView: View {
 
     var body: some View {
         ZStack {
-            if currentPageIndex == 0 {
-                ExercisePicker(workoutManager: workoutManager, exerciseOptions: exerciseOptions, exerciseSelected: $exerciseSelectedByPicker)
+            if exerciseOptions.numberOfExercisesFiltered < 5 {
+                CannotSpinView(workoutManager: workoutManager, exerciseOptions: exerciseOptions, presentationMode: presentationMode)
+            } else if currentPageIndex == 0 {
+                ExercisePicker(workoutManager: workoutManager,
+                               exerciseOptions: exerciseOptions,
+                               exerciseSelected: $exerciseSelectedByPicker)
                     .sheet(isPresented: $exerciseSelectedByPicker, onDismiss: {
                         if !exerciseCanceled {
                             startExercise()
@@ -38,7 +42,7 @@ struct WorkoutPagingView: View {
                             .navigationTitle(Text(""))
                     }
                     .onLongPressGesture {
-                        logger.info("Long press gesture recognized.")
+                        logger.info("Long press gesture recognized - finished workout.")
                         confirmFinishWorkout = true
                     }
             } else if currentPageIndex == 1 {
@@ -85,10 +89,9 @@ struct WorkoutPagingView: View {
 extension WorkoutPagingView {
     /// Complete a single exercise.
     func finishExercise() {
-        logger.info("Finish exercise method run.")
         switch workoutManager.session.state {
         case .running:
-            logger.debug("Pasuing workout session.")
+            logger.log("Finished exercise --> pausing workout session.")
             workoutManager.pauseWorkout()
         default:
             break
@@ -97,13 +100,12 @@ extension WorkoutPagingView {
 
     /// Start an exercise.
     func startExercise() {
-        logger.info("Start exercise method run.")
         switch workoutManager.session.state {
         case .notStarted, .prepared:
-            logger.debug("Starting workout session.")
+            logger.log("Starting exercise: \(workoutManager.exerciseInfo!.displayName, privacy: .public).")
             workoutManager.startWorkout()
         case .paused:
-            logger.debug("Resuming workout session.")
+            logger.log("Resuming exercise: \(workoutManager.exerciseInfo!.displayName, privacy: .public).")
             workoutManager.resumeWorkout()
         default:
             break
@@ -112,7 +114,7 @@ extension WorkoutPagingView {
 
     /// Complete the entire workout session.
     func finishWorkout() {
-        logger.info("Finish exercise method run.")
+        logger.log("Finishing workout.")
         workoutManager.endWorkout()
         if workoutTracker.data.count > 0 {
             currentPageIndex = 2

@@ -12,13 +12,18 @@ import os
 class ExerciseOptions: NSObject, ObservableObject {
     let logger = Logger.exerciseOptionsLogger
     @Published var allExercises = [ExerciseInfo]()
+    let bodyPartsSelection = BodyPartSelections(with: .userDefaults)
 
     var exercises: [ExerciseInfo] {
-        return allExercises.filter { $0.active }
+        allExercises.filter { $0.active }
     }
 
     var exercisesBlacklistFiltered: [ExerciseInfo] {
-        return filterBlacklistedBodyParts()
+        filterBlacklistedBodyParts()
+    }
+
+    var numberOfExercisesFiltered: Int {
+        filterBlacklistedBodyParts().count
     }
 
     override init() {
@@ -61,7 +66,7 @@ class ExerciseOptions: NSObject, ObservableObject {
     }
 
     func filterBlacklistedBodyParts() -> [ExerciseInfo] {
-        let inactiveBodyparts: [ExerciseBodyPart] = BodyPartSelections(with: .userDefaults)
+        let inactiveBodyparts: [ExerciseBodyPart] = bodyPartsSelection
             .bodyparts
             .filter { !$0.enabled }
             .map { $0.bodypart }
@@ -159,7 +164,7 @@ extension ExerciseOptions {
     /// - Parameter name: Local file name.
     /// - Throws: Will throw an error if the file in unreachable or cannot be converted to a `Data` object.
     /// - Returns: The data in the JSON file.
-    fileprivate func readLocalJsonFile(named name: String) throws -> Data {
+    private func readLocalJsonFile(named name: String) throws -> Data {
         if let bundlePath = Bundle.main.path(forResource: name, ofType: "json") {
             do {
                 if let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
