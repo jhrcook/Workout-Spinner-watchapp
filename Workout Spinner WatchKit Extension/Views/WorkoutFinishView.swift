@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joshua Cook. All rights reserved.
 //
 
+import HeartRateGraph
 import os
 import SwiftUI
 

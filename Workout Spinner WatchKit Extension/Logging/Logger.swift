@@ -16,7 +16,6 @@ extension Logger {
 
     static let workoutManagerLogger = Logger(subsystem: Logger.mySubsystem, category: "workout-manager")
     static let exerciseOptionsLogger = Logger(subsystem: Logger.mySubsystem, category: "exercise-options")
-    static let heartRateGraphLogger = Logger(subsystem: Logger.mySubsystem, category: "heart-rate-graph")
     static let bodyPartSelectionsLogger = Logger(subsystem: Logger.mySubsystem, category: "body-part-selections")
 
     // MARK: - View loggers
@@ -25,7 +24,6 @@ extension Logger {
     static let workoutPagingViewLogger = Logger(subsystem: Logger.mySubsystem, category: "workout-paging-view")
     static let exercisePickerLogger = Logger(subsystem: Logger.mySubsystem, category: "exercise-picker")
     static let workoutFinishViewLogger = Logger(subsystem: Logger.mySubsystem, category: "workout-finish-view")
-    static let heartRateGraphViewLogger = Logger(subsystem: Logger.mySubsystem, category: "heart-rate-graph-view")
 
     // MARK: - Settings
 
