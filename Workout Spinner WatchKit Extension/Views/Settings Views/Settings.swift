@@ -64,7 +64,7 @@ struct Settings: View {
                 HStack {
                     Text("Version")
                     Spacer()
-                    Text("0.0.0.9000")
+                    Text("1.2.0")
                 }
             }
         }
@@ -113,8 +113,10 @@ extension Settings {
     }
 }
 
-struct Settings_Previews: PreviewProvider {
-    static var previews: some View {
-        Settings(exerciseOptions: ExerciseOptions())
+#if DEBUG
+    struct Settings_Previews: PreviewProvider {
+        static var previews: some View {
+            Settings(exerciseOptions: ExerciseOptions())
+        }
     }
-}
+#endif

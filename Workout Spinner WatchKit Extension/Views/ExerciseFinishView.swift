@@ -68,8 +68,10 @@ struct ExerciseFinishView: View {
     }
 }
 
-struct ExerciseFinishView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExerciseFinishView(workoutTracker: WorkoutTracker())
+#if DEBUG
+    struct ExerciseFinishView_Previews: PreviewProvider {
+        static var previews: some View {
+            ExerciseFinishView(workoutTracker: WorkoutTracker())
+        }
     }
-}
+#endif

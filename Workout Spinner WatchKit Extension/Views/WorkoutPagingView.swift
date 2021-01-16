@@ -124,8 +124,10 @@ extension WorkoutPagingView {
     }
 }
 
-struct WorkoutPagingView_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkoutPagingView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker(), exerciseOptions: ExerciseOptions())
+#if DEBUG
+    struct WorkoutPagingView_Previews: PreviewProvider {
+        static var previews: some View {
+            WorkoutPagingView(workoutManager: WorkoutManager(), workoutTracker: WorkoutTracker(), exerciseOptions: ExerciseOptions())
+        }
     }
-}
+#endif

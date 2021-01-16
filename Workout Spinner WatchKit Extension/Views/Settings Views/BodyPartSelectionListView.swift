@@ -29,8 +29,10 @@ struct BodyPartSelectionListView: View {
     }
 }
 
-struct BodyPartSelectionListView_Previews: PreviewProvider {
-    static var previews: some View {
-        BodyPartSelectionListView()
+#if DEBUG
+    struct BodyPartSelectionListView_Previews: PreviewProvider {
+        static var previews: some View {
+            BodyPartSelectionListView()
+        }
     }
-}
+#endif

@@ -27,11 +27,13 @@ struct SpinnerPointer: View {
     }
 }
 
-struct SpinnerPointer_Previews: PreviewProvider {
-    static var previews: some View {
-        SpinnerPointer()
-            .padding()
-            .background(Color.gray)
-            .previewLayout(.fixed(width: 100, height: 100))
+#if DEBUG
+    struct SpinnerPointer_Previews: PreviewProvider {
+        static var previews: some View {
+            SpinnerPointer()
+                .padding()
+                .background(Color.gray)
+                .previewLayout(.fixed(width: 100, height: 100))
+        }
     }
-}
+#endif

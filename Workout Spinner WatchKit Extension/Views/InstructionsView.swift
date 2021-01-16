@@ -42,8 +42,10 @@ struct InstructionsView: View {
     }
 }
 
-struct InstructionsView_Previews: PreviewProvider {
-    static var previews: some View {
-        InstructionsView()
+#if DEBUG
+    struct InstructionsView_Previews: PreviewProvider {
+        static var previews: some View {
+            InstructionsView()
+        }
     }
-}
+#endif

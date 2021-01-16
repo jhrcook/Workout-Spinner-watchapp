@@ -62,9 +62,11 @@ extension CannotSpinView {
     }
 }
 
-struct CannotSpinView_Previews: PreviewProvider {
-    @Environment(\.presentationMode) static var presentationMode
-    static var previews: some View {
-        CannotSpinView(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), presentationMode: presentationMode)
+#if DEBUG
+    struct CannotSpinView_Previews: PreviewProvider {
+        @Environment(\.presentationMode) static var presentationMode
+        static var previews: some View {
+            CannotSpinView(workoutManager: WorkoutManager(), exerciseOptions: ExerciseOptions(), presentationMode: presentationMode)
+        }
     }
-}
+#endif

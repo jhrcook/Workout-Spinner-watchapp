@@ -29,10 +29,12 @@ struct HeartRateGraphPlotShape: Shape {
     }
 }
 
-struct HeartRateGraphPlotShape_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            HeartRateGraphPlotShape(graphData: HeartRateGraphData(workoutTraker: WorkoutTracker()))
+#if DEBUG
+    struct HeartRateGraphPlotShape_Previews: PreviewProvider {
+        static var previews: some View {
+            VStack {
+                HeartRateGraphPlotShape(graphData: HeartRateGraphData(workoutTraker: WorkoutTracker()))
+            }
         }
     }
-}
+#endif

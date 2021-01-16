@@ -102,21 +102,23 @@ extension ExerciseStartView {
     }
 }
 
-struct WorkoutStartView_Previews: PreviewProvider {
-    static var workouts: ExerciseOptions {
-        let ws = ExerciseOptions()
-        let i = ws.exercises.first { $0.type == .count }!
-        let j = ws.exercises.first { $0.type == .time }!
-        ws.allExercises = [i, j]
-        return ws
-    }
+#if DEBUG
+    struct WorkoutStartView_Previews: PreviewProvider {
+        static var workouts: ExerciseOptions {
+            let ws = ExerciseOptions()
+            let i = ws.exercises.first { $0.type == .count }!
+            let j = ws.exercises.first { $0.type == .time }!
+            ws.allExercises = [i, j]
+            return ws
+        }
 
-    static var previews: some View {
-        Group {
-            ForEach(workouts.exercises) { info in
-                ExerciseStartView(workoutManager: WorkoutManager(exerciseInfo: info), exerciseCanceled: .constant(false))
-                    .previewDisplayName(info.displayName)
+        static var previews: some View {
+            Group {
+                ForEach(workouts.exercises) { info in
+                    ExerciseStartView(workoutManager: WorkoutManager(exerciseInfo: info), exerciseCanceled: .constant(false))
+                        .previewDisplayName(info.displayName)
+                }
             }
         }
     }
-}
+#endif

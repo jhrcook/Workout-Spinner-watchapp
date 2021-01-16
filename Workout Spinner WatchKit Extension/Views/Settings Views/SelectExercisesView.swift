@@ -22,8 +22,10 @@ struct SelectExercisesView: View {
     }
 }
 
-struct SelectExercisesView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectExercisesView(exerciseOptions: ExerciseOptions())
+#if DEBUG
+    struct SelectExercisesView_Previews: PreviewProvider {
+        static var previews: some View {
+            SelectExercisesView(exerciseOptions: ExerciseOptions())
+        }
     }
-}
+#endif

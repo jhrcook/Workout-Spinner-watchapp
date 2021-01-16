@@ -84,10 +84,12 @@ struct HeartRateGraphView: View {
     }
 }
 
-struct HeartRateGraphView_Previews: PreviewProvider {
-    static var previews: some View {
-        HeartRateGraphView(workoutTracker: WorkoutTracker())
-            .padding(5)
-            .previewLayout(.fixed(width: 300, height: 200))
+#if DEBUG
+    struct HeartRateGraphView_Previews: PreviewProvider {
+        static var previews: some View {
+            HeartRateGraphView(workoutTracker: WorkoutTracker())
+                .padding(5)
+                .previewLayout(.fixed(width: 300, height: 200))
+        }
     }
-}
+#endif

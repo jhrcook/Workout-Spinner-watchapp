@@ -49,13 +49,15 @@ struct SpinnerSlice: View {
     }
 }
 
-struct SpinnerSlice_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            ForEach(3 ..< 8) { i in
-                SpinnerSlice(idx: 1, numberOfSlices: i, width: 100)
-                    .padding()
-            }
-        }.previewLayout(.sizeThatFits)
+#if DEBUG
+    struct SpinnerSlice_Previews: PreviewProvider {
+        static var previews: some View {
+            VStack {
+                ForEach(3 ..< 8) { i in
+                    SpinnerSlice(idx: 1, numberOfSlices: i, width: 100)
+                        .padding()
+                }
+            }.previewLayout(.sizeThatFits)
+        }
     }
-}
+#endif

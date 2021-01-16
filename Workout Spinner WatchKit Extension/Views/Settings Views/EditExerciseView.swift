@@ -171,8 +171,10 @@ extension EditExerciseView {
     }
 }
 
-struct EditExerciseView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditExerciseView(exerciseOptions: ExerciseOptions())
+#if DEBUG
+    struct EditExerciseView_Previews: PreviewProvider {
+        static var previews: some View {
+            EditExerciseView(exerciseOptions: ExerciseOptions())
+        }
     }
-}
+#endif

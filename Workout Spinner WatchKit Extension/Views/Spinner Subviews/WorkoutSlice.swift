@@ -36,18 +36,20 @@ struct WorkoutSlice: View {
     }
 }
 
-struct WorkoutSlice_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.white
+#if DEBUG
+    struct WorkoutSlice_Previews: PreviewProvider {
+        static var previews: some View {
+            ZStack {
+                Color.white
 
-            VStack {
-                ForEach(3 ..< 8) { i in
-                    WorkoutSlice(workoutInfo: ExerciseOptions().exercises[0], idx: 1, numberOfWorkouts: i, size: 200)
-                        .padding()
+                VStack {
+                    ForEach(3 ..< 8) { i in
+                        WorkoutSlice(workoutInfo: ExerciseOptions().exercises[0], idx: 1, numberOfWorkouts: i, size: 200)
+                            .padding()
+                    }
                 }
             }
+            .previewLayout(.sizeThatFits)
         }
-        .previewLayout(.sizeThatFits)
     }
-}
+#endif
