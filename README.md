@@ -12,10 +12,4 @@
 [![jhc website](https://img.shields.io/badge/Website-Joshua_Cook-5087B2.svg?style=flat&logo=telegram)](https://joshuacook.netlify.com)
 
 
-<img src="demos/spinner-demo_main.gif" width="35%">
-
-<img src="demos/spinner-demo_finished.gif" width="35%">
-
-<img src="demos/spinner-demo_settings.gif" width="35%">
-
----
+<img src="demos/spinner-demo_main_2021-01-16.gif" width="35%">
