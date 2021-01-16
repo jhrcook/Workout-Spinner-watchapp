@@ -1,4 +1,4 @@
-# WorkoutSpinner <img src="icon/icon.png" align="right" alt="icon" width="160" />
+# WorkoutSpinner <img src="icon/icon_with-alpha.png" align="right" alt="icon" width="160" />
 
 **An Apple Watch application that randomly selects quick exercises.**
 

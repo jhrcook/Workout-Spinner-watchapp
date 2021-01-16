@@ -18,10 +18,10 @@
 		843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33ED24FFB2E500919AD5 /* Color-extension.swift */; };
 		845B317C2579026B00C3CE34 /* Text ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */; };
 		847063BF250A4A370030F4DE /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847063BE250A4A370030F4DE /* ExerciseView.swift */; };
+		8474264D25B32CCA0024FF37 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848BE23F250B854900F48C7C /* HealthKit.framework */; };
 		8483502925403C010081D374 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483502825403C010081D374 /* WorkoutManager.swift */; };
 		848364E82565438800B357FA /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848364E72565438800B357FA /* InstructionsView.swift */; };
 		848642F52500FA3E00E3ED9B /* SpinnerSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */; };
-		848BE240250B854900F48C7C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848BE23F250B854900F48C7C /* HealthKit.framework */; };
 		849458EE2503AFCA00C361F7 /* CrownVelocityCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849458ED2503AFCA00C361F7 /* CrownVelocityCalculator.swift */; };
 		849458F12503B86200C361F7 /* SpinnerRotationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849458F02503B86200C361F7 /* SpinnerRotationModifier.swift */; };
 		849C7325255EA64400C28F96 /* LabelWithIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849C7324255EA64400C28F96 /* LabelWithIndicator.swift */; };
@@ -118,6 +118,7 @@
 		843F33ED24FFB2E500919AD5 /* Color-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-extension.swift"; sourceTree = "<group>"; };
 		845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text ViewModifiers.swift"; sourceTree = "<group>"; };
 		847063BE250A4A370030F4DE /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
+		8474265C25B33E480024FF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8483502825403C010081D374 /* WorkoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutManager.swift; sourceTree = "<group>"; };
 		848364E72565438800B357FA /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerSlice.swift; sourceTree = "<group>"; };
@@ -174,7 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				848BE240250B854900F48C7C /* HealthKit.framework in Frameworks */,
+				8474264D25B32CCA0024FF37 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +190,14 @@
 				84E9C0E7255422DE002D461B /* Double-extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8474265B25B33E0B0024FF37 /* Workout Spinner */ = {
+			isa = PBXGroup;
+			children = (
+				8474265C25B33E480024FF37 /* Info.plist */,
+			);
+			path = "Workout Spinner";
 			sourceTree = "<group>";
 		};
 		848BE23E250B854900F48C7C /* Frameworks */ = {
@@ -252,6 +261,7 @@
 		84E3727424FD0A5800AFB355 = {
 			isa = PBXGroup;
 			children = (
+				8474265B25B33E0B0024FF37 /* Workout Spinner */,
 				84E3728324FD0A5800AFB355 /* Workout Spinner WatchKit App */,
 				84E3729224FD0A5D00AFB355 /* Workout Spinner WatchKit Extension */,
 				84E3727C24FD0A5800AFB355 /* Products */,
@@ -624,6 +634,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Workout Spinner/Info.plist";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -678,6 +689,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Workout Spinner/Info.plist";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -703,7 +715,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -730,7 +742,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -751,7 +763,7 @@
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
 				IBSC_MODULE = Workout_Spinner_WatchKit_Extension;
 				INFOPLIST_FILE = "Workout Spinner WatchKit App/Info.plist";
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -772,7 +784,7 @@
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
 				IBSC_MODULE = Workout_Spinner_WatchKit_Extension;
 				INFOPLIST_FILE = "Workout Spinner WatchKit App/Info.plist";
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -789,7 +801,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -802,7 +814,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
