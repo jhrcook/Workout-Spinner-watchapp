@@ -20,8 +20,30 @@ struct SectionHeader: View {
     }
 }
 
+struct SpinningImageSectionHeader: View {
+    let imageName: String
+    let text: String
+
+    @State private var angle: Angle = .degrees(0.0)
+
+    var body: some View {
+        HStack {
+            Image(systemName: imageName)
+                .rotationEffect(angle)
+                .animation(Animation.linear(duration: 2.0).repeatForever(autoreverses: false))
+                .onAppear {
+                    self.angle = .degrees(360)
+                }
+            Text(text)
+        }
+    }
+}
+
 struct SectionHeader_Previews: PreviewProvider {
     static var previews: some View {
-        SectionHeader(imageName: "mustache", text: "Text")
+        Group {
+            SectionHeader(imageName: "mustache", text: "Text")
+            SpinningImageSectionHeader(imageName: "mustache", text: "Text")
+        }
     }
 }

@@ -22,9 +22,23 @@ struct Settings: View {
     }
 
     @State private var confirmResetExerciseOptions = false
-    @Environment(\.presentationMode) var presentationMode
 
+    @State private var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
+
+    private var crownVelocityMultiplierValues: [Double] = {
+        var a: [Double] = []
+        for x in 1 ... 10 {
+            a.append(Double(x) * 0.5)
+        }
+        return a
+    }()
+
+    @Environment(\.presentationMode) var presentationMode
     let logger = Logger.settingsLogger
+
+    init(exerciseOptions: ExerciseOptions) {
+        self.exerciseOptions = exerciseOptions
+    }
 
     var body: some View {
         Form {
@@ -60,11 +74,25 @@ struct Settings: View {
                 }
             }
 
+            Section(header: SpinningImageSectionHeader(imageName: "hexagon", text: "Spinning Wheel")) {
+                Picker(selection: $crownVelocityMultiplier, label: Text("Spin speed"), content: {
+                    ForEach(crownVelocityMultiplierValues, id: \.self) { x in
+                        Text("\(x, specifier: "%.1f")")
+                    }
+                })
+                    .pickerStyle(WheelPickerStyle())
+            }
+
             Section(header: SectionHeader(imageName: "info.circle", text: "About")) {
+                HStack {
+                    Text("Dev")
+                    Spacer()
+                    Text("Josh Cook")
+                }
                 HStack {
                     Text("Version")
                     Spacer()
-                    Text("1.2.0")
+                    Text("1.2.2")
                 }
             }
         }
@@ -97,9 +125,12 @@ struct Settings: View {
 extension Settings {
     func saveUserDefualts() {
         let intensity = ExerciseIntensity.allCases[selectedExerciseIntensity]
-        logger.log("Saving preferences to UserDefaults (intensity: \(intensity.rawValue, privacy: .public))")
+        logger.log("Saving preferences to UserDefaults (intensity: \(intensity.rawValue, privacy: .public); crown velocity: \(crownVelocityMultiplier, format: .fixed(precision: 1)))")
         UserDefaults.standard.set(intensity.rawValue,
                                   forKey: UserDefaultsKeys.exerciseIntensity.rawValue)
+
+        UserDefaults.standard.set(crownVelocityMultiplier,
+                                  forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
     }
 
     static func getSavedExerciseIntensity() -> Int {
