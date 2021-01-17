@@ -23,10 +23,7 @@ struct Settings: View {
 
     @State private var confirmResetExerciseOptions = false
 
-    @State private var crownVelocityMultiplier: Double = {
-        let m = UserDefaults.standard.double(forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
-        return m > 0.0 ? m : 1.0
-    }()
+    @State private var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
 
     private var crownVelocityMultiplierValues: [Double] = {
         var a: [Double] = []

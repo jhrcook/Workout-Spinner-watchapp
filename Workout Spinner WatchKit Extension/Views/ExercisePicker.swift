@@ -23,10 +23,7 @@ struct ExercisePicker: View {
     }
 
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
-    var crownVelocityMultiplier: Double = {
-        let m = UserDefaults.standard.double(forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
-        return m > 0.0 ? m : 1.0
-    }()
+    var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
 
     @Binding internal var exerciseSelected: Bool
     @State internal var selectedExerciseIndex: Int = 0

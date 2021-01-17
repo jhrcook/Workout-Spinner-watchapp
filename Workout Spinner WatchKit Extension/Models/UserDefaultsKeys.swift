@@ -14,3 +14,10 @@ enum UserDefaultsKeys: String {
     case exerciseOptions
     case crownVelocityMultiplier
 }
+
+extension UserDefaults {
+    static func readCrownVelocityMultiplier() -> Double {
+        let m = standard.double(forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
+        return m > 0.0 ? m : 1.0
+    }
+}
