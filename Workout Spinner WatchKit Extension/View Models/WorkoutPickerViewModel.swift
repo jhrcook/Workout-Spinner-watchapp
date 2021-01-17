@@ -9,8 +9,8 @@
 import SwiftUI
 
 extension ExercisePicker {
-    func crownRotationDidChange(crownValue: Double) {
-        crownVelocity.update(newValue: crownValue)
+    func crownRotationDidChange(crownValue _: Double) {
+        crownVelocity.update(newValue: wheelRotation)
         readSelectedWorkout()
     }
 
@@ -24,7 +24,7 @@ extension ExercisePicker {
     func readSelectedWorkout() {
         let pointerAngle = 180.0
         let sliceAngle = 360.0 / Double(numExercises)
-        let pointingAtAngle = (0.5 * sliceAngle) + (pointerAngle - spinDirection * crownRotation)
+        let pointingAtAngle = (0.5 * sliceAngle) + (pointerAngle - spinDirection * wheelRotation)
             .truncatingRemainder(dividingBy: 360.0)
         var pointingSlice = (pointingAtAngle / sliceAngle).rounded(.down)
 

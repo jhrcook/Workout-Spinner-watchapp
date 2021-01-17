@@ -14,12 +14,19 @@ struct ExercisePicker: View {
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var exerciseOptions: ExerciseOptions
     @State internal var crownRotation = 0.0
+    var wheelRotation: Double {
+        crownRotation * crownVelocityMultiplier
+    }
 
     var numExercises: Int {
         return exerciseOptions.exercisesBlacklistFiltered.count
     }
 
     var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
+    var crownVelocityMultiplier: Double = {
+        let m = UserDefaults.standard.double(forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
+        return m > 0.0 ? m : 1.0
+    }()
 
     @Binding internal var exerciseSelected: Bool
     @State internal var selectedExerciseIndex: Int = 0
@@ -58,7 +65,7 @@ struct ExercisePicker: View {
                             }
                         }
                         .modifier(SpinnerRotationModifier(
-                            rotation: .degrees(self.spinDirection * self.crownRotation),
+                            rotation: .degrees(self.spinDirection * self.wheelRotation),
                             onFinishedRotationAnimation: self.rotationEffectDidFinish
                         ))
                         .animation(.default)

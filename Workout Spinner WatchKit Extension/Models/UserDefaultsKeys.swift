@@ -12,4 +12,5 @@ enum UserDefaultsKeys: String {
     case exerciseIntensity
     case activeBodyParts
     case exerciseOptions
+    case crownVelocityMultiplier
 }
