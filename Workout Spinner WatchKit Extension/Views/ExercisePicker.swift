@@ -13,16 +13,17 @@ import SwiftUI
 struct ExercisePicker: View {
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var exerciseOptions: ExerciseOptions
+
     @State internal var crownRotation = 0.0
     var wheelRotation: Double {
         crownRotation * crownVelocityMultiplier
     }
 
     var numExercises: Int {
-        return exerciseOptions.exercisesBlacklistFiltered.count
+        exerciseOptions.exercisesBlacklistFiltered.count
     }
 
-    var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
+    @StateObject var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
     var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
 
     @Binding internal var exerciseSelected: Bool

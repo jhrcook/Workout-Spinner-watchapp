@@ -33,6 +33,8 @@ struct Settings: View {
         return a
     }()
 
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+
     @Environment(\.presentationMode) var presentationMode
     let logger = Logger.settingsLogger
 
@@ -92,7 +94,7 @@ struct Settings: View {
                 HStack {
                     Text("Version")
                     Spacer()
-                    Text("1.2.2")
+                    Text(appVersion ?? "1.3.2")
                 }
             }
         }

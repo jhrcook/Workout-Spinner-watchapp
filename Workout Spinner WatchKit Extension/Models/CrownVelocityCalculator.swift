@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CrownVelocityCalculator {
+class CrownVelocityCalculator: ObservableObject {
     private var history = [Double]()
     var currentVelocity: Double = 0.0
 
