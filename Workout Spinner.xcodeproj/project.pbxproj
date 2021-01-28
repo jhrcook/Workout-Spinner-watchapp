@@ -16,6 +16,8 @@
 		84394C412502501600BBA4F3 /* SpinnerPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84394C402502501600BBA4F3 /* SpinnerPointer.swift */; };
 		843F33EC24FFB2BD00919AD5 /* GeometryProxy-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */; };
 		843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33ED24FFB2E500919AD5 /* Color-extension.swift */; };
+		845730FF25C2DFA10005B526 /* PlusMinusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845730FE25C2DFA10005B526 /* PlusMinusStepper.swift */; };
+		8457310525C2EB020005B526 /* NumericType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8457310425C2EB020005B526 /* NumericType.swift */; };
 		845B317C2579026B00C3CE34 /* Text ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */; };
 		847063BF250A4A370030F4DE /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847063BE250A4A370030F4DE /* ExerciseView.swift */; };
 		8474264D25B32CCA0024FF37 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848BE23F250B854900F48C7C /* HealthKit.framework */; };
@@ -117,6 +119,8 @@
 		84394C402502501600BBA4F3 /* SpinnerPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerPointer.swift; sourceTree = "<group>"; };
 		843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeometryProxy-extension.swift"; sourceTree = "<group>"; };
 		843F33ED24FFB2E500919AD5 /* Color-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-extension.swift"; sourceTree = "<group>"; };
+		845730FE25C2DFA10005B526 /* PlusMinusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMinusStepper.swift; sourceTree = "<group>"; };
+		8457310425C2EB020005B526 /* NumericType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericType.swift; sourceTree = "<group>"; };
 		845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text ViewModifiers.swift"; sourceTree = "<group>"; };
 		847063BE250A4A370030F4DE /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
 		8474265C25B33E480024FF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -194,6 +198,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		8457310325C2EAE60005B526 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8457310425C2EB020005B526 /* NumericType.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		8474265B25B33E0B0024FF37 /* Workout Spinner */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +231,7 @@
 				849C7324255EA64400C28F96 /* LabelWithIndicator.swift */,
 				849C7329255EA67100C28F96 /* SectionHeader.swift */,
 				845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */,
+				845730FE25C2DFA10005B526 /* PlusMinusStepper.swift */,
 			);
 			path = "General Components";
 			sourceTree = "<group>";
@@ -296,6 +309,7 @@
 			children = (
 				848BE23D250B854900F48C7C /* Workout Spinner WatchKit Extension.entitlements */,
 				84CACD8D25823591004CD231 /* Logging */,
+				8457310325C2EAE60005B526 /* Protocols */,
 				843F33EA24FFB29F00919AD5 /* Extensions */,
 				84E372B524FD0B1F00AFB355 /* Views */,
 				84E372B424FD0AD500AFB355 /* View Models */,
@@ -523,6 +537,7 @@
 				841D04D925066CF400786074 /* UserDefaultsKeys.swift in Sources */,
 				84D0BDD9254ADA51001ABA83 /* ExerciseFinishView.swift in Sources */,
 				841D04D1250648AB00786074 /* ExerciseStartView.swift in Sources */,
+				8457310525C2EB020005B526 /* NumericType.swift in Sources */,
 				84E9C0DD255422B9002D461B /* HeartRateGraphView.swift in Sources */,
 				84A7F866255C0BFB006D26CD /* ButtonStyles.swift in Sources */,
 				849C732A255EA67100C28F96 /* SectionHeader.swift in Sources */,
@@ -553,6 +568,7 @@
 				84E9C0E8255422DE002D461B /* Double-extension.swift in Sources */,
 				84C10C1F2588D3B500111502 /* CannotSpinView.swift in Sources */,
 				848364E82565438800B357FA /* InstructionsView.swift in Sources */,
+				845730FF25C2DFA10005B526 /* PlusMinusStepper.swift in Sources */,
 				8483502925403C010081D374 /* WorkoutManager.swift in Sources */,
 				841D04D525064DE600786074 /* Settings.swift in Sources */,
 				84E9C0F22554231D002D461B /* PlotHVLines.swift in Sources */,
