@@ -14,7 +14,8 @@ struct ContentView: View {
     let exerciseOptions = ExerciseOptions()
 
     var body: some View {
-        WelcomeView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)
+//        WelcomeView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)
+        ExercisePicker(workoutManager: workoutManager, exerciseOptions: exerciseOptions, exerciseSelected: .constant(false))
     }
 }
 
