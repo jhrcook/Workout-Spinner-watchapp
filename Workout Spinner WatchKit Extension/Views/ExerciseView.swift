@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import WatchKit
 
 struct ExerciseView: View {
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var workoutTracker: WorkoutTracker
+    @EnvironmentObject var hapticsSettings: HapticsSettings
     @Binding private var exerciseComplete: Bool
     var workoutInfo: ExerciseInfo?
 
@@ -101,6 +103,9 @@ struct ExerciseView: View {
 extension ExerciseView {
     /// Called when the exercise is complete and the 'Done" button is tapped.
     func finishExercise() {
+        // haptic feedback
+        hapticsSettings.play(soundFor: .startExercise, ifSet: hapticsSettings.startExercise)
+
         // Add data from exercise to the workout tracker and clear the info from the workout manager.
         workoutTracker.addData(info: workoutManager.exerciseInfo!, duration: Double(workoutManager.elapsedSeconds), activeCalories: workoutManager.activeCalories, heartRate: workoutManager.allHeartRateReadings)
         workoutManager.resetTrackedInformation()
