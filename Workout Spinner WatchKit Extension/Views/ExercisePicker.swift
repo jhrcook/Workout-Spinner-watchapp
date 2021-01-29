@@ -23,7 +23,7 @@ struct ExercisePicker: View {
 
     // Spinning wheel variables.
     @StateObject var spinningWheel = SpinningWheel(damping: 0.07, crownVelocityMemory: 1.0)
-    @StateObject var velocityTracker = WheelVelocityTracker(velocityThreshold: 50, memory: 3)
+    @StateObject var velocityTracker = WheelVelocityTracker(velocityThreshold: 5, memory: 3)
     @State internal var previousCrownRotation = 0.0
     @State internal var crownRotation = 0.0
 
