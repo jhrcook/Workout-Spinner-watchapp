@@ -8,14 +8,12 @@
 
 import Foundation
 
-class CrownVelocityCalculator {
+class WheelVelocityTracker: ObservableObject {
     private var history = [Double]()
-    var currentVelocity: Double = 0.0
-
-    var velocityThreshold: Double = 500.0
+    var velocityThreshold: Double = 50.0
     private(set) var didPassThreshold: Bool = false
-
     var memory: Int = 10
+    private(set) var currentVelocity = 0.0
 
     init() {}
 
@@ -40,13 +38,12 @@ class CrownVelocityCalculator {
             history = history.suffix(memory)
         }
 
-        var diffs: Double = 0.0
-        for i in 0 ..< (history.count - 1) {
-            diffs += history[i + 1] - history[i]
-        }
-
-        currentVelocity = diffs / Double(history.count - 1)
+        currentVelocity = average(history)
         checkThreshold()
+    }
+
+    private func average(_ x: [Double]) -> Double {
+        x.reduce(0, +) / Double(x.count)
     }
 
     func checkThreshold() {

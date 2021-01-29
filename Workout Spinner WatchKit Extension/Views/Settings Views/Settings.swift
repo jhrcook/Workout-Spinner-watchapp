@@ -25,13 +25,7 @@ struct Settings: View {
 
     @State private var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
 
-    private var crownVelocityMultiplierValues: [Double] = {
-        var a: [Double] = []
-        for x in 1 ... 10 {
-            a.append(Double(x) * 0.5)
-        }
-        return a
-    }()
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
     @Environment(\.presentationMode) var presentationMode
     let logger = Logger.settingsLogger
@@ -75,12 +69,7 @@ struct Settings: View {
             }
 
             Section(header: SpinningImageSectionHeader(imageName: "hexagon", text: "Spinning Wheel")) {
-                Picker(selection: $crownVelocityMultiplier, label: Text("Spin speed"), content: {
-                    ForEach(crownVelocityMultiplierValues, id: \.self) { x in
-                        Text("\(x, specifier: "%.1f")")
-                    }
-                })
-                    .pickerStyle(WheelPickerStyle())
+                PlusMinusStepper(value: $crownVelocityMultiplier, step: 1, min: 1, max: 10, label: Text("\(Int(crownVelocityMultiplier))"))
             }
 
             Section(header: SectionHeader(imageName: "info.circle", text: "About")) {
@@ -92,7 +81,7 @@ struct Settings: View {
                 HStack {
                     Text("Version")
                     Spacer()
-                    Text("1.2.2")
+                    Text(appVersion ?? "1.3.2")
                 }
             }
         }

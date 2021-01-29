@@ -10,28 +10,35 @@ import Combine
 import os
 import SwiftUI
 
+import CrownRotationToSpinningWheel
+
 struct ExercisePicker: View {
+    // Global objects.
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var exerciseOptions: ExerciseOptions
-    @State internal var crownRotation = 0.0
-    var wheelRotation: Double {
-        crownRotation * crownVelocityMultiplier
-    }
 
     var numExercises: Int {
-        return exerciseOptions.exercisesBlacklistFiltered.count
+        exerciseOptions.exercisesBlacklistFiltered.count
     }
 
-    var crownVelocity = CrownVelocityCalculator(velocityThreshold: 50, memory: 20)
-    var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
+    // Spinning wheel variables.
+    @StateObject var spinningWheel = SpinningWheel(damping: 0.07, crownVelocityMemory: 1.0)
+    @StateObject var velocityTracker = WheelVelocityTracker(velocityThreshold: 5, memory: 3)
+    @State internal var previousCrownRotation = 0.0
+    @State internal var crownRotation = 0.0
 
-    @Binding internal var exerciseSelected: Bool
-    @State internal var selectedExerciseIndex: Int = 0
-
+    // Spinning wheel constants.
     var spinDirection: Double {
         return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
     }
 
+    internal var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
+
+    // Exercise selection variables.
+    @Binding internal var exerciseSelected: Bool
+    @State internal var selectedExerciseIndex: Int = 0
+
+    // Logging
     let logger = Logger.exercisePickerLogger
 
     init(workoutManager: WorkoutManager, exerciseOptions: ExerciseOptions, exerciseSelected: Binding<Bool>) {
@@ -62,10 +69,10 @@ struct ExercisePicker: View {
                             }
                         }
                         .modifier(SpinnerRotationModifier(
-                            rotation: .degrees(self.spinDirection * self.wheelRotation),
+                            rotation: .degrees(self.spinDirection * self.spinningWheel.wheelRotation),
                             onFinishedRotationAnimation: self.rotationEffectDidFinish
                         ))
-                        .animation(.default)
+                        .animation(.spring())
 
                         HStack {
                             SpinnerPointer()

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,13 +16,16 @@
 		84394C412502501600BBA4F3 /* SpinnerPointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84394C402502501600BBA4F3 /* SpinnerPointer.swift */; };
 		843F33EC24FFB2BD00919AD5 /* GeometryProxy-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */; };
 		843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843F33ED24FFB2E500919AD5 /* Color-extension.swift */; };
+		845730FF25C2DFA10005B526 /* PlusMinusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845730FE25C2DFA10005B526 /* PlusMinusStepper.swift */; };
+		8457310525C2EB020005B526 /* NumericType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8457310425C2EB020005B526 /* NumericType.swift */; };
 		845B317C2579026B00C3CE34 /* Text ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */; };
 		847063BF250A4A370030F4DE /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847063BE250A4A370030F4DE /* ExerciseView.swift */; };
 		8474264D25B32CCA0024FF37 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848BE23F250B854900F48C7C /* HealthKit.framework */; };
+		847E456025BC697D00E9AB29 /* CrownRotationToSpinningWheel in Frameworks */ = {isa = PBXBuildFile; productRef = 847E455F25BC697D00E9AB29 /* CrownRotationToSpinningWheel */; };
 		8483502925403C010081D374 /* WorkoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483502825403C010081D374 /* WorkoutManager.swift */; };
 		848364E82565438800B357FA /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848364E72565438800B357FA /* InstructionsView.swift */; };
 		848642F52500FA3E00E3ED9B /* SpinnerSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */; };
-		849458EE2503AFCA00C361F7 /* CrownVelocityCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849458ED2503AFCA00C361F7 /* CrownVelocityCalculator.swift */; };
+		849458EE2503AFCA00C361F7 /* WheelVelocityTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849458ED2503AFCA00C361F7 /* WheelVelocityTracker.swift */; };
 		849458F12503B86200C361F7 /* SpinnerRotationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849458F02503B86200C361F7 /* SpinnerRotationModifier.swift */; };
 		849C7325255EA64400C28F96 /* LabelWithIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849C7324255EA64400C28F96 /* LabelWithIndicator.swift */; };
 		849C732A255EA67100C28F96 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849C7329255EA67100C28F96 /* SectionHeader.swift */; };
@@ -116,6 +119,8 @@
 		84394C402502501600BBA4F3 /* SpinnerPointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerPointer.swift; sourceTree = "<group>"; };
 		843F33EB24FFB2BD00919AD5 /* GeometryProxy-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeometryProxy-extension.swift"; sourceTree = "<group>"; };
 		843F33ED24FFB2E500919AD5 /* Color-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color-extension.swift"; sourceTree = "<group>"; };
+		845730FE25C2DFA10005B526 /* PlusMinusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMinusStepper.swift; sourceTree = "<group>"; };
+		8457310425C2EB020005B526 /* NumericType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericType.swift; sourceTree = "<group>"; };
 		845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text ViewModifiers.swift"; sourceTree = "<group>"; };
 		847063BE250A4A370030F4DE /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
 		8474265C25B33E480024FF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,7 +129,7 @@
 		848642F42500FA3E00E3ED9B /* SpinnerSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerSlice.swift; sourceTree = "<group>"; };
 		848BE23D250B854900F48C7C /* Workout Spinner WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Workout Spinner WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		848BE23F250B854900F48C7C /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
-		849458ED2503AFCA00C361F7 /* CrownVelocityCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrownVelocityCalculator.swift; sourceTree = "<group>"; };
+		849458ED2503AFCA00C361F7 /* WheelVelocityTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelVelocityTracker.swift; sourceTree = "<group>"; };
 		849458F02503B86200C361F7 /* SpinnerRotationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerRotationModifier.swift; sourceTree = "<group>"; };
 		849C7324255EA64400C28F96 /* LabelWithIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithIndicator.swift; sourceTree = "<group>"; };
 		849C7329255EA67100C28F96 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
@@ -176,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8474264D25B32CCA0024FF37 /* HealthKit.framework in Frameworks */,
+				847E456025BC697D00E9AB29 /* CrownRotationToSpinningWheel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +196,14 @@
 				84E9C0E7255422DE002D461B /* Double-extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8457310325C2EAE60005B526 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				8457310425C2EB020005B526 /* NumericType.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		8474265B25B33E0B0024FF37 /* Workout Spinner */ = {
@@ -217,6 +231,7 @@
 				849C7324255EA64400C28F96 /* LabelWithIndicator.swift */,
 				849C7329255EA67100C28F96 /* SectionHeader.swift */,
 				845B317B2579026B00C3CE34 /* Text ViewModifiers.swift */,
+				845730FE25C2DFA10005B526 /* PlusMinusStepper.swift */,
 			);
 			path = "General Components";
 			sourceTree = "<group>";
@@ -294,6 +309,7 @@
 			children = (
 				848BE23D250B854900F48C7C /* Workout Spinner WatchKit Extension.entitlements */,
 				84CACD8D25823591004CD231 /* Logging */,
+				8457310325C2EAE60005B526 /* Protocols */,
 				843F33EA24FFB29F00919AD5 /* Extensions */,
 				84E372B524FD0B1F00AFB355 /* Views */,
 				84E372B424FD0AD500AFB355 /* View Models */,
@@ -327,7 +343,7 @@
 				84E372B624FD0BD800AFB355 /* ExerciseInfo.swift */,
 				84E372B824FD0F5600AFB355 /* Exercise enums.swift */,
 				84E1503824FD136B007F577D /* ExerciseOptions.swift */,
-				849458ED2503AFCA00C361F7 /* CrownVelocityCalculator.swift */,
+				849458ED2503AFCA00C361F7 /* WheelVelocityTracker.swift */,
 				841D04D825066CF400786074 /* UserDefaultsKeys.swift */,
 				8483502825403C010081D374 /* WorkoutManager.swift */,
 				84C1FA7B25497CD20008CE09 /* WorkoutTracker.swift */,
@@ -393,6 +409,9 @@
 				84E3728224FD0A5800AFB355 /* PBXTargetDependency */,
 			);
 			name = "Workout Spinner";
+			packageProductDependencies = (
+				84FFEA7825BC632700EF9682 /* CrownRotationToSpinningWheel */,
+			);
 			productName = "Workout Spinner";
 			productReference = 84E3727B24FD0A5800AFB355 /* Workout Spinner.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
@@ -427,6 +446,9 @@
 			dependencies = (
 			);
 			name = "Workout Spinner WatchKit Extension";
+			packageProductDependencies = (
+				847E455F25BC697D00E9AB29 /* CrownRotationToSpinningWheel */,
+			);
 			productName = "Workout Spinner WatchKit Extension";
 			productReference = 84E3728E24FD0A5D00AFB355 /* Workout Spinner WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
@@ -461,6 +483,9 @@
 				Base,
 			);
 			mainGroup = 84E3727424FD0A5800AFB355;
+			packageReferences = (
+				84FFEA7725BC632700EF9682 /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */,
+			);
 			productRefGroup = 84E3727C24FD0A5800AFB355 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -512,6 +537,7 @@
 				841D04D925066CF400786074 /* UserDefaultsKeys.swift in Sources */,
 				84D0BDD9254ADA51001ABA83 /* ExerciseFinishView.swift in Sources */,
 				841D04D1250648AB00786074 /* ExerciseStartView.swift in Sources */,
+				8457310525C2EB020005B526 /* NumericType.swift in Sources */,
 				84E9C0DD255422B9002D461B /* HeartRateGraphView.swift in Sources */,
 				84A7F866255C0BFB006D26CD /* ButtonStyles.swift in Sources */,
 				849C732A255EA67100C28F96 /* SectionHeader.swift in Sources */,
@@ -534,7 +560,7 @@
 				84E3729A24FD0A5D00AFB355 /* NotificationController.swift in Sources */,
 				84FDB9CE255A0721002E0534 /* EditExerciseView.swift in Sources */,
 				84E1503924FD136B007F577D /* ExerciseOptions.swift in Sources */,
-				849458EE2503AFCA00C361F7 /* CrownVelocityCalculator.swift in Sources */,
+				849458EE2503AFCA00C361F7 /* WheelVelocityTracker.swift in Sources */,
 				84E9C0ED25542309002D461B /* GraphBackgroundSegment.swift in Sources */,
 				84EFD6792508E32500806EF4 /* BodyPartSelections.swift in Sources */,
 				84C1FA7425497A050008CE09 /* WorkoutPagingView.swift in Sources */,
@@ -542,6 +568,7 @@
 				84E9C0E8255422DE002D461B /* Double-extension.swift in Sources */,
 				84C10C1F2588D3B500111502 /* CannotSpinView.swift in Sources */,
 				848364E82565438800B357FA /* InstructionsView.swift in Sources */,
+				845730FF25C2DFA10005B526 /* PlusMinusStepper.swift in Sources */,
 				8483502925403C010081D374 /* WorkoutManager.swift in Sources */,
 				841D04D525064DE600786074 /* Settings.swift in Sources */,
 				84E9C0F22554231D002D461B /* PlotHVLines.swift in Sources */,
@@ -705,7 +732,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Workout Spinner WatchKit Extension/Workout Spinner WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Workout Spinner WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
 				ENABLE_PREVIEWS = YES;
@@ -715,7 +742,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -732,7 +759,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Workout Spinner WatchKit Extension/Workout Spinner WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Workout Spinner WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
 				ENABLE_PREVIEWS = YES;
@@ -742,7 +769,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -759,11 +786,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
 				IBSC_MODULE = Workout_Spinner_WatchKit_Extension;
 				INFOPLIST_FILE = "Workout Spinner WatchKit App/Info.plist";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -780,11 +807,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
 				IBSC_MODULE = Workout_Spinner_WatchKit_Extension;
 				INFOPLIST_FILE = "Workout Spinner WatchKit App/Info.plist";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -799,9 +826,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -812,9 +839,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRMHYJ9F9F;
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.joshuacook.Workout-Spinner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -861,6 +888,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		84FFEA7725BC632700EF9682 /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jhrcook/CrownRotationToSpinningWheel.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		847E455F25BC697D00E9AB29 /* CrownRotationToSpinningWheel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84FFEA7725BC632700EF9682 /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */;
+			productName = CrownRotationToSpinningWheel;
+		};
+		84FFEA7825BC632700EF9682 /* CrownRotationToSpinningWheel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84FFEA7725BC632700EF9682 /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */;
+			productName = CrownRotationToSpinningWheel;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 84E3727524FD0A5800AFB355 /* Project object */;
 }

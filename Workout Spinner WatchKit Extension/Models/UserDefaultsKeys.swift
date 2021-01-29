@@ -16,8 +16,8 @@ enum UserDefaultsKeys: String {
 }
 
 extension UserDefaults {
-    static func readCrownVelocityMultiplier() -> Double {
+    static func readCrownVelocityMultiplier(defaultValue: Double = 3.0) -> Double {
         let m = standard.double(forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
-        return m > 0.0 ? m : 1.0
+        return m > 0.0 ? m : defaultValue
     }
 }
