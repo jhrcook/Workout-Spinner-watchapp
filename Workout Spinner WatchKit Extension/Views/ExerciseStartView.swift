@@ -11,7 +11,6 @@ import WatchKit
 
 struct ExerciseStartView: View {
     @ObservedObject var workoutManager: WorkoutManager
-    @EnvironmentObject var hapticsSettings: HapticsSettings
     @Binding private var exerciseCanceled: Bool
 
     // Workout information
@@ -33,6 +32,8 @@ struct ExerciseStartView: View {
         }
         return intensity.rawValue
     }
+
+    let haptics = HapticsSettings()
 
     @Environment(\.presentationMode) var presentationMode
 
@@ -77,8 +78,7 @@ struct ExerciseStartView: View {
             if self.timeRemaining > 0 {
                 self.timeRemaining -= 1
             } else if self.timeRemaining <= 0 {
-                // haptic feedback
-                hapticsSettings.play(soundFor: .endExercise, ifSet: hapticsSettings.endExercise)
+                haptics.play(soundFor: .startExercise) // haptic feedback
                 exerciseCanceled = false
                 self.presentationMode.wrappedValue.dismiss()
             }

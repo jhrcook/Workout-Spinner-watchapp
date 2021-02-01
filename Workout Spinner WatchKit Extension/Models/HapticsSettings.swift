@@ -9,16 +9,13 @@
 import SwiftUI
 import WatchKit
 
-class HapticsSettings: ObservableObject {
-    private(set) var successfulWheelSpin: Bool
-    private(set) var startExercise: Bool
-    private(set) var endExercise: Bool
+struct HapticsSettings {
+    private(set) var successfulWheelSpin: Bool = setting(for: .successfulWheelSpin)
+    private(set) var startExercise: Bool = setting(for: .startExercise)
+    private(set) var endExercise: Bool = setting(for: .endExercise)
 
     init() {
-        HapticsSettings.checkInitialRegistration()
-        successfulWheelSpin = HapticsSettings.setting(for: .successfulWheelSpin)
-        startExercise = HapticsSettings.setting(for: .startExercise)
-        endExercise = HapticsSettings.setting(for: .endExercise)
+        checkInitialRegistration()
     }
 
     enum HapticSetting: String, CaseIterable {
@@ -35,7 +32,7 @@ class HapticsSettings: ObservableObject {
         UserDefaults.standard.bool(forKey: setting.rawValue)
     }
 
-    private static func checkInitialRegistration() {
+    private func checkInitialRegistration() {
         let initialCheckKey = "HapticSettingsInitialCheck"
         if UserDefaults.standard.bool(forKey: initialCheckKey) { return }
         for key in HapticSetting.allCases {
@@ -44,16 +41,20 @@ class HapticsSettings: ObservableObject {
         UserDefaults.standard.setValue(true, forKey: initialCheckKey)
     }
 
-    public func play(soundFor action: HapticSetting, ifSet playHaptic: Bool) {
-        if !playHaptic { return }
-
+    public func play(soundFor action: HapticSetting) {
         switch action {
         case .successfulWheelSpin:
-            WKInterfaceDevice.current().play(.success)
+            if successfulWheelSpin {
+                WKInterfaceDevice.current().play(.success)
+            }
         case .startExercise:
-            WKInterfaceDevice.current().play(.start)
+            if startExercise {
+                WKInterfaceDevice.current().play(.start)
+            }
         case .endExercise:
-            WKInterfaceDevice.current().play(.stop)
+            if endExercise {
+                WKInterfaceDevice.current().play(.stop)
+            }
         }
     }
 }

@@ -16,7 +16,8 @@ struct ExercisePicker: View {
     // Global objects.
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var exerciseOptions: ExerciseOptions
-    @EnvironmentObject var hapticsSettings: HapticsSettings
+
+    let haptics = HapticsSettings()
 
     var numExercises: Int {
         exerciseOptions.exercisesBlacklistFiltered.count

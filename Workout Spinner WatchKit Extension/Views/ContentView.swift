@@ -12,11 +12,9 @@ struct ContentView: View {
     let workoutManager = WorkoutManager()
     let workoutTracker = WorkoutTracker()
     let exerciseOptions = ExerciseOptions()
-    let hapticsSettings = HapticsSettings()
 
     var body: some View {
         WelcomeView(workoutManager: workoutManager, workoutTracker: workoutTracker, exerciseOptions: exerciseOptions)
-            .environmentObject(hapticsSettings)
     }
 }
 

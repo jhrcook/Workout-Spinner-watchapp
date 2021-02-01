@@ -19,7 +19,7 @@ extension ExercisePicker {
 
     func rotationEffectDidFinish() {
         if velocityTracker.didPassThreshold {
-            hapticsSettings.play(soundFor: .successfulWheelSpin, ifSet: hapticsSettings.successfulWheelSpin)
+            haptics.play(soundFor: .successfulWheelSpin)
             exerciseSelected = true
             velocityTracker.resetThreshold()
         }
