@@ -34,6 +34,8 @@ struct Settings: View {
         self.exerciseOptions = exerciseOptions
     }
 
+    @State private var haptics = HapticsSettings()
+
     var body: some View {
         Form {
             Section(header: SectionHeader(imageName: "figure.wave", text: "Preferences")) {
@@ -70,6 +72,18 @@ struct Settings: View {
 
             Section(header: SpinningImageSectionHeader(imageName: "hexagon", text: "Spinning Wheel")) {
                 PlusMinusStepper(value: $crownVelocityMultiplier, step: 1, min: 1, max: 10, label: Text("\(Int(crownVelocityMultiplier))"))
+            }
+
+            Section(header: SectionHeader(imageName: "applewatch.radiowaves.left.and.right", text: "Haptics")) {
+                Toggle(isOn: $haptics.successfulWheelSpin) {
+                    Text("Wheel spin")
+                }
+                Toggle(isOn: $haptics.startExercise) {
+                    Text("Begin exercise")
+                }
+                Toggle(isOn: $haptics.endExercise) {
+                    Text("End exercise")
+                }
             }
 
             Section(header: SectionHeader(imageName: "info.circle", text: "About")) {
@@ -120,6 +134,8 @@ extension Settings {
 
         UserDefaults.standard.set(crownVelocityMultiplier,
                                   forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
+
+        haptics.saveAll()
     }
 
     static func getSavedExerciseIntensity() -> Int {

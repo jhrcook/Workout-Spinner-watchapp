@@ -17,6 +17,8 @@ struct ExercisePicker: View {
     @ObservedObject var workoutManager: WorkoutManager
     @ObservedObject var exerciseOptions: ExerciseOptions
 
+    let haptics = HapticsSettings()
+
     var numExercises: Int {
         exerciseOptions.exercisesBlacklistFiltered.count
     }
@@ -29,7 +31,7 @@ struct ExercisePicker: View {
 
     // Spinning wheel constants.
     var spinDirection: Double {
-        return WKInterfaceDevice().crownOrientation == .left ? 1.0 : -1.0
+        return WKInterfaceDevice.current().crownOrientation == .left ? 1.0 : -1.0
     }
 
     internal var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()

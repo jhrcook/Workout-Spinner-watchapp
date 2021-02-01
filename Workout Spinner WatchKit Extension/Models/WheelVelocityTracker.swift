@@ -7,25 +7,16 @@
 //
 
 import Foundation
+import WatchKit
 
 class WheelVelocityTracker: ObservableObject {
+    let velocityThreshold: Double
+    let memory: Int
     private var history = [Double]()
-    var velocityThreshold: Double = 50.0
     private(set) var didPassThreshold: Bool = false
-    var memory: Int = 10
     private(set) var currentVelocity = 0.0
 
-    init() {}
-
-    init(memory: Int) {
-        self.memory = memory
-    }
-
-    init(velocityThreshold: Double) {
-        self.velocityThreshold = velocityThreshold
-    }
-
-    init(velocityThreshold: Double, memory: Int) {
+    init(velocityThreshold: Double = 5, memory: Int = 3) {
         self.velocityThreshold = velocityThreshold
         self.memory = memory
     }

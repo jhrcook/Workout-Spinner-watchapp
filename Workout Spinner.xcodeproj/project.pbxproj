@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8404613625C4310900BFDB80 /* HapticsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8404613525C4310900BFDB80 /* HapticsSettings.swift */; };
 		840D3F65254C1D6200C9E2EF /* WorkoutFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840D3F64254C1D6200C9E2EF /* WorkoutFinishView.swift */; };
 		841D04D1250648AB00786074 /* ExerciseStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D0250648AB00786074 /* ExerciseStartView.swift */; };
-		841D04D325064A8800786074 /* WorkoutPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D225064A8800786074 /* WorkoutPickerViewModel.swift */; };
+		841D04D325064A8800786074 /* ExercisePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D225064A8800786074 /* ExercisePickerViewModel.swift */; };
 		841D04D525064DE600786074 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D425064DE600786074 /* Settings.swift */; };
 		841D04D925066CF400786074 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04D825066CF400786074 /* UserDefaultsKeys.swift */; };
 		841D04DB250673DB00786074 /* BodyPartSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841D04DA250673DB00786074 /* BodyPartSelectionListView.swift */; };
@@ -110,9 +111,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8404613525C4310900BFDB80 /* HapticsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsSettings.swift; sourceTree = "<group>"; };
 		840D3F64254C1D6200C9E2EF /* WorkoutFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFinishView.swift; sourceTree = "<group>"; };
 		841D04D0250648AB00786074 /* ExerciseStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseStartView.swift; sourceTree = "<group>"; };
-		841D04D225064A8800786074 /* WorkoutPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPickerViewModel.swift; sourceTree = "<group>"; };
+		841D04D225064A8800786074 /* ExercisePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisePickerViewModel.swift; sourceTree = "<group>"; };
 		841D04D425064DE600786074 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		841D04D825066CF400786074 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		841D04DA250673DB00786074 /* BodyPartSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyPartSelectionListView.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				8483502825403C010081D374 /* WorkoutManager.swift */,
 				84C1FA7B25497CD20008CE09 /* WorkoutTracker.swift */,
 				84E9C1002554234D002D461B /* HeartRateGraphData.swift */,
+				8404613525C4310900BFDB80 /* HapticsSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -355,7 +358,7 @@
 		84E372B424FD0AD500AFB355 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				841D04D225064A8800786074 /* WorkoutPickerViewModel.swift */,
+				841D04D225064A8800786074 /* ExercisePickerViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				84E3729624FD0A5D00AFB355 /* HostingController.swift in Sources */,
 				849C7325255EA64400C28F96 /* LabelWithIndicator.swift in Sources */,
 				849458F12503B86200C361F7 /* SpinnerRotationModifier.swift in Sources */,
+				8404613625C4310900BFDB80 /* HapticsSettings.swift in Sources */,
 				843F33EE24FFB2E500919AD5 /* Color-extension.swift in Sources */,
 				84C1FA7C25497CD20008CE09 /* WorkoutTracker.swift in Sources */,
 				848642F52500FA3E00E3ED9B /* SpinnerSlice.swift in Sources */,
@@ -564,7 +568,7 @@
 				84E9C0ED25542309002D461B /* GraphBackgroundSegment.swift in Sources */,
 				84EFD6792508E32500806EF4 /* BodyPartSelections.swift in Sources */,
 				84C1FA7425497A050008CE09 /* WorkoutPagingView.swift in Sources */,
-				841D04D325064A8800786074 /* WorkoutPickerViewModel.swift in Sources */,
+				841D04D325064A8800786074 /* ExercisePickerViewModel.swift in Sources */,
 				84E9C0E8255422DE002D461B /* Double-extension.swift in Sources */,
 				84C10C1F2588D3B500111502 /* CannotSpinView.swift in Sources */,
 				848364E82565438800B357FA /* InstructionsView.swift in Sources */,
