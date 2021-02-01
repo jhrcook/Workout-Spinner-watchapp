@@ -12,7 +12,6 @@ import SwiftUI
 struct Settings: View {
     @ObservedObject var exerciseOptions: ExerciseOptions
     @State private var selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
-
     private var exerciseIntensities: [String] {
         var a = [String]()
         for ei in ExerciseIntensity.allCases {
@@ -22,8 +21,8 @@ struct Settings: View {
     }
 
     @State private var confirmResetExerciseOptions = false
-
     @State private var crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
+    @State private var haptics = HapticsSettings()
 
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
 
@@ -33,8 +32,6 @@ struct Settings: View {
     init(exerciseOptions: ExerciseOptions) {
         self.exerciseOptions = exerciseOptions
     }
-
-    @State private var haptics = HapticsSettings()
 
     var body: some View {
         Form {
@@ -112,7 +109,7 @@ struct Settings: View {
         }
         .onAppear {
             logger.debug("Settings will appear.")
-            selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
+            loadSettings()
         }
         .onDisappear {
             logger.debug("Setting will disappear.")
@@ -136,6 +133,12 @@ extension Settings {
                                   forKey: UserDefaultsKeys.crownVelocityMultiplier.rawValue)
 
         haptics.saveAll()
+    }
+
+    private func loadSettings() {
+        selectedExerciseIntensity = Settings.getSavedExerciseIntensity()
+        haptics = HapticsSettings()
+        crownVelocityMultiplier = UserDefaults.readCrownVelocityMultiplier()
     }
 
     static func getSavedExerciseIntensity() -> Int {

@@ -17,6 +17,8 @@ struct PlusMinusStepper<T: NumericType>: View {
     var extraDownAction: (() -> Void)? = nil
     var extraUpAction: (() -> Void)? = nil
 
+    private let buttonFrameWidth: CGFloat = 40
+
     var body: some View {
         HStack {
             Button(action: {
@@ -28,7 +30,7 @@ struct PlusMinusStepper<T: NumericType>: View {
                 .disabled(min != nil ? (value - step) < min! : false)
                 .buttonStyle(PlainButtonStyle())
                 .padding(2)
-                .frame(width: 60)
+                .frame(width: buttonFrameWidth)
 
             Spacer()
 
@@ -45,7 +47,7 @@ struct PlusMinusStepper<T: NumericType>: View {
                 .disabled(max != nil ? (value + step) > max! : false)
                 .buttonStyle(PlainButtonStyle())
                 .padding(2)
-                .frame(width: 60)
+                .frame(width: buttonFrameWidth)
         }
     }
 }
