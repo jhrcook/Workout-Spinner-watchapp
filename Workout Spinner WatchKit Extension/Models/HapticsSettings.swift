@@ -10,9 +10,9 @@ import SwiftUI
 import WatchKit
 
 struct HapticsSettings {
-    private(set) var successfulWheelSpin: Bool = setting(for: .successfulWheelSpin)
-    private(set) var startExercise: Bool = setting(for: .startExercise)
-    private(set) var endExercise: Bool = setting(for: .endExercise)
+    var successfulWheelSpin: Bool = setting(for: .successfulWheelSpin)
+    var startExercise: Bool = setting(for: .startExercise)
+    var endExercise: Bool = setting(for: .endExercise)
 
     init() {
         checkInitialRegistration()
@@ -22,6 +22,12 @@ struct HapticsSettings {
         case successfulWheelSpin
         case startExercise
         case endExercise
+    }
+
+    public func saveAll() {
+        save(.successfulWheelSpin, as: successfulWheelSpin)
+        save(.startExercise, as: startExercise)
+        save(.endExercise, as: endExercise)
     }
 
     public func save(_ setting: HapticSetting, as value: Bool) {
